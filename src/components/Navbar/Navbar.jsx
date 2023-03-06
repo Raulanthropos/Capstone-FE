@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function Logo() {
   return (
     <img
-      src={process.env.PUBLIC_URL + "/images/logo.png"}
+      src="/public/images/logo.png"
       width="100"
       height="30"
       className="d-inline-block align-top"
