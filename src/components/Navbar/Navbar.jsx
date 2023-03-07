@@ -9,7 +9,7 @@ const NavBar = () => {
       <Navbar.Brand href="#home">
         <img
           // src={`${process.env.PUBLIC_URL}/images/logo.png`}
-          src="/images/logo.png"
+          src="https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/logo.PNG"
           alt="logo"
           className="logo"
           style={{width: "100px", height: "30px"}}
