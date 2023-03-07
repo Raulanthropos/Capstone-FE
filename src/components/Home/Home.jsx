@@ -3,14 +3,10 @@ import { Jumbotron } from "react-bootstrap";
 import Footer from "../Footer/Footer";
 import Stats from "../Stats/Stats";
 import Questions from "../Questions/Questions";
+import { ImageAlt } from "react-bootstrap-icons";
+import "./Home.css";
 
 const Home = () => {
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    videoRef.current.currentTime = 1.5;
-    videoRef.current.play();
-  }, []);
 
   return (
     <>
@@ -27,36 +23,52 @@ const Home = () => {
         >
           <h1>Adopt a dog today!</h1>
           <p>
-            Find your perfect furry friend and give them a forever home. You'll be
-            rewarded with unconditional love and endless cuddles.
+            Find your perfect furry friend and give them a forever home. You'll
+            be rewarded with unconditional love and endless cuddles.
           </p>
           <p>Register now to start your adoption journey.</p>
         </Jumbotron>
         <div
           style={{
-            position: "relative",
+            height: "400px",
+            overflow: "hidden",
+            backgroundImage: `url(${process.env.PUBLIC_URL}/videos/funny-animals-cute.gif)`,
+            backgroundRepeat: "no-repeat",
             width: "100%",
-            height: "0",
-            paddingTop: "56.25%", // 16:9 aspect ratio
+            backgroundSize: "100% 100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <video
-            ref={videoRef}
-            src={process.env.PUBLIC_URL + "videos/woofpaysgif.mp4"}
-            type="video/mp4"
-            autoPlay
-            loop
-            muted
+          <div
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
+              display: "flex",
+              zIndex: "2",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
             }}
-            preload="auto"
-          />
+          >
+            <h2 style={{ color: "white" }}>
+              You can assist our pledge by fostering one of our dogs, or
+              donating to our cause
+            </h2>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button
+                className="btn btn-primary"
+                style={{ marginRight: "10px", backgroundColor: "transparent", border: "1px solid white"}}
+              >
+                Foster
+              </button>
+              <button
+                className="btn btn-primary"
+                style={{ marginLeft: "10px", backgroundColor: "transparent", border: "1px solid white" }}
+              >
+                Donate
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div>
