@@ -81,3 +81,6 @@ const Home = () => {
 };
 
 export default Home;
+
+//Create a radial-gradient color, for the background of the cards
+// const radialGradient = `radial-gradient(circle at 50% 50%, #ffffff 0%, #ffffff 50%, #ffffff 100%)`;

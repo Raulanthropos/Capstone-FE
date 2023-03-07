@@ -13,7 +13,7 @@ import {
     return (
       <div className="container" style={{color: "#15292E"}}>
         <div className="row card-container">
-          <Col md={3} mb={3}> {/* wrap each card in a Col component and set the margin bottom */}
+          <Col md={3} mb={3} className="bggrey">
             <div className="card text-center">
               <div className="card-body kheight" style={{overflow: "hidden"}}>
                 <FontAwesomeIcon icon={faHeart} size="3x" className="mb-3" />
@@ -24,7 +24,7 @@ import {
               </div>
             </div>
           </Col>
-          <Col md={3} mb={3}>
+          <Col md={3} mb={3} className="bggrey">
             <div className="card text-center">
               <div className="card-body kheight" style={{overflow: "hidden"}}>
                 <FontAwesomeIcon icon={faDog} size="3x" className="mb-3" />
@@ -35,7 +35,7 @@ import {
               </div>
             </div>
           </Col>
-          <Col md={3} mb={3}>
+          <Col md={3} mb={3} className="bggrey">
             <div className="card text-center">
               <div className="card-body kheight" style={{overflow: "hidden"}}>
                 <FontAwesomeIcon icon={faBone} size="3x" className="mb-3" />
@@ -46,7 +46,7 @@ import {
               </div>
             </div>
           </Col>
-          <Col md={3} mb={3}>
+          <Col md={3} mb={3} className="bggrey">
             <div className="card text-center">
               <div className="card-body kheight" style={{overflow: "hidden"}}>
                 <FontAwesomeIcon icon={faPaw} size="3x" className="mb-3" />

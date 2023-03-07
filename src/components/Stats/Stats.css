@@ -5,6 +5,16 @@
   }
 
   .kheight {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
     height: 255px;
+    background: radial-gradient(circle at 50% 50%, #697196 0%, #233EA4 50%, #4976D9 100%);
+  }
+
+  .bggrey {
+    background-color: #697196;
   }
   

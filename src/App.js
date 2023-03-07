@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import BasicExample from './components/Navbar/Navbar';
+import NavBar from "./components/Navbar/Navbar";
 import Home from './components/Home/Home';
 import Register from './components/Register/Register';
 import './App.css';
@@ -9,7 +9,7 @@ import './App.css';
 function App() {
   return (
     <>
-    <BasicExample />
+    <NavBar />
     <main className='wrapper'>
     <BrowserRouter>
       <Routes>

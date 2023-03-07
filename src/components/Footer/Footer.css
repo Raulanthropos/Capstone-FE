@@ -1,0 +1,10 @@
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-block: 20px;
+}
+
+.mbauto {
+    margin-block: auto;
+}
