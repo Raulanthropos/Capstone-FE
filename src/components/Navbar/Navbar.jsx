@@ -1,5 +1,3 @@
-// Create a new Navbar component that has a logo as a Brand, and links to register and login
-//
 import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -10,7 +8,8 @@ const NavBar = () => {
     <Navbar style={{backgroundColor: "#4976D9"}} expand="lg">
       <Navbar.Brand href="#home">
         <img
-          src={`${process.env.PUBLIC_URL}/images/logo.png`}
+          // src={`${process.env.PUBLIC_URL}/images/logo.png`}
+          src="/images/logo.png"
           alt="logo"
           className="logo"
           style={{width: "100px", height: "30px"}}
