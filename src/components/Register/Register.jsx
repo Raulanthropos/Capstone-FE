@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
-// import useState from 'react';
+import { useState } from 'react';
 
 const Register = () => {
-    // const [state, setState] = useState({});
+
+    const [picture, setPicture] = useState("");
 
   const handlePictureChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
+    setPicture(file);
   }
 
   const handleSubmit = (event) => {
@@ -59,7 +60,7 @@ const Register = () => {
               <Form.Label>Picture</Form.Label>
               <Form.File
                 id="custom-file"
-                label="Choose file"
+                label={picture? picture.name : "Choose file"}
                 custom
                 onChange={handlePictureChange}
               />
