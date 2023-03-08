@@ -15,6 +15,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
+  const [picturePreview, setPicturePreview] = useState(null);
 
   const navigate = useNavigate();
 
@@ -23,26 +24,22 @@ const Register = () => {
       setPostSuccess(false);
       setError(false);
       setLoading(true);
-
-      const newUser = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-        age: age,
-        description: description,
-        picture: picture,
-        role: "user",
-      };
-
+  
+      const newUser = new FormData();
+      newUser.append("firstName", firstName);
+      newUser.append("lastName", lastName);
+      newUser.append("email", email);
+      newUser.append("password", password);
+      newUser.append("age", age);
+      newUser.append("description", description);
+      newUser.append("picture", picture);
+      newUser.append("role", "user");
+  
       const config = {
         method: "POST",
-        body: JSON.stringify(newUser),
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
+        body: newUser,
       };
-
+  
       const response = await fetch(
         "http://localhost:3001/users/register",
         config
@@ -67,6 +64,7 @@ const Register = () => {
       setAge("");
       setDescription("");
       setPicture("");
+      setPicturePreview(null);
       infoTimeoutFunc(3000);
     }
   };
@@ -112,9 +110,15 @@ const Register = () => {
 
   const handlePictureChange = (event) => {
     const file = event.target.files[0];
-    setPicture(file);
+    const selectedPicture = event.target.files[0];
+    setPicture(selectedPicture);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setPicturePreview(event.target.result);
+    };
+    reader.readAsDataURL(selectedPicture);
   };
-
+  
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -168,14 +172,23 @@ const Register = () => {
               <Form.Control as="textarea" rows={3} placeholder={description} onChange={(e) => setDescription(e.target.value)} />
             </Form.Group>
             <Form.Group controlId="formBasicPicture">
-              <Form.Label>Picture</Form.Label>
-              <Form.File
-                id="custom-file"
-                label={picture ? picture.name : "Choose file"}
-                custom
-                onChange={handlePictureChange}
-              />
-            </Form.Group>
+  <Form.Label>Picture</Form.Label>
+  <Form.File
+    id="custom-file"
+    label={
+      <div>
+        {picturePreview ? (
+          <img src={picturePreview} alt="Selected file preview" width="25" height="25" style={{marginTop: "-5px", marginRight: "5px"}} />
+        ) : (
+          "Choose file"
+        )}
+        {picture ? picture.name : ""}
+      </div>
+    }
+    custom
+    onChange={handlePictureChange}
+  />
+</Form.Group>
             <Button variant="primary" type="submit">
               Submit
             </Button>
@@ -185,5 +198,4 @@ const Register = () => {
     </Container>
   );
 };
-
 export default Register;
