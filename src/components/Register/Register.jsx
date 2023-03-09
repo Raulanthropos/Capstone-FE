@@ -26,8 +26,8 @@ const Register = () => {
       setLoading(true);
   
       const newUser = new FormData();
-      newUser.append("firstName", firstName);
-      newUser.append("lastName", lastName);
+      newUser.append("name", firstName);
+      newUser.append("surname", lastName);
       newUser.append("email", email);
       newUser.append("password", password);
       newUser.append("age", age);
@@ -37,6 +37,7 @@ const Register = () => {
   
       const config = {
         method: "POST",
+        "Content-Type": "multipart/form-data",
         body: newUser,
       };
   
@@ -96,7 +97,9 @@ const Register = () => {
       !error &&
       !postSuccess
     ) {
+      console.log("You forgot your password,", password, password2)
       if (password !== password2) {
+        console.log("You forgot your password,", password, password2)
         setError(true);
         infoTimeoutFunc(2000);
       } else {
@@ -109,7 +112,6 @@ const Register = () => {
   };
 
   const handlePictureChange = (event) => {
-    const file = event.target.files[0];
     const selectedPicture = event.target.files[0];
     setPicture(selectedPicture);
     const reader = new FileReader();
@@ -178,7 +180,7 @@ const Register = () => {
     label={
       <div>
         {picturePreview ? (
-          <img src={picturePreview} alt="Selected file preview" width="25" height="25" style={{marginTop: "-5px", marginRight: "5px"}} />
+          <img src={picturePreview} alt="Selected file preview" width="25" height="25" style={{marginTop: "-5px", marginRight: "5px", borderRadius: "1rem"}} />
         ) : (
           "Choose file"
         )}

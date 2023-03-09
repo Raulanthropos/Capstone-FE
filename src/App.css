@@ -1,10 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;900&display=swap');
 
 html,
 body {
   height: 100%;
   text-align: justify;
-  font-family: 'Pacifico', cursive;
+  font-family: 'League Spartan', sans-serif;
+  font-size: 20px;
 }
 
 #root {
@@ -29,4 +30,12 @@ main {
 
 footer {
   flex-shrink: 0;
+}
+
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    font-size: 16px;
+    text-align: start;
+  }
 }

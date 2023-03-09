@@ -1,0 +1,9 @@
+@media screen and (max-width: 768px) {
+    .dogimages {
+        width: 30% !important;
+        height: 30% !important;
+    }
+    .cardtext {
+        padding-right: 10px;
+    }
+}
