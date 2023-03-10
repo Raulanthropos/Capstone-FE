@@ -7,3 +7,40 @@
         padding-right: 10px;
     }
 }
+
+.slick-prev,
+.slick-next {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 24px;
+  transition: background-color 4.3s ease-in-out, color 4.3s ease-in-out;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.slick-prev {
+  left: 20px;
+}
+
+.slick-next {
+  right: 20px;
+}
+
+.slider-image {
+    width: 20vw;
+    height: 20vh;
+    margin-inline: auto;
+  }

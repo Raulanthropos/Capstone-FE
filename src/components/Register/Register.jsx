@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form, Button, Container, Row, Col, Spinner } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import "./Register.css";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ const Register = () => {
       setPostSuccess(false);
       setError(false);
       setLoading(true);
-  
+
       const newUser = new FormData();
       newUser.append("name", firstName);
       newUser.append("surname", lastName);
@@ -32,15 +33,15 @@ const Register = () => {
       newUser.append("password", password);
       newUser.append("age", age);
       newUser.append("description", description);
-      newUser.append("picture", picture);
+      // newUser.append("picture", picture);
       newUser.append("role", "user");
-  
+      console.log("This is the user I am trying to send", newUser)
       const config = {
+        headers: new Headers(),
         method: "POST",
-        "Content-Type": "multipart/form-data",
-        body: newUser,
+        body: newUser
       };
-  
+
       const response = await fetch(
         "http://localhost:3001/users/register",
         config
@@ -84,32 +85,64 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitting form...");
-    if (
-      firstName &&
-      lastName &&
-      email &&
-      password &&
-      password2 &&
-      age &&
-      description &&
-      picture &&
-      !loading &&
-      !error &&
-      !postSuccess
-    ) {
-      console.log("You forgot your password,", password, password2)
-      if (password !== password2) {
-        console.log("You forgot your password,", password, password2)
-        setError(true);
-        infoTimeoutFunc(2000);
-      } else {
-        registerUser();
-      }
-    } else {
-      setError(true);
-      infoTimeoutFunc(2000);
-    }
+    registerUser();
   };
+  //   if (
+  //     firstName &&
+  //     lastName &&
+  //     email &&
+  //     password &&
+  //     password2 &&
+  //     age &&
+  //     description &&
+  //     picture &&
+  //     !loading &&
+  //     !error &&
+  //     !postSuccess
+  //   ) {
+  //     console.log("You forgot your password,", password, password2)
+  //     if (password !== password2) {
+  //       console.log("You forgot your password,", password, password2)
+  //       setError(true);
+  //       infoTimeoutFunc(2000);
+  //     } else {
+  //       registerUser();
+  //     }
+  //   } else {
+  //     setError(true);
+  //     infoTimeoutFunc(2000);
+  //   }
+  // };
+
+  /*
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("surname", surname);
+  formData.append("age", age);
+  formData.append("email", email);
+  formData.append("password", password);
+  formData.append("description", description);
+  formData.append("picture", picture);
+
+  try {
+    const response = await fetch("http://localhost:3001/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+  */
 
   const handlePictureChange = (event) => {
     const selectedPicture = event.target.files[0];
@@ -120,7 +153,119 @@ const Register = () => {
     };
     reader.readAsDataURL(selectedPicture);
   };
-  
+
+  // return (
+  //   <Container>
+  //     <Row className="justify-content-md-center">
+  //       <Col xs lg="6">
+  //         <h1>Register</h1>
+  //         <Form onSubmit={handleSubmit}>
+  //           <Form.Group controlId="formBasicFirstName">
+  //             <Form.Label>
+  //               First Name<span className="starz">*</span>
+  //             </Form.Label>
+  //             <Form.Control
+  //               type="text"
+  //               placeholder={firstName}
+  //               onChange={(e) => setFirstName(e.target.value)}
+  //             />
+  //           </Form.Group>
+  //           <Form.Group controlId="formBasicLastName">
+  //             <Form.Label>
+  //               Last Name<span className="starz">*</span>
+  //             </Form.Label>
+  //             <Form.Control
+  //               type="text"
+  //               placeholder={lastName}
+  //               onChange={(e) => setLastName(e.target.value)}
+  //             />
+  //           </Form.Group>
+  //           <Form.Group controlId="formBasicEmail">
+  //             <Form.Label>
+  //               Email address<span className="starz">*</span>
+  //             </Form.Label>
+  //             <Form.Control
+  //               type="email"
+  //               placeholder={email}
+  //               onChange={(e) => setEmail(e.target.value)}
+  //             />
+  //             <Form.Text className="text-muted">
+  //               We'll never share your email with anyone else.
+  //             </Form.Text>
+  //           </Form.Group>
+  //           <Form.Group controlId="formBasicPassword">
+  //             <Form.Label>
+  //               Password<span className="starz">*</span>
+  //             </Form.Label>
+  //             <Form.Control
+  //               type="password"
+  //               placeholder={password}
+  //               onChange={(e) => setPassword(e.target.value)}
+  //             />
+  //           </Form.Group>
+  //           <Form.Group controlId="formBasicPassword2">
+  //             <Form.Label>
+  //               Retype password<span className="starz">*</span>
+  //             </Form.Label>
+  //             <Form.Control
+  //               type="password"
+  //               placeholder="Password"
+  //               onChange={(e) => setPassword2(e.target.value)}
+  //             />
+  //           </Form.Group>
+  //           <Form.Group controlId="formBasicAge">
+  //             <Form.Label>
+  //               Age<span className="starz">*</span>
+  //             </Form.Label>
+  //             <Form.Control
+  //               type="number"
+  //               placeholder={age}
+  //               onChange={(e) => setAge(e.target.value)}
+  //             />
+  //           </Form.Group>
+  //           <Form.Group controlId="formBasicDescription">
+  //             <Form.Label>
+  //               Description<span className="starz">*</span>
+  //             </Form.Label>
+  //             <Form.Control
+  //               as="textarea"
+  //               rows={3}
+  //               placeholder={description}
+  //               onChange={(e) => setDescription(e.target.value)}
+  //             />
+  //           </Form.Group>
+  //           <Form.Group controlId="formBasicPicture">
+  //             <Form.Label>Picture</Form.Label>
+  //             <Form.File
+  //               id="custom-file"
+  //               label={
+  //                 <div>
+  //                   {picturePreview ? (
+  //                     <img
+  //                       src={picturePreview}
+  //                       alt="Selected file preview"
+  //                       width="25"
+  //                       height="25"
+  //                       style={{ marginTop: "-5px", marginRight: "5px" }}
+  //                     />
+  //                   ) : (
+  //                     "Choose file"
+  //                   )}
+  //                   {picture ? picture.name : ""}
+  //                 </div>
+  //               }
+  //               custom
+  //               onChange={handlePictureChange}
+  //             />
+  //           </Form.Group>
+  //           <Button variant="primary" type="submit">
+  //             Submit
+  //           </Button>
+  //         </Form>
+  //       </Col>
+  //     </Row>
+  //   </Container>
+  // );
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -131,19 +276,34 @@ const Register = () => {
               <Form.Label>
                 First Name<span className="starz">*</span>
               </Form.Label>
-              <Form.Control type="text" placeholder={firstName} onChange={(e) => setFirstName(e.target.value)} />
+              <Form.Control
+                type="text"
+                placeholder={firstName}
+                name="firstName"
+                onChange={(e) => setFirstName(e.target.value)}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicLastName">
               <Form.Label>
                 Last Name<span className="starz">*</span>
               </Form.Label>
-              <Form.Control type="text" placeholder={lastName} onChange={(e) => setLastName(e.target.value)} />
+              <Form.Control
+                type="text"
+                placeholder={lastName}
+                name="lastName"
+                onChange={(e) => setLastName(e.target.value)}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>
                 Email address<span className="starz">*</span>
               </Form.Label>
-              <Form.Control type="email" placeholder={email} onChange={(e) => setEmail(e.target.value)} />
+              <Form.Control
+                type="email"
+                placeholder={email}
+                name="email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
@@ -152,45 +312,72 @@ const Register = () => {
               <Form.Label>
                 Password<span className="starz">*</span>
               </Form.Label>
-              <Form.Control type="password" placeholder={password} onChange={(e) => setPassword(e.target.value)} />
+              <Form.Control
+                type="password"
+                placeholder={password}
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </Form.Group>
-            <Form.Group controlId="formBasicPassword">
+            <Form.Group controlId="formBasicPassword2">
               <Form.Label>
-                {" "}
                 Retype password<span className="starz">*</span>
               </Form.Label>
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                name="password2"
+                onChange={(e) => setPassword2(e.target.value)}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicAge">
               <Form.Label>
                 Age<span className="starz">*</span>
               </Form.Label>
-              <Form.Control type="number" placeholder={age} onChange={(e) => setAge(e.target.value)} />
+              <Form.Control
+                type="number"
+                placeholder={age}
+                name="age"
+                onChange={(e) => setAge(e.target.value)}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicDescription">
               <Form.Label>
                 Description<span className="starz">*</span>
               </Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder={description} onChange={(e) => setDescription(e.target.value)} />
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder={description}
+                name="description"
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </Form.Group>
             <Form.Group controlId="formBasicPicture">
-  <Form.Label>Picture</Form.Label>
-  <Form.File
-    id="custom-file"
-    label={
-      <div>
-        {picturePreview ? (
-          <img src={picturePreview} alt="Selected file preview" width="25" height="25" style={{marginTop: "-5px", marginRight: "5px", borderRadius: "1rem"}} />
-        ) : (
-          "Choose file"
-        )}
-        {picture ? picture.name : ""}
-      </div>
-    }
-    custom
-    onChange={handlePictureChange}
-  />
-</Form.Group>
+              <Form.Label>Picture</Form.Label>
+              <Form.File
+                id="custom-file"
+                label={
+                  <div>
+                    {picturePreview ? (
+                      <img
+                        src={picturePreview}
+                        alt="Selected file preview"
+                        width="25"
+                        height="25"
+                        style={{ marginTop: "-5px", marginRight: "5px" }}
+                      />
+                    ) : (
+                      "Choose file"
+                    )}
+                    {picture ? picture.name : ""}
+                  </div>
+                }
+                custom
+                name="picture"
+                onChange={handlePictureChange}
+              />
+            </Form.Group>
             <Button variant="primary" type="submit">
               Submit
             </Button>
