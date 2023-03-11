@@ -1,6 +1,3 @@
-//Create a component, that displays the user's details - user.)id, user.name, user.surname, user.age, user.email, user.picture, user.role, user.description, in a big centered card
-//
-//
 import React, { useState, useEffect } from 'react';
 import { Card, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';

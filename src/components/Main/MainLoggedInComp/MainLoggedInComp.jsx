@@ -1,11 +1,3 @@
-//Create a new component called Main, which will display the main page of our application. It will display a list of dogs for adoption, connected to the backed endpoint 'http:localhost:3001/dogs', and will display dog.name, dog.breed, dog.age, dog.description, dog.image (if it exists), all in a card for each dog, using react bootstrap
-//
-//The component will have a state with a dogs array, which will be initialized with an empty array. The component will have a useEffect hook, which will fetch the dogs from the backend, and will set the dogs array in the state with the response from the backend. The component will display a spinner while the dogs are being fetched from the backend.
-//
-//The component will display a list of cards, one for each dog, using the dogs array from the state. Each card will display the dog.name, dog.breed, dog.age, dog.description, dog.image (if it exists), all in a card for each dog, using react bootstrap
-//
-
-
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Card, Spinner } from 'react-bootstrap';
