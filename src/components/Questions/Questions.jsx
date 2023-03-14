@@ -8,7 +8,7 @@ import './Questions.css';
 
 function Questions() {
   return (
-    <div className="d-flex align-items-center justify-content-center">
+    <div className="d-flex align-items-center justify-content-center q-container">
       <div className="q-img-container">
   <img src={process.env.PUBLIC_URL + 'images/WhatsApp Image 2023-03-11 at 12.52.09.jpeg'} alt="chios" className='q-img'/>
 </div>

@@ -13,7 +13,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    max-width: 956px;
+    /* max-width: 1248px; */
     margin: 0 auto;
     width: 100%;
   }
@@ -39,5 +39,17 @@
     flex: 1; /* Add this property to make the accordion container fill the remaining space */
     margin-left: 10px; /* Add margin to create spacing between the image and accordion */
   }
+
+  @media screen and (max-width: 768px) {
+    .q-container {
+      flex-direction: column;
+    }
+    .q-img-container {
+      margin-left: 0;
+    }
+    .q-accordion-container {
+      margin-left: 0;
+    }
+  }  
   
   
