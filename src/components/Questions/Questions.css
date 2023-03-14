@@ -4,6 +4,7 @@
 }
 .q-img {
     max-width: 100% !important; /* add this property to preserve the image's original width */
+    object-fit: cover;
     border-radius: 20% 80% 24% 76% / 88% 18% 82% 12% ;
     transition: border-radius 500ms ease-in-out, scale 500ms ease-in-out;
 }

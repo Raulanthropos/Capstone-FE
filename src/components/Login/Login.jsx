@@ -68,16 +68,28 @@ const Login = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        // Do something with the response data, such as redirect to a new page or display a success message.
-        navigate('/user');
+        const accessToken = data.accessToken;
+        const userResponse = await fetch(`http://localhost:3001/users/me`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+        if (userResponse.ok) {
+          const user = await userResponse.json();
+          navigate(`/user/${user._id}`, { state: { user, accessToken } });
+        } else {
+          console.log('Error fetching user details');
+        }
       } else {
-        // Handle error response from the server.
-        console.log("error:");
+        console.log('Invalid credentials');
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
-  };
+  }
+  
+  
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);

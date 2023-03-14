@@ -35,7 +35,6 @@ const Register = () => {
       newUser.append("description", description);
       // newUser.append("picture", picture);
       newUser.append("role", "user");
-      console.log("This is the user I am trying to send", newUser)
       const config = {
         headers: new Headers(),
         method: "POST",
@@ -65,7 +64,7 @@ const Register = () => {
       setPassword2("");
       setAge("");
       setDescription("");
-      setPicture("");
+      // setPicture("");
       setPicturePreview(null);
       infoTimeoutFunc(3000);
     }
@@ -85,34 +84,31 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submitting form...");
-    registerUser();
+    if (
+      firstName &&
+      lastName &&
+      email &&
+      password &&
+      password2 &&
+      age &&
+      description &&
+      // picture &&
+      !loading &&
+      !error &&
+      !postSuccess
+    ) {
+      if (password !== password2) {
+        console.log("You forgot your password,", password, password2)
+        setError(true);
+        infoTimeoutFunc(2000);
+      } else {
+        registerUser();
+      }
+    } else {
+      setError(true);
+      infoTimeoutFunc(2000);
+    }
   };
-  //   if (
-  //     firstName &&
-  //     lastName &&
-  //     email &&
-  //     password &&
-  //     password2 &&
-  //     age &&
-  //     description &&
-  //     picture &&
-  //     !loading &&
-  //     !error &&
-  //     !postSuccess
-  //   ) {
-  //     console.log("You forgot your password,", password, password2)
-  //     if (password !== password2) {
-  //       console.log("You forgot your password,", password, password2)
-  //       setError(true);
-  //       infoTimeoutFunc(2000);
-  //     } else {
-  //       registerUser();
-  //     }
-  //   } else {
-  //     setError(true);
-  //     infoTimeoutFunc(2000);
-  //   }
-  // };
 
   /*
 

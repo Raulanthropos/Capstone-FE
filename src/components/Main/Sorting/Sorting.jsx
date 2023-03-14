@@ -36,7 +36,7 @@ const Sorting = (props) => {
                         <option value="weight">Weight</option>
                     </Form.Control>
                 </Form.Group>
-                {/* <Form.Group controlId="formBasicPassword">
+                {/* <Form.Group controlId="sortPreference">
                     <Form.Label>Order:</Form.Label>
                     <Form.Control as="select" onChange={(e) => setSort(e.target.value)}>
                         <option value="asc">Ascending</option>
