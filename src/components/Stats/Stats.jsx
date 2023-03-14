@@ -11,10 +11,10 @@ import {
   
   const Stats = () => {
     return (
-      <div className="container" style={{color: "#15292E"}}>
+      <div className="container">
         <div className="row card-container">
           <Col md={3} mb={3} className="bggrey">
-            <div className="card text-center">
+            <div className="card text-center bg-trans">
               <div className="card-body kheight" style={{overflow: "hidden", borderRadius: "1rem"}}>
                 <FontAwesomeIcon icon={faHeart} size="3x" className="mb-3" />
                 <h3 className="card-title">Save a Life</h3>
@@ -25,7 +25,7 @@ import {
             </div>
           </Col>
           <Col md={3} mb={3} className="bggrey">
-            <div className="card text-center">
+            <div className="card text-center bg-trans">
               <div className="card-body kheight" style={{overflow: "hidden", borderRadius: "1rem"}}>
                 <FontAwesomeIcon icon={faDog} size="3x" className="mb-3" />
                 <h3 className="card-title">Over 1000 Dogs</h3>
@@ -36,7 +36,7 @@ import {
             </div>
           </Col>
           <Col md={3} mb={3} className="bggrey">
-            <div className="card text-center">
+            <div className="card text-center bg-trans">
               <div className="card-body kheight" style={{overflow: "hidden", borderRadius: "1rem"}}>
                 <FontAwesomeIcon icon={faBone} size="3x" className="mb-3" />
                 <h3 className="card-title">Become a Foster Family</h3>
@@ -47,7 +47,7 @@ import {
             </div>
           </Col>
           <Col md={3} mb={3} className="bggrey">
-            <div className="card text-center">
+            <div className="card text-center bg-trans">
               <div className="card-body kheight" style={{overflow: "hidden", borderRadius: "1rem"}}>
                 <FontAwesomeIcon icon={faPaw} size="3x" className="mb-3" />
                 <h3 className="card-title">Feed a Dog in Need</h3>

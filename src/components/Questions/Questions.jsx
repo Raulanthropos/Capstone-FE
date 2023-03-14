@@ -4,20 +4,25 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
+import './Questions.css';
 
 function Questions() {
   return (
-    <Accordion defaultActiveKey="0" style={{backgroundColor: "#15292E", color: "FFFFFF"}}>
+    <div className="d-flex align-items-center justify-content-center">
+      <div className="q-img-container">
+  <img src={process.env.PUBLIC_URL + 'images/WhatsApp Image 2023-03-11 at 12.52.09.jpeg'} alt="chios" className='q-img'/>
+</div>
+    <Accordion className="q-accordion-container">
       <Card>
-        <Card.Header>
-          <Accordion.Toggle as={Button} variant="link" eventKey="0">
-            How do I adopt a dog?
+        <Card.Header style={{backgroundColor: "#C48F65"}}>
+          <Accordion.Toggle as={Button} variant="link" eventKey="0" style={{color: "#333333"}}>
+            <span>How do I adopt a dog?</span>
             <FontAwesomeIcon
               icon={faChevronDown}
               className="float-right"
             />
           </Accordion.Toggle>
-        </Card.Header>
+        </Card.Header >
         <Accordion.Collapse eventKey="0">
           <Card.Body>
             To adopt a dog, first browse the available dogs on our website and find one that you are interested in. Then, fill out an adoption application and our team will review it. If your application is approved, we will schedule a meet and greet with the dog and one of our adoption counselors. If everything goes well, you can take the dog home!
@@ -25,8 +30,8 @@ function Questions() {
         </Accordion.Collapse>
       </Card>
       <Card>
-        <Card.Header>
-          <Accordion.Toggle as={Button} variant="link" eventKey="1">
+      <Card.Header style={{backgroundColor: "#FFC3A0"}}>
+          <Accordion.Toggle as={Button} variant="link" eventKey="1" style={{color: "#333333"}}>
             How can I become a foster family?
             <FontAwesomeIcon
               icon={faChevronDown}
@@ -41,8 +46,8 @@ function Questions() {
         </Accordion.Collapse>
       </Card>
       <Card>
-        <Card.Header>
-          <Accordion.Toggle as={Button} variant="link" eventKey="2">
+        <Card.Header style={{backgroundColor: "#F6B352"}}>
+          <Accordion.Toggle as={Button} variant="link" eventKey="2" style={{color: "#333333"}}>
             How can I donate to your organization?
             <FontAwesomeIcon
               icon={faChevronDown}
@@ -57,6 +62,7 @@ function Questions() {
         </Accordion.Collapse>
       </Card>
     </Accordion>
+    </div>
   );
 }
 
