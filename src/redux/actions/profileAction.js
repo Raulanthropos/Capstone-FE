@@ -25,64 +25,65 @@ export const setAccessToken = (accessToken) => ({
 })
 
 export const getAccessToken = (loggingInAuthor) => {
-  return async (dispatch) => {
-    const options = {
-      method: "POST",
-      body: JSON.stringify(loggingInAuthor),
-      headers: {
-        "Content-Type": "application/json"
+    return async (dispatch) => {
+      const { email, password } = loggingInAuthor;
+      const options = {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    }
-    // console.log("options and userid thereof", options, options.user._id?options.user._id:"No id you goof");
-    try {
-      console.log("---------inside the getAccessToken action----------")
-      const response = await fetch(baseEndpoint + "/users/login", options)
-      console.log("response - 1", response)
-      if (response.ok) {
-        console.log("response", response)
-        const tokens = await response.json()
-        const accessToken = await tokens.accessToken
-        console.log("dispatching accessToken", accessToken)
-
-        if (accessToken) {
-          dispatch({
-            type: SET_ACCESS_TOKEN,
-            payload: accessToken
-          })
-          localStorage.setItem("accessToken", accessToken)
-          try {
-            const opts = {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + accessToken
+      try {
+        console.log("---------inside the getAccessToken action----------")
+        const response = await fetch(baseEndpoint + "/users/login", options)
+        console.log("response - 1", response)
+        if (response.ok) {
+          console.log("response", response)
+          const tokens = await response.json()
+          const accessToken = await tokens.accessToken
+          console.log("dispatching accessToken", accessToken)
+  
+          if (accessToken) {
+            dispatch({
+              type: SET_ACCESS_TOKEN,
+              payload: accessToken
+            })
+            localStorage.setItem("accessToken", accessToken)
+            try {
+              const opts = {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + accessToken
+                }
               }
+              const userResponse = await fetch(baseEndpoint + "/users/me", opts)
+              if (userResponse.ok) {
+                const user = await userResponse.json()
+                console.log("response of /users/me user", user)
+                dispatch({
+                  type: SET_USER_INFO,
+                  payload: user
+                })
+              } else {
+                console.log("error getting the user")
+              }
+            } catch (error) {
+              console.log("error in trycatch", error)
             }
-            const userResponse = await fetch(baseEndpoint + "/users/me", opts)
-            if (userResponse.ok) {
-              const user = await userResponse.json()
-              console.log("response of /users/me user", user)
-              dispatch({
-                type: SET_USER_INFO,
-                payload: user
-              })
-            } else {
-              console.log("error getting the user")
-            }
-          } catch (error) {
-            console.log("error in trycatch", error)
+          } else {
+            console.log("access token not created")
           }
         } else {
-          console.log("access token not created")
+          console.log("-------error with getting a response ----------")
         }
-      } else {
-        console.log("-------error with getting a response ----------")
+      } catch (error) {
+        console.log(error)
       }
-    } catch (error) {
-      console.log(error)
     }
   }
-}
+  
 
 export const logoutUser = () => {
   return (dispatch) => {

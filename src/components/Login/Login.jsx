@@ -5,17 +5,17 @@
 // import { useState } from 'react';
 
 // const Login = () => {
-    
+
 //       const handleSubmit = (event) => {
 //      event.preventDefault();
 //      console.log(event.target);
 //      }
-    
+
 //      const handleChange = (event) => {
 //           event.preventDefault();
 //           console.log(event.target);
 //      }
-    
+
 //       return (
 //      <Container>
 //         <Row className="justify-content-md-center">
@@ -29,7 +29,7 @@
 //                  We'll never share your email with anyone else.
 //                   </Form.Text>
 //                 </Form.Group>
-    
+
 //                 <Form.Group controlId="formBasicPassword">
 //                   <Form.Label>Password<span className="starz">*</span></Form.Label>
 //                   <Form.Control type="password" placeholder="Password" />
@@ -46,28 +46,26 @@
 
 //     export default Login;
 
-import { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { persistor } from '../../redux/store/index';
-import { useEffect } from 'react';
-import { getAccessToken } from '../../redux/actions/profileAction';
-
+import { useState } from "react";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getAccessToken } from "../../redux/actions/profileAction";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.loadedProfile.currentUser);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     if (user) {
       setIsLoggedIn(true);
     }
   }, [user]);
-  
+
   const navigate = useNavigate();
 
   const handleLogin = (credentials) => {
@@ -77,38 +75,48 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3001/users/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3001/users/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
       if (response.ok) {
         const data = await response.json();
-        console.log("This is the blackbox data", data, "This is the user", data.user._id ? data.user._id : "You goofy goof... you forgot to add the user id to the data object");
-        const accessToken = dispatch(getAccessToken(data));
-        const userResponse = await fetch(`http://localhost:3001/users/${data.user._id}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
+        console.log(
+          "This is the blackbox data",
+          data,
+          "This is the user",
+          data.user._id
+            ? data.user._id
+            : "You goofy goof... you forgot to add the user id to the data object"
+        );
+        const { user, accessToken } = data;
+        navigate(`/user/${user._id}`, { state: { user, accessToken } });
+
+        const userResponse = await fetch(
+          `http://localhost:3001/users/${data.user._id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
-        });
+        );
         if (userResponse.ok) {
           const user = await userResponse.json();
           navigate(`/user/${data.user._id}`, { state: { user, accessToken } });
         } else {
-          console.log('Error fetching user details');
+          console.log("Error fetching user details");
         }
       } else {
-        console.log('Invalid credentials');
+        console.log("Invalid credentials");
       }
     } catch (error) {
       console.log(error);
     }
-  }
-  
-  
+  };
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -125,16 +133,30 @@ const Login = () => {
           <h1>Login</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address<span className="starz">*</span></Form.Label>
-              <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleChangeEmail} />
+              <Form.Label>
+                Email address<span className="starz">*</span>
+              </Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={handleChangeEmail}
+              />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Password<span className="starz">*</span></Form.Label>
-              <Form.Control type="password" placeholder="Password" value={password} onChange={handleChangePassword} />
+              <Form.Label>
+                Password<span className="starz">*</span>
+              </Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={handleChangePassword}
+              />
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit

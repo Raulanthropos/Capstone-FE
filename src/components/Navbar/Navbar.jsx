@@ -29,7 +29,7 @@ const NavBar = () => {
             <Link to="/login" style={{color: "#333333"}}>Login</Link>
           </Nav.Link>
           <Nav.Link>
-            <Link to="/main/:userId" style={{color: "#333333"}}>Main</Link>
+          <Link to={`/main/${userId}`} style={{color: "#333333"}}>Main</Link>
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

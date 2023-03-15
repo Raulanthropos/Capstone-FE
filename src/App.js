@@ -1,6 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import NavBar from "./components/Navbar/Navbar";
 import Home from './components/Home/Home';
 import Register from './components/Register/Register';
@@ -10,21 +10,29 @@ import User from './components/Main/User/User';
 import './App.css';
 
 function App() {
+  const { userId } = useParams();
+
   return (
     <>
-    <main className='wrapper'>
-    <BrowserRouter>
-    <NavBar/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/main/:userId" element={<Main />} />
-        <Route path="/user/:userId" element={<User />} />
-      </Routes>
-    </BrowserRouter>
-    </main>
-      </>
+      <main className='wrapper'>
+        <BrowserRouter>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/user/:userId" element={<User />} />
+            <Route path="/main/:userId" element={<Main userId={userId} />} />
+            <Route path="/main/:userId/*" element={<RouteNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </main>
+    </>
   )
 }
+
+function RouteNotFound() {
+  return <h1>404 Not Found</h1>;
+}
+
 export default App;
