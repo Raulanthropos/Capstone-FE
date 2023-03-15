@@ -2,8 +2,10 @@ import React from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import { useParams } from "react-router-dom";
 
 const NavBar = () => {
+  const { userId } = useParams();
   return (
     <Navbar style={{ background: "linear-gradient(to bottom, #F6B352 0%, #FFC3A0 50%, #C48F65 100%)" }} expand="lg">
       <Navbar.Brand href="#home">
@@ -27,7 +29,7 @@ const NavBar = () => {
             <Link to="/login" style={{color: "#333333"}}>Login</Link>
           </Nav.Link>
           <Nav.Link>
-            <Link to="/main" style={{color: "#333333"}}>Main</Link>
+            <Link to="/main/:userId" style={{color: "#333333"}}>Main</Link>
           </Nav.Link>
         </Nav>
       </Navbar.Collapse>

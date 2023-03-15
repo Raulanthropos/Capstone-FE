@@ -27,12 +27,11 @@ const User = () => {
               <Card.Subtitle className="mb-2 text-muted">{user.email}</Card.Subtitle>
               <Card.Text className='cardtext'>{user.description}</Card.Text>
             </div>
-              <Card.Img
-                src={user.picture}
-                style={{ width: '250px', height: '250px', borderRadius: '1rem', objectFit: 'cover' }}
-                className="userpicture"
-              />
-            }
+            <Card.Img
+              src={user.picture}
+              style={{ width: '250px', height: '250px', borderRadius: '1rem', objectFit: 'cover' }}
+              className="userpicture"
+            />
           </Card.Body>
         </Card>
       )}
@@ -41,3 +40,4 @@ const User = () => {
 };
 
 export default User;
+

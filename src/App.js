@@ -14,13 +14,13 @@ function App() {
     <>
     <main className='wrapper'>
     <BrowserRouter>
-    <NavBar />
+    <NavBar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/user" element={<User />} />
+        <Route path="/main/:userId" element={<Main />} />
+        <Route path="/user/:userId" element={<User />} />
       </Routes>
     </BrowserRouter>
     </main>
