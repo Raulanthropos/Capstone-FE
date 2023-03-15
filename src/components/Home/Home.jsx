@@ -1,9 +1,6 @@
-import React from "react";
-import { Jumbotron } from "react-bootstrap";
 import Footer from "../Footer/Footer";
 import Stats from "../Stats/Stats";
 import Questions from "../Questions/Questions";
-import { ImageAlt } from "react-bootstrap-icons";
 import "./Home.css";
 
 const Home = () => {

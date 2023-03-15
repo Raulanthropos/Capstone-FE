@@ -46,15 +46,33 @@
 
 //     export default Login;
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { persistor } from '../../redux/store/index';
+import { useEffect } from 'react';
+import { getAccessToken } from '../../redux/actions/profileAction';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const user = useSelector((state) => state.loadedProfile.currentUser);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+  
   const navigate = useNavigate();
+
+  const handleLogin = (credentials) => {
+    dispatch(getAccessToken(credentials));
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,8 +86,9 @@ const Login = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        const accessToken = data.accessToken;
-        const userResponse = await fetch(`http://localhost:3001/users/me`, {
+        console.log("This is the blackbox data", data, "This is the user", data.user._id ? data.user._id : "You goofy goof... you forgot to add the user id to the data object");
+        const accessToken = dispatch(getAccessToken(data));
+        const userResponse = await fetch(`http://localhost:3001/users/${data.user._id}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${accessToken}`
@@ -77,7 +96,7 @@ const Login = () => {
         });
         if (userResponse.ok) {
           const user = await userResponse.json();
-          navigate(`/user/${user._id}`, { state: { user, accessToken } });
+          navigate(`/user/${data.user._id}`, { state: { user, accessToken } });
         } else {
           console.log('Error fetching user details');
         }
