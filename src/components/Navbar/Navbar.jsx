@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 const NavBar = () => {
   const { userId } = useParams();
   return (
-    <Navbar style={{ background: "linear-gradient(to bottom, #F6B352 0%, #FFC3A0 50%, #C48F65 100%)" }} expand="lg">
+    <Navbar style={{ background: "linear-gradient(to right, #C48F65 0%, #FFC3A0 50%, #F6B352 100%)" }} expand="lg">
       <Navbar.Brand href="#home">
         <img
           src="https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/logo.PNG"
