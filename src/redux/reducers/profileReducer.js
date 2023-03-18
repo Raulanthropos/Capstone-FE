@@ -1,19 +1,13 @@
 import {
     SET_USER_INFO,
     SET_ACCESS_TOKEN,
+    SET_AUTHENTICATED
   } from "../actions/profileAction"
   
   const initialState = {
-    accessToken: null,
-    currentUser: null, //contains current logged in user info object
-    // activeChat: null, // currently active chat room
-    // chatList: [], // list of chats user is a part of
-    // allUsers: [], // object array of all users in DB
-    // viewProfileImage: false,
-    // profileImageOptions: false,
-    // currentChatParticipant: null,
-    // onlineUsers: []
-    // myProfilePicture: null,
+    isAuthenticated: false,
+    accessToken: localStorage.getItem("accessToken"),
+    currentUser: null,
   }
   
   const profileReducer = (state = initialState, action) => {
@@ -28,6 +22,11 @@ import {
           ...state,
           currentUser: action.payload
         }
+        case SET_AUTHENTICATED:
+          return {
+            ...state,
+            isAuthenticated: action.payload
+          }
       default:
         return state
     }

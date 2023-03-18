@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sorting from '../Sorting/Sorting';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const Main = (props) => {
-  const { userId } = props;
-
+const Main = () => {
   const [user, setUser] = useState({});
+  const { userId } = useParams(); // Get the user ID from the URL params
+  const currentUser = useSelector(state => state.loadedProfile.currentUser);
+  const isAuthenticated = useSelector(state => state.loadedProfile.isAuthenticated);
+  console.log("isAuthenticated", isAuthenticated, "currentUser", currentUser);
+
   useEffect(() => {
     const getUser = async () => {
       if (userId) {
@@ -15,7 +19,6 @@ const Main = (props) => {
         setUser(loggedInUser);
       }
     };
-    
     getUser();
   }, [userId]);
 
@@ -35,7 +38,7 @@ const Main = (props) => {
         <Col>
           <h1 style={{ textAlign: "center" }}>Main</h1>
         </Col>
-        {user.name && <h2>Welcome, {user.name}!</h2>}
+        {isAuthenticated && <h2>Welcome, {currentUser.name}!</h2>}
         <Col xs="auto">
           <Sorting />
         </Col>

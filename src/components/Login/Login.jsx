@@ -84,17 +84,8 @@ const Login = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(
-          "This is the blackbox data",
-          data,
-          "This is the user",
-          data.user._id
-            ? data.user._id
-            : "You goofy goof... you forgot to add the user id to the data object"
-        );
         const { user, accessToken } = data;
-        navigate(`/user/${user._id}`, { state: { user, accessToken } });
-
+        dispatch(getAccessToken({email, password}));
         const userResponse = await fetch(
           `http://localhost:3001/users/${data.user._id}`,
           {
@@ -116,7 +107,7 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };  
 
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -129,7 +120,7 @@ const Login = () => {
   return (
     <Container>
       <Row className="justify-content-md-center">
-        <Col xs lg="6">
+        <Col xs lg="6" style={{marginTop: "calc(100vh - 50%)"}}>
           <h1>Login</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formBasicEmail">
