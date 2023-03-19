@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Sorting from '../Sorting/Sorting';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import "./MainLoggedInComp.css";
 
 const Main = () => {
   const [user, setUser] = useState({});

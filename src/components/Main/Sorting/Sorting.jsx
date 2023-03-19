@@ -25,8 +25,8 @@ const Sorting = (props) => {
   }, [sort]);
 
   return (
-    <div>
-      <Form>
+    <>
+    <Form>
         <Form.Group controlId="sortSelect">
           <Form.Label>Sort by:</Form.Label>
           <Form.Control as="select" onChange={(e) => setSort(e.target.value)}>
@@ -47,9 +47,10 @@ const Sorting = (props) => {
           Back
         </Button>
       </Form>
+        <div className="sortingContainer">
       {loading && <Spinner animation="border" variant="primary" />}
       {dogs.map((dog) => (
-        <Card key={dog._id}>
+        <Card key={dog._id} className="sortingOptions">
           <Card.Body
             style={{
               display: "flex",
@@ -66,7 +67,7 @@ const Sorting = (props) => {
               <Card.Subtitle
                 className={`cardtext${sort === "breed" ? " sorted" : ""}`}
               >
-                Breed:
+                Breed:{" "}
                 {dog.breed}
               </Card.Subtitle>
               <Card.Text
@@ -96,7 +97,7 @@ const Sorting = (props) => {
                 {dog.isNeutered ? "✅ This dog is neutered!" : "❌ This dog has not been neutered"}
               </Card.Text>
               <Button variant="primary" className="mr-2">
-                I want to adopt h{dog.gender === "male" ? "im" : "er"}
+                I want to adopt h{dog.gender === "male" ? "im" : "er"}!
               </Button>
             </div>
             <Card.Img
@@ -113,6 +114,7 @@ const Sorting = (props) => {
         </Card>
       ))}
     </div>
+    </>
   );
 };
 
