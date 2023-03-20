@@ -10,7 +10,6 @@ import User from './components/Main/User/User';
 import './App.css';
 
 function App() {
-  const { userId } = useParams();
 
   return (
     <>
@@ -22,7 +21,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/user/:userId" element={<User />} />
-            <Route path="/main/:userId" element={<Main userId={userId} />} />
+            <Route path="/main/" element={<Main/>} />
             <Route path="/main/:userId/*" element={<RouteNotFound />} />
           </Routes>
         </BrowserRouter>

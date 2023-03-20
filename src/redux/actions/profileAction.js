@@ -34,7 +34,7 @@ export const getAccessToken = (loggingInAuthor) => {
 
         localStorage.setItem("accessToken", accessToken)
 
-        const userResponse = await fetch(baseEndpoint + "/users/me", {
+        const userResponse = await fetch(baseEndpoint + "/users/:id", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -44,7 +44,6 @@ export const getAccessToken = (loggingInAuthor) => {
 
         if (userResponse.ok) {
           const user = await userResponse.json()
-
           dispatch({
             type: SET_USER_INFO,
             payload: user
