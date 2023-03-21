@@ -33,7 +33,7 @@ const Register = () => {
       newUser.append("password", password);
       newUser.append("age", age);
       newUser.append("description", description);
-      // newUser.append("picture", picture);
+      newUser.append("picture", picture);
       newUser.append("role", "user");
       const config = {
         headers: new Headers(),
@@ -64,7 +64,7 @@ const Register = () => {
       setPassword2("");
       setAge("");
       setDescription("");
-      // setPicture("");
+      setPicture("");
       setPicturePreview(null);
       infoTimeoutFunc(3000);
     }
@@ -92,7 +92,7 @@ const Register = () => {
       password2 &&
       age &&
       description &&
-      // picture &&
+      picture &&
       !loading &&
       !error &&
       !postSuccess
@@ -110,36 +110,6 @@ const Register = () => {
     }
   };
 
-  /*
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append("name", name);
-  formData.append("surname", surname);
-  formData.append("age", age);
-  formData.append("email", email);
-  formData.append("password", password);
-  formData.append("description", description);
-  formData.append("picture", picture);
-
-  try {
-    const response = await fetch("http://localhost:3001/users/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-  */
-
   const handlePictureChange = (event) => {
     const selectedPicture = event.target.files[0];
     setPicture(selectedPicture);
@@ -150,118 +120,6 @@ const handleSubmit = async (e) => {
     reader.readAsDataURL(selectedPicture);
   };
 
-  // return (
-  //   <Container>
-  //     <Row className="justify-content-md-center">
-  //       <Col xs lg="6">
-  //         <h1>Register</h1>
-  //         <Form onSubmit={handleSubmit}>
-  //           <Form.Group controlId="formBasicFirstName">
-  //             <Form.Label>
-  //               First Name<span className="starz">*</span>
-  //             </Form.Label>
-  //             <Form.Control
-  //               type="text"
-  //               placeholder={firstName}
-  //               onChange={(e) => setFirstName(e.target.value)}
-  //             />
-  //           </Form.Group>
-  //           <Form.Group controlId="formBasicLastName">
-  //             <Form.Label>
-  //               Last Name<span className="starz">*</span>
-  //             </Form.Label>
-  //             <Form.Control
-  //               type="text"
-  //               placeholder={lastName}
-  //               onChange={(e) => setLastName(e.target.value)}
-  //             />
-  //           </Form.Group>
-  //           <Form.Group controlId="formBasicEmail">
-  //             <Form.Label>
-  //               Email address<span className="starz">*</span>
-  //             </Form.Label>
-  //             <Form.Control
-  //               type="email"
-  //               placeholder={email}
-  //               onChange={(e) => setEmail(e.target.value)}
-  //             />
-  //             <Form.Text className="text-muted">
-  //               We'll never share your email with anyone else.
-  //             </Form.Text>
-  //           </Form.Group>
-  //           <Form.Group controlId="formBasicPassword">
-  //             <Form.Label>
-  //               Password<span className="starz">*</span>
-  //             </Form.Label>
-  //             <Form.Control
-  //               type="password"
-  //               placeholder={password}
-  //               onChange={(e) => setPassword(e.target.value)}
-  //             />
-  //           </Form.Group>
-  //           <Form.Group controlId="formBasicPassword2">
-  //             <Form.Label>
-  //               Retype password<span className="starz">*</span>
-  //             </Form.Label>
-  //             <Form.Control
-  //               type="password"
-  //               placeholder="Password"
-  //               onChange={(e) => setPassword2(e.target.value)}
-  //             />
-  //           </Form.Group>
-  //           <Form.Group controlId="formBasicAge">
-  //             <Form.Label>
-  //               Age<span className="starz">*</span>
-  //             </Form.Label>
-  //             <Form.Control
-  //               type="number"
-  //               placeholder={age}
-  //               onChange={(e) => setAge(e.target.value)}
-  //             />
-  //           </Form.Group>
-  //           <Form.Group controlId="formBasicDescription">
-  //             <Form.Label>
-  //               Description<span className="starz">*</span>
-  //             </Form.Label>
-  //             <Form.Control
-  //               as="textarea"
-  //               rows={3}
-  //               placeholder={description}
-  //               onChange={(e) => setDescription(e.target.value)}
-  //             />
-  //           </Form.Group>
-  //           <Form.Group controlId="formBasicPicture">
-  //             <Form.Label>Picture</Form.Label>
-  //             <Form.File
-  //               id="custom-file"
-  //               label={
-  //                 <div>
-  //                   {picturePreview ? (
-  //                     <img
-  //                       src={picturePreview}
-  //                       alt="Selected file preview"
-  //                       width="25"
-  //                       height="25"
-  //                       style={{ marginTop: "-5px", marginRight: "5px" }}
-  //                     />
-  //                   ) : (
-  //                     "Choose file"
-  //                   )}
-  //                   {picture ? picture.name : ""}
-  //                 </div>
-  //               }
-  //               custom
-  //               onChange={handlePictureChange}
-  //             />
-  //           </Form.Group>
-  //           <Button variant="primary" type="submit">
-  //             Submit
-  //           </Button>
-  //         </Form>
-  //       </Col>
-  //     </Row>
-  //   </Container>
-  // );
   return (
     <Container>
       <Row className="justify-content-md-center">

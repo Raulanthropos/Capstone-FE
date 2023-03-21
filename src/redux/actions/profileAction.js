@@ -27,10 +27,7 @@ export const getAccessToken = (loggingInAuthor) => {
         const tokens = await response.json()
         const accessToken = tokens.accessToken
 
-        dispatch({
-          type: SET_ACCESS_TOKEN,
-          payload: accessToken
-        });
+        dispatch(setAccessToken(accessToken))
 
         localStorage.setItem("accessToken", accessToken)
 
@@ -55,16 +52,34 @@ export const getAccessToken = (loggingInAuthor) => {
             payload: true
           });
         } else {
-          console.log("Error getting user info");
+          throw new Error("Error getting user info");
         }
       } else {
-        console.log("Error logging in");
+        throw new Error("Error logging in");
       }
     } catch (error) {
       console.log(error);
+      // Dispatch an action to indicate that an error occurred
     }
   };
 };
+
+export const logoutUser = () => {
+  return (dispatch) => {
+    try {
+      dispatch({
+        type: "LOG_OUT_USER",
+        payload: null
+      })
+      localStorage.removeItem("accessToken")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
+
 
 
 // export const getAccessToken = (loggingInAuthor) => {
@@ -130,22 +145,3 @@ export const getAccessToken = (loggingInAuthor) => {
 //       }
 //     }
 //   }
-  
-
-export const logoutUser = () => {
-  return (dispatch) => {
-    try {
-      dispatch({
-        type: "LOG_OUT_USER",
-        payload: null
-      })
-      dispatch({
-        type: "SET_CHAT_PARTICIPANT",
-        payload: null
-      })
-      localStorage.removeItem("accessToken")
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
