@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import Sorting from '../Sorting/Sorting';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -34,6 +34,8 @@ const Main = () => {
   }, []);
 
   return (
+    <>
+    {currentUser.role === "admin" ? <Button variant="primary" className="mr-2">Add dog</Button> : ""}
     <Container className='backgroundCont'>
       <Row className="d-flex align-items-center justify-content-center" style={{ flexDirection: "column" }}>
         <Col>
@@ -45,6 +47,7 @@ const Main = () => {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
 

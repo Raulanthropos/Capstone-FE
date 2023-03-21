@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Card, Spinner, Button } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import EditProfileModal from "../EditModal/EditModal";
+import DeleteModal from "../DeleteModal/DeleteModal";
+import { useNavigate } from "react-router-dom";
 
 const User = () => {
   const [user, setUser] = useState({});
   const [modalShow, setModalShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { userId } = useParams(); // Get the user ID from the URL params
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
@@ -16,6 +20,16 @@ const User = () => {
     };
     getUser();
   }, [userId]); // Add userId to the dependency array to refetch when it changes
+
+    const letUser = async () => {  
+      await Promise.all([
+        fetch(`http://localhost:3001/users/session`, {
+          method: "DELETE",
+        }),
+        new Promise((resolve) => setTimeout(resolve, 200)), // wait for 200ms to ensure delete operation has completed
+      ]);
+      navigate("/");
+    }
 
   return (
     <div>
@@ -40,6 +54,7 @@ const User = () => {
                 {user.email}
               </Card.Subtitle>
               <Card.Text className="cardtext">{user.description}</Card.Text>
+              <Card.Text className="cardtext">{user.role}</Card.Text>
               <Button
                 variant="primary"
                 className="mr-2"
@@ -47,7 +62,9 @@ const User = () => {
               >
                 Edit Profile
               </Button>
-              <Button variant="danger">Delete Profile</Button>
+              <Button variant="danger" className="mr-2" onClick={() => setShowModal(true)}>Delete Profile</Button>
+              <DeleteModal showModal={showModal} setShowModal={setShowModal} user={user} />
+              <Button variant="danger" onClick={() => letUser()}>Logout</Button>
             </div>
             <Card.Img
               src={user.picture}
