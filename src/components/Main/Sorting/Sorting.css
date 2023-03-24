@@ -15,7 +15,7 @@
   background-color: #FFC3A0;
 }
 
-.sorted {
+/* .sorted {
     color: red;
     font-weight: bold;
 }
@@ -42,7 +42,6 @@
   
   .sortingContainer {
     height: 60vh;
-    overflow-y: auto;
   }
     
   .sortingOptions {
@@ -56,7 +55,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
-  }
+  } */
 
 
 

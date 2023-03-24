@@ -21,7 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/user/:userId" element={<User />} />
+            <Route path="/user" element={<User />} />
             <Route path="/main/" element={<Main/>} />
             <Route path="/main/:userId/*" element={<RouteNotFound />} />
             <Route path="/stories" element={<Stories />} />

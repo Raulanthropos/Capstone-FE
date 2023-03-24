@@ -10,9 +10,8 @@ export const setAccessToken = (accessToken) => ({
   payload: accessToken
 })
 
-export const getAccessToken = (loggingInAuthor) => {
+export const getAccessToken = (email, password, userId) => {
   return async (dispatch) => {
-    const { email, password } = loggingInAuthor;
 
     try {
       const response = await fetch(baseEndpoint + "/users/login", {
@@ -31,7 +30,7 @@ export const getAccessToken = (loggingInAuthor) => {
 
         localStorage.setItem("accessToken", accessToken)
 
-        const userResponse = await fetch(baseEndpoint + "/users/:id", {
+        const userResponse = await fetch(baseEndpoint + "/users" + userId, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

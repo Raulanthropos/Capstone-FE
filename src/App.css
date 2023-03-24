@@ -21,8 +21,9 @@ main.wrapper {
 }
 
 .wrapper {
-  background-image: url('../public/images/pexels-fwstudio-131634-bw.jpg');
-  flex-grow: 1;
+  background-color: rgba(255, 195, 160, 0.6) !important;
+  /* flex-grow: 1; */
+  background-repeat: repeat;
 }
 
 main {

@@ -13,7 +13,7 @@ const NavBar = () => {
           src="https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/logo.PNG"
           alt="logo"
           className="logo"
-          style={{ width: "100px", height: "30px" }}
+          style={{ width: "100px", height: "30px", borderRadius: "5px" }}
         />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

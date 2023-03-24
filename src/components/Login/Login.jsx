@@ -33,9 +33,9 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         const { user, accessToken } = data;
-        dispatch(getAccessToken({email, password}));
+        dispatch(getAccessToken(email, password, user._id)); // Pass email, password, and user ID
         const userResponse = await fetch(
-          `http://localhost:3001/users/${data.user._id}`,
+          `http://localhost:3001/users/${user._id}`,
           {
             method: "GET",
             headers: {
@@ -45,7 +45,7 @@ const Login = () => {
         );
         if (userResponse.ok) {
           const user = await userResponse.json();
-          navigate(`/user/${data.user._id}`, { state: { user, accessToken } });
+          navigate(`/user/${user._id}`, { state: { user, accessToken } });
         } else {
           console.log("Error fetching user details");
         }
@@ -55,7 +55,8 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-  };  
+  };
+  
 
   const handleInputEmail = (event) => {
     setEmail(event.target.value);
