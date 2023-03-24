@@ -7,6 +7,7 @@ import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import Main from './components/Main/MainLoggedInComp/MainLoggedInComp';
 import User from './components/Main/User/User';
+import Stories from './components/Stories/Stories';
 import './App.css';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path="/user/:userId" element={<User />} />
             <Route path="/main/" element={<Main/>} />
             <Route path="/main/:userId/*" element={<RouteNotFound />} />
+            <Route path="/stories" element={<Stories />} />
           </Routes>
         </BrowserRouter>
       </main>

@@ -2,15 +2,30 @@
 
 import React from "react";
 import { useState, useEffect } from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
+import { Button, Form, Spinner, Modal } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import "./Sorting.css";
+// import { sendEmail } from "../Mail/Mail";
 
 const Sorting = (props) => {
   const [dogs, setDogs] = useState([]);
   const [sort, setSort] = useState("name");
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSendEmail = () => {
+    // sendEmail(process.env.EMAIL);
+    setShowModal(false);
+  };
 
   const navigate = useNavigate();
 
@@ -26,7 +41,7 @@ const Sorting = (props) => {
 
   return (
     <>
-    <Form>
+      <Form>
         <Form.Group controlId="sortSelect">
           <Form.Label>Sort by:</Form.Label>
           <Form.Control as="select" onChange={(e) => setSort(e.target.value)}>
@@ -47,73 +62,96 @@ const Sorting = (props) => {
           Back
         </Button>
       </Form>
-        <div className="sortingContainer">
-      {loading && <Spinner animation="border" variant="primary" />}
-      {dogs.map((dog) => (
-        <Card key={dog._id} className="sortingOptions">
-          <Card.Body
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              textAlign: "justify",
-            }}
-          >
-            <div>
-              <Card.Title
-                className={`cardtext${sort === "name" ? " sorted" : ""}`}
-              >
-                Name: {dog.name}
-              </Card.Title>
-              <Card.Subtitle
-                className={`cardtext${sort === "breed" ? " sorted" : ""}`}
-              >
-                Breed:{" "}
-                {dog.breed}
-              </Card.Subtitle>
-              <Card.Text
-                className={`cardtext${sort === "age" ? " sorted" : ""}`}
-              >
-                Age: {dog.age} years old
-              </Card.Text>
-              <Card.Text
-                className={`cardtext${sort === "weight" ? " sorted" : ""}`}
-              >
-                Weight: {dog.weight} kgs
-              </Card.Text>
-              <Card.Text className="cardtext">
-                Description: {dog.description}
-              </Card.Text>
-              <Card.Text className="cardtext">
-                Gender: {" "} 
-                <span
-                  className={`gender ${
-                    dog.gender === "male" ? "male" : "female"
-                  }`}
-                >
-                  {dog.gender === "male" ? <>&#9794;</> : <>&#9792;</>}
-                </span>
-              </Card.Text>
-              <Card.Text className="cardtext">
-                {dog.isNeutered ? "✅ This dog is neutered!" : "❌ This dog has not been neutered"}
-              </Card.Text>
-              <Button variant="primary" className="mr-2">
-                I want to adopt h{dog.gender === "male" ? "im" : "er"}!
-              </Button>
-            </div>
-            <Card.Img
-              src={dog.images[0].url ? dog.images[0].url : ""}
+      <div className="sortingContainer">
+        {loading && <Spinner animation="border" variant="primary" />}
+        {dogs.map((dog) => (
+          <Card key={dog._id} className="sortingOptions">
+            <Card.Body
               style={{
-                width: "250px",
-                height: "250px",
-                borderRadius: "1rem",
-                objectFit: "cover",
+                display: "flex",
+                justifyContent: "space-between",
+                textAlign: "justify",
               }}
-              className="dogimages"
-            />
-          </Card.Body>
-        </Card>
-      ))}
-    </div>
+            >
+              <div>
+                <Card.Title
+                  className={`cardtext${sort === "name" ? " sorted" : ""}`}
+                >
+                  Name: {dog.name}
+                </Card.Title>
+                <Card.Subtitle
+                  className={`cardtext${sort === "breed" ? " sorted" : ""}`}
+                >
+                  Breed: {dog.breed}
+                </Card.Subtitle>
+                <Card.Text
+                  className={`cardtext${sort === "age" ? " sorted" : ""}`}
+                >
+                  Age: {dog.age} years old
+                </Card.Text>
+                <Card.Text
+                  className={`cardtext${sort === "weight" ? " sorted" : ""}`}
+                >
+                  Weight: {dog.weight} kgs
+                </Card.Text>
+                <Card.Text className="cardtext">
+                  Description: {dog.description}
+                </Card.Text>
+                <Card.Text className="cardtext">
+                  Gender:{" "}
+                  <span
+                    className={`gender ${
+                      dog.gender === "male" ? "male" : "female"
+                    }`}
+                  >
+                    {dog.gender === "male" ? <>&#9794;</> : <>&#9792;</>}
+                  </span>
+                </Card.Text>
+                <Card.Text className="cardtext">
+                  {dog.isNeutered
+                    ? "✅ This dog is neutered!"
+                    : "❌ This dog has not been neutered"}
+                </Card.Text>
+                <Button
+                  variant="primary"
+                  className="mr-2"
+                  onClick={handleShowModal}
+                >
+                  I want to adopt h{dog.gender === "male" ? "im" : "er"}!
+                  <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header>
+                      <Modal.Title>Terms and conditions</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p>
+By clicking the "Send email" button, you are made aware that an email will be sent to Woof Paws, with your details, and that you will receive a response promptly.
+                      </p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleCloseModal}>
+                        Cancel
+                      </Button>
+                      <Button variant="primary" onClick={handleSendEmail}>
+                        Send email
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </Button>
+              </div>
+              <Card.Img
+                src={dog.images[0].url ? dog.images[0].url : ""}
+                style={{
+                  width: "250px",
+                  height: "250px",
+                  borderRadius: "1rem",
+                  objectFit: "cover",
+                }}
+                className="dogimages"
+              />
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
     </>
   );
 };

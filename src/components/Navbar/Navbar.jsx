@@ -31,6 +31,9 @@ const NavBar = () => {
           <Nav.Link>
           <Link to={`/main`} style={{color: "#333333"}}>Main</Link>
           </Nav.Link>
+          <Nav.Link>
+          <Link to={`/stories`} style={{color: "#333333"}}>Stories</Link>
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
