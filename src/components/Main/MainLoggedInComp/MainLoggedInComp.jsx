@@ -40,7 +40,7 @@ const Main = () => {
 
   return (
     <>
-    {currentUser.role === "admin" ? <Button variant="primary" className="mr-2">Add dog</Button> : ""}
+    {currentUser.role === "admin" ? <Button variant="primary" className="mr-2" style={{width: "100px"}}>Add dog</Button> : ""}
     <Container className='backgroundCont'>
       <Row className="d-flex align-items-center justify-content-center" style={{ flexDirection: "column" }}>
         <Col>

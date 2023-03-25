@@ -30,7 +30,7 @@ export const getAccessToken = (email, password, userId) => {
 
         localStorage.setItem("accessToken", accessToken)
 
-        const userResponse = await fetch(baseEndpoint + "/users" + userId, {
+        const userResponse = await fetch(baseEndpoint + "/users/" + userId, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,6 @@ export const getAccessToken = (email, password, userId) => {
       }
     } catch (error) {
       console.log(error);
-      // Dispatch an action to indicate that an error occurred
     }
   };
 };
@@ -75,6 +74,7 @@ export const logoutUser = () => {
     }
   }
 }
+
 
 
 

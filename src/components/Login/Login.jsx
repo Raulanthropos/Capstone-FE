@@ -45,7 +45,7 @@ const Login = () => {
         );
         if (userResponse.ok) {
           const user = await userResponse.json();
-          navigate(`/user/${user._id}`, { state: { user, accessToken } });
+          navigate(`/users/me`, { state: { user, accessToken } });
         } else {
           console.log("Error fetching user details");
         }

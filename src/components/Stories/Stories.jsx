@@ -96,22 +96,6 @@ const Stories = () => {
   
     const [currentStory, setCurrentStory] = useState(0);
   
-    const handleNextStory = () => {
-      if (currentStory < adoptedDogs.length - 1) {
-        setCurrentStory(currentStory + 1);
-      } else {
-        setCurrentStory(0);
-      }
-    };
-  
-    const handlePreviousStory = () => {
-      if (currentStory > 0) {
-        setCurrentStory(currentStory - 1);
-      } else {
-        setCurrentStory(adoptedDogs.length - 1);
-      }
-    };
-  
     return (
       <div className="stories">
         <div className="back-button">

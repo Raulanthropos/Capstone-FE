@@ -1,6 +1,8 @@
 import Footer from "../Footer/Footer";
 import Stats from "../Stats/Stats";
 import Questions from "../Questions/Questions";
+import {Button} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = () => {
@@ -41,7 +43,7 @@ const Home = () => {
             Register now to start your adoption journey.
           </p>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <button
+            <Button
               className="btn btn-primary"
               style={{
                 marginRight: "10px",
@@ -49,9 +51,9 @@ const Home = () => {
                 border: "1px solid white",
               }}
             >
-              Foster
-            </button>
-            <button
+              <Link to="/register" style={{color: "#FFFFFF"}}>Foster</Link>
+            </Button>
+            <Button
               className="btn btn-primary"
               style={{
                 marginLeft: "10px",
@@ -59,8 +61,8 @@ const Home = () => {
                 border: "1px solid white",
               }}
             >
-              Donate
-            </button>
+              <Link to="/stories" style={{color: "#FFFFFF"}}>Stories</Link>
+            </Button>
           </div>
         </div>
       </div>
