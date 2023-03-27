@@ -36,7 +36,7 @@ const User = () => {
     notifyLoggedOutUser();
     setTimeout(() => {
       navigate('/');
-    }, 5000); // Redirect to homepage in 5 seconds
+    }, 1000); // Redirect to homepage in 5 seconds
   }
 
   return (

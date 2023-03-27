@@ -43,9 +43,9 @@ const Main = () => {
     {currentUser.role === "admin" ? <Button variant="primary" className="mr-2" style={{width: "100px"}}>Add dog</Button> : ""}
     <Container className='backgroundCont'>
       <Row className="d-flex align-items-center justify-content-center" style={{ flexDirection: "column" }}>
-        <Col>
+        {/* <Col>
           <h1 style={{ textAlign: "center" }}>Main</h1>
-        </Col>
+        </Col> */}
         {isAuthenticated && <h2>Welcome, {currentUser.name}!</h2>}
         <Col xs="auto">
           <Sorting />

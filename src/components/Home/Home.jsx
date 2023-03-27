@@ -11,7 +11,7 @@ const Home = () => {
       <div
         style={{
           position: "relative",
-          backgroundImage: `url(${process.env.PUBLIC_URL}/videos/funny-animals-cute.gif)`,
+          backgroundImage: `url(${process.env.PUBLIC_URL}/images/dog-gif-animation1.gif)`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           height: "100vh",
