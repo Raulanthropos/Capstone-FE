@@ -40,12 +40,11 @@ const Main = () => {
 
   return (
     <>
-    {currentUser.role === "admin" ? <Button variant="primary" className="mr-2" style={{width: "100px"}}>Add dog</Button> : ""}
     <Container className='backgroundCont'>
       <Row className="d-flex align-items-center justify-content-center" style={{ flexDirection: "column" }}>
-        {/* <Col>
-          <h1 style={{ textAlign: "center" }}>Main</h1>
-        </Col> */}
+        <Col>
+          {currentUser.role === "admin" ? <><Button variant="primary" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Add dog</Button><Button variant="warning" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Edit dog</Button><Button variant="danger" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Delete dog</Button></> : ""}
+        </Col>
         {isAuthenticated && <h2>Welcome, {currentUser.name}!</h2>}
         <Col xs="auto">
           <Sorting />

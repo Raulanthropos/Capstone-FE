@@ -28,9 +28,9 @@ import {
             <div className="card text-center bg-trans">
               <div className="card-body kheight" style={{overflow: "hidden", borderRadius: "1rem"}}>
                 <FontAwesomeIcon icon={faDog} size="3x" className="mb-3" />
-                <h3 className="card-title">Over 1000 Dogs</h3>
+                <h3 className="card-title">Over 30 Dogs</h3>
                 <p className="card-text">
-                  We have over 1000 dogs available for adoption.
+                  We have over 30 dogs available for adoption.
                 </p>
               </div>
             </div>
@@ -38,7 +38,7 @@ import {
           <Col md={3} mb={3} className="bggrey">
             <div className="card text-center bg-trans">
               <div className="card-body kheight" style={{overflow: "hidden", borderRadius: "1rem"}}>
-                <FontAwesomeIcon icon={faBone} size="3x" className="mb-3" />
+                <FontAwesomeIcon icon={faPaw} size="3x" className="mb-3" />
                 <h3 className="card-title">Become a Foster Family</h3>
                 <p className="card-text">
                   Help us care for dogs in need by providing a temporary home.
@@ -49,10 +49,10 @@ import {
           <Col md={3} mb={3} className="bggrey">
             <div className="card text-center bg-trans">
               <div className="card-body kheight" style={{overflow: "hidden", borderRadius: "1rem"}}>
-                <FontAwesomeIcon icon={faPaw} size="3x" className="mb-3" />
+              <FontAwesomeIcon icon={faBone} size="3x" className="mb-3" />
                 <h3 className="card-title">Feed a Dog in Need</h3>
                 <p className="card-text">
-                  Your donation can provide food for a shelter dog for a week.
+                  A 10$ donation can provide food for a shelter dog for a week.
                 </p>
               </div>
             </div>

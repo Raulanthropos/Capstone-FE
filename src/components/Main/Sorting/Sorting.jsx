@@ -102,15 +102,15 @@ const Sorting = (props) => {
                   <span
                     className={`gender ${
                       dog.gender === "male" ? "male" : "female"
-                    }`}
+                    }`} style={{ textShadow: "0px 0px 2px #000000" }}
                   >
                     {dog.gender === "male" ? <>&#9794;</> : <>&#9792;</>}
                   </span>
                 </Card.Text>
-                <Card.Text className="cardtext">
+                <Card.Text className="cardtext" style={{ fontWeight: "100" }}>
                   {dog.isNeutered
-                    ? "✅ This dog is neutered!"
-                    : "❌ This dog has not been neutered"}
+                    ? "✔ This dog is neutered!"
+                    : "✖ This dog has not been neutered."}
                 </Card.Text>
                 <Button
                   className="mr-2 button-stl" onClick={handleShowModal}
