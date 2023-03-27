@@ -7,8 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { setAccessToken } from "../../../redux/actions/profileAction";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { SET_USER_INFO } from "../../../redux/actions/profileAction";
 import { logoutUser } from "../../../redux/actions/profileAction";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const User = () => {
@@ -17,53 +18,33 @@ const User = () => {
   const user = useSelector(state => state.loadedProfile.currentUser);
   const [modalShow, setModalShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { userId } = useParams(); // Get the user ID from the URL params
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const notifyLoggedOutUser = () => toast("Logged out successfully! Redirecting to the home page...");
 
   useEffect(() => {
-    const getUser = async () => {
-      try {
-        const response = await fetch("http:localhost:3001/users/me", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + accessToken,
-          },
-        });
-        if (response.ok) {
-          const user = await response.json();
-          dispatch({
-            type: SET_USER_INFO,
-            payload: user,
-          });
-        } else {
-          throw new Error("Error getting user info");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, [accessToken]); // Add userId to the dependency array to refetch when it changes
-
-    const letUser = async () => {  
-      await Promise.all([
-        fetch(`http://localhost:3001/users/session`, {
-          method: "DELETE",
-        }),
-        new Promise((resolve) => setTimeout(resolve, 2000)), // wait for 200ms to ensure delete operation has completed
-      ]);
+    if (!accessToken) {
+      alert("You need to be logged in to view this page!")
       navigate("/");
+    } else {
+      setAccessToken(accessToken);
     }
+  }, []); // Add userId to the dependency array to refetch when it changes
+
+  const handleLogout = () => {
+    dispatch(logoutUser(accessToken));
+    notifyLoggedOutUser();
+    setTimeout(() => {
+      navigate('/');
+    }, 5000); // Redirect to homepage in 5 seconds
+  }
 
   return (
     <div>
-      <h1>{user.name}</h1>
-      {Object.keys(user).length === 0 && (
+      {user && Object.keys(user).length === 0 && (
         <Spinner animation="border" variant="primary" />
       )}
-      {Object.keys(user).length > 0 && (
+      {user && Object.keys(user).length > 0 && (
         <Card>
           <Card.Body
             style={{
@@ -90,7 +71,8 @@ const User = () => {
               </Button>
               <Button variant="danger" className="mr-2" onClick={() => setShowModal(true)}>Delete Profile</Button>
               <DeleteModal showModal={showModal} setShowModal={setShowModal} user={user} />
-              <Button variant="danger" onClick={() => dispatch(logoutUser())}>Logout</Button>
+              <Button variant="danger" onClick={handleLogout}>Logout</Button>
+              <ToastContainer />
             </div>
             <Card.Img
               src={user.picture}
