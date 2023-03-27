@@ -1,5 +1,3 @@
-//Create a new sorting component that will be used to sort the list of dogs by name, breed, and age. This component will be used in the MainLoggedInComp component. This component will be navigated to by clicking the Sort button in the MainLoggedInComp component. The sorting component will have a dropdown menu that will allow the user to select the sorting criteria. The sorting component will also have a button that will allow the user to sort the list of dogs by the selected criteria. The sorting component will also have a button that will allow the user to return to the MainLoggedInComp component. The fetching of dogs in made in the MainLoggedInComp, therefore this component only handles the sorting UI elements, and functionality added, by adding '?sort=' to the initial backend url, with the sorting criteria. The sorting criteria will be passed to the sorting component as props. The sorting component will be a functional component, and will use the useState and useEffect hooks. The sorting component will be styled using Bootstrap.
-
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button, Form, Spinner, Modal } from "react-bootstrap";
@@ -31,7 +29,7 @@ const Sorting = (props) => {
 
   useEffect(() => {
     const getDogs = async () => {
-      const response = await fetch(`http://localhost:3001/dogs?sort=${sort}`);
+      const response = await fetch(`https://capstone-be-production-6735.up.railway.app/dogs?sort=${sort}`);
       const dogs = await response.json();
       setDogs(dogs);
       setLoading(false);

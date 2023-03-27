@@ -11,7 +11,7 @@ const handleDelete = async () => {
     try {
       console.log("This is the user id", user._id);
       await Promise.all([
-        fetch(`http://localhost:3001/users/${user._id}`, {
+        fetch(`https://capstone-be-production-6735.up.railway.app/users/${user._id}`, {
           method: "DELETE",
         }),
         new Promise((resolve) => setTimeout(resolve, 200)), // wait for 200ms to ensure delete operation has completed

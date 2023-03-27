@@ -20,7 +20,7 @@ const Main = () => {
   useEffect(() => {
     const getUser = async () => {
       if (userId) {
-        const response = await fetch(`http://localhost:3001/users/${userId}`);
+        const response = await fetch(`https://capstone-be-production-6735.up.railway.app/users/${userId}`);
         const loggedInUser = await response.json();
         setUser(loggedInUser);
       }
@@ -31,7 +31,7 @@ const Main = () => {
   const [dogs, setDogs] = useState([]);
   useEffect(() => {
     const getDogs = async () => {
-      const response = await fetch('http://localhost:3001/dogs');
+      const response = await fetch("https://capstone-be-production-6735.up.railway.app/dogs");
       const dogs = await response.json();
       setDogs(dogs);
     };

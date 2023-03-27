@@ -10,7 +10,7 @@ const EditProfileModal = ({ show, handleClose, user, setUser }) => {
 
   const handleSaveChanges = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/users/${user._id}`, {
+      const response = await fetch(`https://capstone-be-production-6735.up.railway.app/users/${user._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

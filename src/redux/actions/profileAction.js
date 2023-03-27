@@ -3,7 +3,7 @@ export const LOG_OUT_USER = "LOG_OUT_USER"
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED"
 
-const baseEndpoint = "http://localhost:3001"
+const baseEndpoint = "https://capstone-be-production-6735.up.railway.app"
 
 export const setAccessToken = (accessToken) => ({
   type: SET_ACCESS_TOKEN,

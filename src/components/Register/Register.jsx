@@ -41,8 +41,7 @@ const Register = () => {
         body: newUser
       };
 
-      const response = await fetch(
-        "http://localhost:3001/users/register",
+      const response = await fetch("https://capstone-be-production-6735.up.railway.app/users/register",
         config
       );
       console.log("response:", response);
