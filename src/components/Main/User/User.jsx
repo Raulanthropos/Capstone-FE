@@ -60,7 +60,7 @@ const User = () => {
               <Card.Subtitle className="mb-2 text-muted">
                 {user.email}
               </Card.Subtitle>
-              <Card.Text className="cardtext">{user.description}</Card.Text>
+              <Card.Text className="cardtext" style={{paddingRight: "20px"}}>{user.description}</Card.Text>
               <Card.Text className="cardtext">{user.role}</Card.Text>
               <Button
                 variant="primary"

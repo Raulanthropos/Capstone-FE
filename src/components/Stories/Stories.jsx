@@ -12,19 +12,19 @@ const Stories = () => {
         story:
           "Buddy was adopted by a loving family in 2019. He is now a happy dog, and he loves to play with his new family.",
       },
-      // {
-      //   image:
-      //     "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-2.PNG",
-      //   title: "Max",
-      //   story:
-      //     "Darling was adopted by a loving family in 2020. He loves to play fetch and cuddle with his new family.",
-      // },
       {
         image:
           "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-3.jpeg",
         title: "Axel",
         story:
           "Axel was adopted by a loving woman in 2019. He is now a happy dog, and he loves to play with his new mama.",
+      },
+      {
+        image:
+          "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-2.PNG",
+        title: "Max",
+        story:
+          "Darling was adopted by a loving family in 2020. He loves to play fetch and cuddle with his new family.",
       },
     ];
   
@@ -46,8 +46,8 @@ const Stories = () => {
           >
             {adoptedDogs.map((dog) => (
               <Carousel.Item key={dog.title}>
-                <div className="image-container">
-                  <img className="d-block w-100" src={dog.image} alt={dog.title} />
+                <div className="image-container" style={{height: "86vh"}}>
+                  <img className="d-block w-100" src={dog.image} alt={dog.title} style={{objectFit: "cover", height: "100%"}} />
                 </div>
                 <Carousel.Caption>
                   <h3>{dog.title}</h3>
