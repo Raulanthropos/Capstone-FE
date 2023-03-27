@@ -8,53 +8,29 @@ import { getAccessToken } from "../../redux/actions/profileAction";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.loadedProfile.currentUser);
+  const isAuthenticated = useSelector((state) => state.loadedProfile.isAuthenticated);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (user) {
-      setIsLoggedIn(true);
-    }
-  }, [user]);
-
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3001/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        const { user, accessToken } = data;
-        dispatch(getAccessToken(email, password, user._id)); // Pass email, password, and user ID
-        const userResponse = await fetch(
-          `http://localhost:3001/users/${user._id}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        if (userResponse.ok) {
-          const user = await userResponse.json();
-          navigate(`/users/me`, { state: { user, accessToken } });
-        } else {
-          console.log("Error fetching user details");
-        }
-      } else {
-        console.log("Invalid credentials");
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log("-------checking the login status", user)
+      // setIsLoggedIn(true);
+      navigate("/users/me");
     }
+    //eslint-disable-next-line
+  }, [isAuthenticated]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const credentialEmail = {
+      email: email,
+      password: password
+    }
+    console.log("logging in")
+    dispatch(getAccessToken(credentialEmail))
   };
   
 

@@ -58,7 +58,7 @@ const Sorting = (props) => {
                         <option value="desc">Descending</option>
                     </Form.Control>
                 </Form.Group> */}
-        <Button variant="primary" onClick={() => navigate("/")}>
+        <Button className="button-stl" onClick={() => navigate("/")}>
           Back
         </Button>
       </Form>
@@ -102,20 +102,18 @@ const Sorting = (props) => {
                   <span
                     className={`gender ${
                       dog.gender === "male" ? "male" : "female"
-                    }`}
+                    }`} style={{ textShadow: "0px 0px 2px #000000" }}
                   >
                     {dog.gender === "male" ? <>&#9794;</> : <>&#9792;</>}
                   </span>
                 </Card.Text>
-                <Card.Text className="cardtext">
+                <Card.Text className="cardtext" style={{ fontWeight: "100" }}>
                   {dog.isNeutered
-                    ? "✅ This dog is neutered!"
-                    : "❌ This dog has not been neutered"}
+                    ? "✔ This dog is neutered!"
+                    : "✖ This dog has not been neutered."}
                 </Card.Text>
                 <Button
-                  variant="primary"
-                  className="mr-2"
-                  onClick={handleShowModal}
+                  className="mr-2 button-stl" onClick={handleShowModal}
                 >
                   I want to adopt h{dog.gender === "male" ? "im" : "er"}!
                   <Modal show={showModal} onHide={handleCloseModal}>
@@ -128,10 +126,10 @@ By clicking the "Send email" button, you are made aware that an email will be se
                       </p>
                     </Modal.Body>
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseModal}>
+                      <Button variant="secondary" className="button-stl" onClick={handleCloseModal}>
                         Cancel
                       </Button>
-                      <Button variant="primary" onClick={handleSendEmail}>
+                      <Button className="button-stl" onClick={handleSendEmail}>
                         Send email
                       </Button>
                     </Modal.Footer>

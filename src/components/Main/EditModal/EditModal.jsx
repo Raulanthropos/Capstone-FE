@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const EditProfileModal = ({ show, handleClose, user, setUser }) => {
-  const [name, setName] = useState(user.name);
-  const [surname, setSurname] = useState(user.surname);
-  const [email, setEmail] = useState(user.email);
-  const [description, setDescription] = useState(user.description);
-  const [picture, setPicture] = useState(user.picture);
+  const [name, setName] = useState(user?.name);
+  const [surname, setSurname] = useState(user?.surname);
+  const [email, setEmail] = useState(user?.email);
+  const [description, setDescription] = useState(user?.description);
+  const [picture, setPicture] = useState(user?.picture);
 
   const handleSaveChanges = async () => {
     try {

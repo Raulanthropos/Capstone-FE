@@ -3,3 +3,35 @@
   border-color: #1b6d85;
   scale: 1.2;
 }
+
+@media screen and (max-width: 1024px) {
+ .home-container {
+  background-size: contain !important;
+  margin-top: 40% !important
+ }
+ .child-content {
+  margin-top: 0 !important;
+ }
+}
+@media screen and (max-width: 875px) {
+ .child-content {
+  margin-top: -100px !important;
+ }
+}
+@media screen and (max-width: 670px) {
+ .child-content {
+  font-size: 14px !important;
+  margin-top: -200px !important;
+ }
+}
+@media screen and (max-width: 485px) {
+ .child-content {
+  margin-top: -250px !important;
+ }
+}
+@media screen and (max-width: 420px) {
+ .child-content {
+  font-size: 10px !important;
+  margin-top: -275px !important;
+ }
+}
