@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button, Form, Spinner, Modal } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import "./Sorting.css";
 // import { sendEmail } from "../Mail/Mail";
 
@@ -11,7 +12,8 @@ const Sorting = (props) => {
   const [sort, setSort] = useState("name");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-
+  const user = useSelector(state => state.loadedProfile.currentUser);
+  console.log("This is the user", user, "This is the user role", user.role);
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -56,7 +58,7 @@ const Sorting = (props) => {
                         <option value="desc">Descending</option>
                     </Form.Control>
                 </Form.Group> */}
-        <Button className="button-stl" onClick={() => navigate("/")}>
+        <Button className="button-stl" style={{marginBottom: "16px"}} onClick={() => navigate("/users/me")}>
           Back
         </Button>
       </Form>
@@ -82,9 +84,7 @@ const Sorting = (props) => {
                 >
                   Breed: {dog.breed}
                 </Card.Subtitle>
-                <Card.Text
-                  className={`cardtext${sort === "age" ? " sorted" : ""}`}
-                >
+                <Card.Text className={`cardtext${sort === "age" ? " sorted" : ""}`} style={{marginTop: "16px"}}>
                   Age: {dog.age} years old
                 </Card.Text>
                 <Card.Text
@@ -92,7 +92,7 @@ const Sorting = (props) => {
                 >
                   Weight: {dog.weight} kgs
                 </Card.Text>
-                <Card.Text className="cardtext">
+                <Card.Text className="cardtext" style={{ paddingRight: "20px" }}>
                   Description: {dog.description}
                 </Card.Text>
                 <Card.Text className="cardtext">
@@ -110,7 +110,7 @@ const Sorting = (props) => {
                     ? "✔ This dog is neutered!"
                     : "✖ This dog has not been neutered."}
                 </Card.Text>
-                <Button
+                {user.role==="user" ? <><Button
                   className="mr-2 button-stl" onClick={handleShowModal}
                 >
                   I want to adopt h{dog.gender === "male" ? "im" : "er"}!
@@ -132,7 +132,7 @@ By clicking the "Send email" button, you are made aware that an email will be se
                       </Button>
                     </Modal.Footer>
                   </Modal>
-                </Button>
+                </Button></> : ""}
               </div>
               <Card.Img
                 src={dog.images[0].url ? dog.images[0].url : ""}

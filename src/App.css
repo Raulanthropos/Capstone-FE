@@ -6,6 +6,7 @@ body {
   text-align: justify;
   font-family: 'League Spartan', sans-serif;
   font-size: 18px;
+  box-sizing: border-box;
 }
 
 #root {

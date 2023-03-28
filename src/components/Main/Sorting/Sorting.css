@@ -39,6 +39,11 @@
   box-shadow: none;
 }
 
+.sorted {
+  color: red;
+  font-weight: 900;
+}
+
 
 
 

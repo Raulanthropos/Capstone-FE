@@ -16,8 +16,6 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("-------checking the login status", user)
-      // setIsLoggedIn(true);
       navigate("/users/me");
     }
     //eslint-disable-next-line

@@ -45,7 +45,7 @@ const Main = () => {
         <Col>
           {currentUser.role === "admin" ? <><Button variant="secondary" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Add dog</Button><Button variant="warning" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Edit dog</Button><Button variant="danger" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Delete dog</Button></> : ""}
         </Col>
-        {isAuthenticated && <h2>Welcome, {currentUser.name}!</h2>}
+        {isAuthenticated && <h2 style={{marginTop: "10px"}}>Welcome, {currentUser.name}!</h2>}
         <Col xs="auto">
           <Sorting />
         </Col>

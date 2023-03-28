@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "../../../redux/actions/profileAction";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaArrowRight } from 'react-icons/fa';
 
 
 const User = () => {
@@ -20,7 +21,8 @@ const User = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const notifyLoggedOutUser = () => toast("Logged out successfully! Redirecting to the home page...");
+  const notifyLoggedOutUser = () => toast("Redirecting to the home page...");
+  const notifyLoggedInUser = () => toast("You have successfully logged in!");
 
   useEffect(() => {
     if (!accessToken) {
@@ -28,7 +30,11 @@ const User = () => {
       navigate("/");
     } else {
       setAccessToken(accessToken);
+      setTimeout(() => {
+        notifyLoggedInUser();
+        }, 500)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Add userId to the dependency array to refetch when it changes
 
   const handleLogout = () => {
@@ -45,6 +51,7 @@ const User = () => {
         <Spinner animation="border" variant="primary" />
       )}
       {user && Object.keys(user).length > 0 && (
+        <>
         <Card>
           <Card.Body
             style={{
@@ -61,7 +68,12 @@ const User = () => {
                 {user.email}
               </Card.Subtitle>
               <Card.Text className="cardtext" style={{paddingRight: "20px"}}>{user.description}</Card.Text>
-              <Card.Text className="cardtext">{user.role}</Card.Text>
+              <Button
+                className="mr-2 button-stl" style={{display: "block", marginBottom: "10px"}}
+                onClick={() => navigate("/main")}
+              >
+                Go to the main page {" "}<FaArrowRight />
+              </Button>
               <Button
                 variant="primary"
                 className="mr-2"
@@ -86,6 +98,7 @@ const User = () => {
             />
           </Card.Body>
         </Card>
+        </>
       )}
       <EditProfileModal
         show={modalShow}
