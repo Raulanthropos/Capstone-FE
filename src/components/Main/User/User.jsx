@@ -80,7 +80,7 @@ const User = () => {
                 Edit Profile
               </Button>
               <Button variant="danger" className="mr-2" onClick={() => setShowModal(true)}>Delete Profile</Button>
-              <DeleteModal showModal={showModal} setShowModal={setShowModal} user={user} />
+              <DeleteModal showModal={showModal} setShowModal={setShowModal} user={user} userId={user._id} />
               <Button variant="danger" onClick={handleLogout}>Logout</Button>
               <ToastContainer />
             </div>
