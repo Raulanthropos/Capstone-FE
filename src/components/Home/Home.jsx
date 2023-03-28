@@ -30,6 +30,7 @@ const Home = () => {
             justifyContent: "center",
             flexDirection: "column",
             zIndex: "1",
+            fontSize: "28px",
           }}
         >
           <h1 style={{ color: "white", textAlign: "center" }}>

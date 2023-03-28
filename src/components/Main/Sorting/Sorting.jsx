@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Button, Form, Spinner, Modal } from "react-bootstrap";
 import { Card } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./Sorting.css";
 // import { sendEmail } from "../Mail/Mail";
@@ -13,6 +13,7 @@ const Sorting = (props) => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const user = useSelector(state => state.loadedProfile.currentUser);
+  console.log("user email", user.email)
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -22,7 +23,7 @@ const Sorting = (props) => {
   };
 
   const handleSendEmail = () => {
-    // sendEmail(process.env.EMAIL);
+    // sendEmail(user.email);
     setShowModal(false);
   };
 

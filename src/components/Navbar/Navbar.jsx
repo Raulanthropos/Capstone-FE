@@ -31,14 +31,14 @@ const NavBar = () => {
             <Link to="/" style={{color: "#333333"}}>Home</Link>
           </Nav.Link>
           <Nav.Link>
-            <Link to="/register" style={{color: "#333333"}}>Register</Link>
-          </Nav.Link>
-          <Nav.Link>
           <Link to={`/main`} style={{color: "#333333"}}>Main</Link>
           </Nav.Link>
           <Nav.Link>
           <Link to={`/stories`} style={{color: "#333333"}}>Stories</Link>
           </Nav.Link>
+          {!user ? <Nav.Link>
+            <Link to="/register" style={{color: "#333333"}}>Register</Link>
+          </Nav.Link> : ""}
           <Nav.Link>
   {!user ? (
     <Link to="/login" style={{ color: "#333333" }}>

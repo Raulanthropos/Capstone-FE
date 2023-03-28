@@ -1,18 +1,16 @@
 // import nodemailer from "nodemailer";
-// import dotenv from "dotenv";
-// dotenv.config();
 
 // export async function sendEmail(email) {
 //     const transporter = nodemailer.createTransport({
 //       service: "gmail",
 //       auth: {
-//         user: process.env.EMAIL,
-//         pass: process.env.EMAIL_PASS,
+//         user: process.env.REACT_APP_EMAIL,
+//         pass: process.env.REACT_APP_PASSWORD,
 //       },
 //     });
   
 //     const mailOptions = {
-//       from: process.env.EMAIL,
+//       from: process.env.REACT_APP_EMAIL,
 //       to: `${email}`,
 //       subject: "Welcome to Woof Paws",
 //       text: "Thank You for your interest in fostering one of our doggos! Our team will review your application, and get back to you as soon as possible.",

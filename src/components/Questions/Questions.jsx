@@ -16,11 +16,10 @@ function Questions() {
       <Card>
         <Card.Header style={{backgroundColor: "#C48F65"}}>
           <Accordion.Toggle as={Button} variant="link" eventKey="0" style={{color: "#333333"}}>
-            <span>How do I adopt a dog?</span>
-            <FontAwesomeIcon
+            <span style={{fontSize: "24px"}}><FontAwesomeIcon
               icon={faChevronDown}
               className="float-right"
-            />
+            />How do I adopt a dog?</span>
           </Accordion.Toggle>
         </Card.Header >
         <Accordion.Collapse eventKey="0">
@@ -32,11 +31,10 @@ function Questions() {
       <Card>
       <Card.Header style={{backgroundColor: "#FFC3A0"}}>
           <Accordion.Toggle as={Button} variant="link" eventKey="1" style={{color: "#333333"}}>
-            How can I become a foster family?
-            <FontAwesomeIcon
+          <span style={{fontSize: "24px"}}><FontAwesomeIcon
               icon={faChevronDown}
               className="float-right"
-            />
+            />How can I become a foster family?</span>
           </Accordion.Toggle>
         </Card.Header>
         <Accordion.Collapse eventKey="1">
@@ -48,11 +46,10 @@ function Questions() {
       <Card>
         <Card.Header style={{backgroundColor: "#F6B352"}}>
           <Accordion.Toggle as={Button} variant="link" eventKey="2" style={{color: "#333333"}}>
-            How can I donate to your organization?
-            <FontAwesomeIcon
+          <span style={{fontSize: "24px"}}><FontAwesomeIcon
               icon={faChevronDown}
               className="float-right"
-            />
+            />How can I donate to your organization?</span>
           </Accordion.Toggle>
         </Card.Header>
         <Accordion.Collapse eventKey="2">
