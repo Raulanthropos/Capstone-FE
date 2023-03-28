@@ -160,7 +160,7 @@ export const deleteUser = (accessToken, user) => {
     }
     try {
       console.log("---------inside delete action----------")
-      const response = await fetch(`http://localhost:3001/users/${user._id}`, options)
+      const response = await fetch(baseEndpoint + `/users/${user._id}`, options)
       if (response.ok) {
         const deletedUser = await response.json()
         console.log("The user was deleted", deletedUser)
