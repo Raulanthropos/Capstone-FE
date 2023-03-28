@@ -43,12 +43,12 @@ const Main = () => {
     <Container className='backgroundCont'>
       <Row className="d-flex align-items-center justify-content-center" style={{ flexDirection: "column" }}>
         <Col>
-          {currentUser.role === "admin" ? <><Button variant="secondary" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Add dog</Button><Button variant="warning" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Edit dog</Button><Button variant="danger" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Delete dog</Button></> : ""}
+        {!currentUser && <h1 style={{marginTop: "100px", textAlign: "center", paddingBlock: "auto"}}>Please login, to get access to this page!</h1>}
+          {currentUser?.role === "admin" ? <><Button variant="secondary" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Add dog</Button><Button variant="warning" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Edit dog</Button><Button variant="danger" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Delete dog</Button></> : ""}
         </Col>
-        {isAuthenticated && <h2 style={{marginTop: "10px"}}>Welcome, {currentUser.name}!</h2>}
-        <Col xs="auto">
+        {isAuthenticated && <><h2 style={{marginTop: "10px"}}>Welcome, {currentUser?.name}!</h2><Col xs="auto">
           <Sorting />
-        </Col>
+        </Col></>}
       </Row>
     </Container>
     </>

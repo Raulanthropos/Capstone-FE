@@ -30,9 +30,7 @@ const User = () => {
       navigate("/");
     } else {
       setAccessToken(accessToken);
-      setTimeout(() => {
         notifyLoggedInUser();
-        }, 500)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Add userId to the dependency array to refetch when it changes

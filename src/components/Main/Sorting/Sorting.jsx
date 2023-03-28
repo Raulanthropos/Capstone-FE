@@ -13,7 +13,6 @@ const Sorting = (props) => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const user = useSelector(state => state.loadedProfile.currentUser);
-  console.log("This is the user", user, "This is the user role", user.role);
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -110,7 +109,7 @@ const Sorting = (props) => {
                     ? "✔ This dog is neutered!"
                     : "✖ This dog has not been neutered."}
                 </Card.Text>
-                {user.role==="user" ? <><Button
+                {user?.role==="user" ? <><Button
                   className="mr-2 button-stl" onClick={handleShowModal}
                 >
                   I want to adopt h{dog.gender === "male" ? "im" : "er"}!
