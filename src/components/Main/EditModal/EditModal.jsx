@@ -1,40 +1,32 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Spinner } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUser } from '../../../redux/actions/profileAction';
 
-const EditProfileModal = ({ show, handleClose, user, setUser }) => {
+const EditProfileModal = ({ show, handleClose }) => {
+  const user = useSelector(state => state.loadedProfile.currentUser);
+
   const [name, setName] = useState(user?.name);
   const [surname, setSurname] = useState(user?.surname);
   const [email, setEmail] = useState(user?.email);
   const [description, setDescription] = useState(user?.description);
   const [picture, setPicture] = useState(user?.picture);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSaveChanges = async () => {
-    try {
-      const response = await fetch(`https://capstone-be-production-6735.up.railway.app/users/${user._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({
-          name,
-          surname,
-          email,
-          description,
-          picture
-        })
-      });
+  const dispatch = useDispatch();
 
-      if (response.ok) {
-        const updatedUser = await response.json();
-        setUser(updatedUser);
+  const handleSubmit = event => {
+    event.preventDefault();
+    setIsLoading(true);
+    dispatch(updateUser({ _id: user._id, name, surname, email, description, picture }))
+      .then(() => {
+        setIsLoading(false);
         handleClose();
-      } else {
-        console.log('Error updating user');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      })
+      .catch(error => {
+        setIsLoading(false);
+        console.log(error);
+      });
   };
 
   return (
@@ -43,32 +35,32 @@ const EditProfileModal = ({ show, handleClose, user, setUser }) => {
         <Modal.Title>Edit profile</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formName">
             <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Form.Control type="text" placeholder="Enter name" value={name} onChange={event => setName(event.target.value)} />
           </Form.Group>
           <Form.Group controlId="formSurname">
             <Form.Label>Surname</Form.Label>
-            <Form.Control type="text" placeholder="Enter surname" value={surname} onChange={(e) => setSurname(e.target.value)} />
+            <Form.Control type="text" placeholder="Enter surname" value={surname} onChange={event => setSurname(event.target.value)} />
           </Form.Group>
           <Form.Group controlId="formEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={event => setEmail(event.target.value)} />
           </Form.Group>
           <Form.Group controlId="formDescription">
             <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows={3} placeholder="Enter description" value={description} onChange={(e) => setDescription(e.target.value)} />
+            <Form.Control as="textarea" rows={3} placeholder="Enter description" value={description} onChange={event => setDescription(event.target.value)} />
           </Form.Group>
           <Form.Group controlId="formPicture">
             <Form.Label>Picture URL</Form.Label>
-            <Form.Control type="text" placeholder="Enter picture URL" value={picture} onChange={(e) => setPicture(e.target.value)} />
+            <Form.Control type="text" placeholder="Enter picture URL" value={picture} onChange={event => setPicture(event.target.value)}/>
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-        <Button variant="primary" onClick={handleSaveChanges}>Save changes</Button>
+        <Button variant="primary">Save changes</Button>
       </Modal.Footer>
     </Modal>
   );

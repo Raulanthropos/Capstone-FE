@@ -2,6 +2,8 @@ export const SET_USER_INFO = "SET_USER_INFO"
 export const LOG_OUT_USER = "LOG_OUT_USER"
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED"
+export const UPDATE_USER = "UPDATE_USER"
+export const DELETE_USER = "DELETE_USER"
 
 const baseEndpoint = "https://capstone-be-production-6735.up.railway.app"
 
@@ -111,6 +113,94 @@ export const logoutUser = (accessToken) => {
     }
   }
 }
+
+export  const updateUser = (user) => {
+  return async (dispatch) => {
+    const opts = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: JSON.stringify({
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          description: user.description,
+          picture: user.picture,
+        })
+      }
+  try {
+    const response = await fetch(baseEndpoint + `/users/${user._id}`, opts);
+
+    if (response.ok) {
+      const updatedUser = await response.json();
+      console.log('updatedUser', updatedUser);
+      dispatch({
+        type: UPDATE_USER,
+        payload: updatedUser
+      });
+    } else {
+      console.log('Error updating user');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+}
+
+export const deleteUser = (accessToken, user) => {
+  return async (dispatch) => {
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+    try {
+      console.log("---------inside delete action----------")
+      const response = await fetch(`http://localhost:3001/users/${user._id}`, options)
+      if (response.ok) {
+        const deletedUser = await response.json()
+        console.log("The user was deleted", deletedUser)
+        dispatch({
+          type: SET_AUTHENTICATED,
+          payload: false
+        })
+        dispatch({
+          type: DELETE_USER,
+          payload: null
+        })
+      } else {
+        console.log("error deleting user")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+    /* 
+    
+     try {
+      const response = await fetch(baseEndpoint + `/users/me/username`, opts)
+      if (response.ok) {
+        const updated = await response.json()
+        console.log("updatedUsername", updated)
+        const userName = updated.username
+        dispatch({
+          type: UPDATE_USER_USERNAME,
+          payload: userName
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+    
+    */
 
 
 // export const getAccessToken = (loggingInAuthor) => {
