@@ -13,7 +13,9 @@ const Sorting = (props) => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const user = useSelector(state => state.loadedProfile.currentUser);
-  console.log("user email", user.email)
+
+  const [neuteredOnly, setNeuteredOnly] = useState(false);
+
   const handleShowModal = () => {
     setShowModal(true);
   };
@@ -33,11 +35,13 @@ const Sorting = (props) => {
     const getDogs = async () => {
       const response = await fetch(`https://capstone-be-production-6735.up.railway.app/dogs?sort=${sort}`);
       const dogs = await response.json();
-      setDogs(dogs);
+      const filteredDogs = neuteredOnly ? dogs.filter(dog => dog.isNeutered) : dogs;
+      setDogs(filteredDogs);
       setLoading(false);
     };
     getDogs();
-  }, [sort]);
+  }, [sort, neuteredOnly]);
+  
 
   return (
     <>
@@ -50,6 +54,13 @@ const Sorting = (props) => {
             <option value="age">Age</option>
             <option value="weight">Weight</option>
           </Form.Control>
+          <Form.Check 
+    type="checkbox" 
+    label="Neutered only" 
+    checked={neuteredOnly} 
+    style={{marginTop: "20px"}}
+    onChange={() => setNeuteredOnly(!neuteredOnly)}
+  />
         </Form.Group>
         {/* <Form.Group controlId="sortPreference">
                     <Form.Label>Order:</Form.Label>
@@ -135,7 +146,7 @@ By clicking the "Send email" button, you are made aware that an email will be se
                 </Button></> : ""}
               </div>
               <Card.Img
-                src={dog.images[0].url ? dog.images[0].url : ""}
+                src={dog.images[0]?.url ? dog.images[0].url : ""}
                 style={{
                   width: "250px",
                   height: "250px",

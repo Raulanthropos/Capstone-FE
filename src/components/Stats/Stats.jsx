@@ -52,7 +52,7 @@ import {
               <FontAwesomeIcon icon={faBone} size="3x" className="mb-3" />
                 <h3 className="card-title">Feed a Dog in Need</h3>
                 <p className="card-text">
-                  A 10$ donation can provide food for a shelter dog for a week.
+                  A 10$ donation can provide food for a dog for a week.
                 </p>
               </div>
             </div>

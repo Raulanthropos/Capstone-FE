@@ -24,7 +24,7 @@ function Questions() {
         </Card.Header >
         <Accordion.Collapse eventKey="0">
           <Card.Body>
-            To adopt a dog, first browse the available dogs on our website and find one that you are interested in. Then, fill out an adoption application and our team will review it. If your application is approved, we will schedule a meet and greet with the dog and one of our adoption counselors. If everything goes well, you can take the dog home!
+            To adopt a dog, first browse the available dogs on our website and find one that you are interested in. Then, confirm your interest, and our team will review your profile. If your application is approved, we will schedule a meet and greet with the dog and one of our adoption counselors. If everything goes well, you can take the dog home!
           </Card.Body>
         </Accordion.Collapse>
       </Card>
@@ -54,7 +54,7 @@ function Questions() {
         </Card.Header>
         <Accordion.Collapse eventKey="2">
           <Card.Body>
-            We greatly appreciate any donations to support our mission of finding loving homes for dogs in need. You can donate on our website using a credit or debit card, or by sending a check to our mailing address. We also accept in-kind donations of dog food, toys, and other supplies. Thank you for your generosity!
+            We greatly appreciate any donations to support our mission of finding loving homes for dogs in need. We accept in-kind donations of dog food, toys, and other supplies. Thank you for your generosity!
           </Card.Body>
         </Accordion.Collapse>
       </Card>
