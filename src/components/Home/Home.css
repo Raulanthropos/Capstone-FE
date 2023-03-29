@@ -20,18 +20,18 @@
 }
 @media screen and (max-width: 670px) {
  .child-content {
-  font-size: 14px !important;
   margin-top: -200px !important;
  }
 }
-@media screen and (max-width: 485px) {
+@media screen and (max-width: 600px) {
  .child-content {
-  margin-top: -250px !important;
+  background-color: rgba(0,0,0,.5) !important;
  }
-}
-@media screen and (max-width: 420px) {
- .child-content {
-  font-size: 10px !important;
+ #root > main > div.home-container > div > h1, #root > main > div.home-container > div > p:nth-child(2), #root > main > div.home-container > div > p:nth-child(3), #root > main > div.home-container > div > div > button:nth-child(1) > a , #root > main > div.home-container > div > div > button:nth-child(2) > a {
+  /* color: black !important; */
+  font-size: 18px !important;
+ }
+ #root > main > div.home-container > div {
   margin-top: -275px !important;
  }
 }

@@ -1,13 +1,17 @@
 import {
     SET_USER_INFO,
     SET_ACCESS_TOKEN,
-    SET_AUTHENTICATED
+    SET_AUTHENTICATED,
+    UPDATE_USER,
+    DELETE_USER,
+    LOG_OUT_USER
   } from "../actions/profileAction"
   
   const initialState = {
     isAuthenticated: false,
     accessToken: localStorage.getItem("accessToken"),
     currentUser: null,
+    updatedUser: null,
   }
   
   const profileReducer = (state = initialState, action) => {
@@ -26,6 +30,11 @@ import {
           return {
             ...state,
             isAuthenticated: action.payload
+          }
+        case UPDATE_USER:
+          return {
+            ...state,
+            updatedUser: action.payload
           }
       default:
         return state

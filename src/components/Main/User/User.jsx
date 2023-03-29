@@ -17,6 +17,7 @@ const User = () => {
 
   const accessToken = useSelector(state => state.loadedProfile.accessToken);
   const user = useSelector(state => state.loadedProfile.currentUser);
+  const updatedUser = useSelector(state => state.loadedProfile.updatedUser);
   const [modalShow, setModalShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -60,12 +61,12 @@ const User = () => {
           >
             <div>
               <Card.Title>
-                {user.name} {user.surname}
+                {updatedUser._id === user._id ? updatedUser.name : user.name} {updatedUser._id === user._id ? updatedUser.surname : user.surname}
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
-                {user.email}
+                {updatedUser._id === user._id ? updatedUser.email : user.email}
               </Card.Subtitle>
-              <Card.Text className="cardtext" style={{paddingRight: "20px"}}>{user.description}</Card.Text>
+              <Card.Text className="cardtext" style={{paddingRight: "20px"}}>{updatedUser._id === user._id ? updatedUser.description : user.description}</Card.Text>
               <Button
                 className="mr-2 button-stl" style={{display: "block", marginBottom: "10px"}}
                 onClick={() => navigate("/main")}
@@ -85,7 +86,7 @@ const User = () => {
               <ToastContainer />
             </div>
             <Card.Img
-              src={user.picture}
+              src={updatedUser._id === user._id ? updatedUser.picture : user.picture}
               style={{
                 width: "250px",
                 height: "250px",

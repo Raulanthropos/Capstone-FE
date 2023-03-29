@@ -9,6 +9,7 @@ import { logoutUser, updateUser } from "../../redux/actions/profileAction";
 
 const NavBar = () => {
   const user = useSelector((state) => state.loadedProfile.currentUser);
+  const updatedUser = useSelector(state => state.loadedProfile.updatedUser);
   const accessToken = useSelector((state) => state.loadedProfile.accessToken);
 
   const dispatch = useDispatch();
@@ -28,18 +29,20 @@ const NavBar = () => {
     <Navbar
       style={{
         background:
-          "linear-gradient(to right, #C48F65 0%, #FFC3A0 50%, #F6B352 100%)",
+          "linear-gradient(to right, #C48F65 0%, #FFC3A0 50%, #F6B352 100%)", zIndex: 99
       }}
       expand="lg"
     >
-      <Navbar.Brand href="#home">
-        <img
-          src="https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/logo.PNG"
-          alt="logo"
-          className="logo"
-          style={{ width: "100px", height: "30px", borderRadius: "5px" }}
-        />
-      </Navbar.Brand>
+<Navbar.Brand>
+  <Link to="/">
+    <img
+      src="https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/logo.PNG"
+      alt="logo"
+      className="logo"
+      style={{ width: "100px", height: "30px", borderRadius: "5px" }}
+    />
+  </Link>
+</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
@@ -73,7 +76,7 @@ const NavBar = () => {
               title={
                 user && (
                   <img
-                    src={user.picture}
+                    src={updatedUser._id === user._id ? updatedUser.picture : user.picture}
                     alt="user_pic"
                     style={{
                       width: "30px",
@@ -97,7 +100,7 @@ const NavBar = () => {
                       navigate("/users/me");
                     }}
                   >
-                    Edit Profile
+                    Settings
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     onClick={() => {

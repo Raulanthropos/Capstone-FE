@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Spinner } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser } from '../../../redux/actions/profileAction';
 
 const EditProfileModal = ({ show, handleClose }) => {
   const user = useSelector(state => state.loadedProfile.currentUser);
+  const updatedUser = useSelector(state => state.loadedProfile.updatedUser);
 
-  const [name, setName] = useState(user?.name);
-  const [surname, setSurname] = useState(user?.surname);
-  const [email, setEmail] = useState(user?.email);
-  const [description, setDescription] = useState(user?.description);
-  const [picture, setPicture] = useState(user?.picture);
+  const [name, setName] = useState(updatedUser ? updatedUser.name : user?.name);
+  const [surname, setSurname] = useState(updatedUser ? updatedUser.surname : user?.surname);
+  const [email, setEmail] = useState(updatedUser ? updatedUser.email : user?.email);
+  const [description, setDescription] = useState(updatedUser ? updatedUser.description : user?.description);
+  const [picture, setPicture] = useState(updatedUser ? updatedUser.picture : user?.picture);
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ const EditProfileModal = ({ show, handleClose }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-        <Button variant="primary">Save changes</Button>
+        <Button variant="primary" onClick={handleSubmit}>Save changes</Button>
       </Modal.Footer>
     </Modal>
   );

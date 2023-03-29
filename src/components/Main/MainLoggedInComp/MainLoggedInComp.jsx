@@ -10,6 +10,7 @@ const Main = () => {
   const [showModal, setShowModal] = useState(false);
   const { userId } = useParams(); // Get the user ID from the URL params
   const currentUser = useSelector(state => state.loadedProfile.currentUser);
+  const updatedUser = useSelector(state => state.loadedProfile.updatedUser);
   const isAuthenticated = useSelector(state => state.loadedProfile.isAuthenticated);
   console.log("isAuthenticated", isAuthenticated, "currentUser", currentUser);
 
@@ -46,7 +47,7 @@ const Main = () => {
         {!currentUser && <h1 style={{marginTop: "100px", textAlign: "center", paddingBlock: "auto"}}>Please login, to get access to this page!</h1>}
           {currentUser?.role === "admin" ? <><Button variant="primary" style={{width: "150px", paddingTop: "15px", marginTop: "10px", marginLeft: "400px"}}>Add dog</Button><Button variant="secondary" style={{width: "150px", paddingTop: "15px", marginTop: "10px"}}>Edit dog</Button></> : ""}
         </Col>
-        {isAuthenticated && <><h2 style={{marginTop: "10px"}}>Welcome, {currentUser?.name}!</h2><Col xs="auto">
+        {isAuthenticated && <><h2 style={{marginTop: "10px"}}>Welcome, {updatedUser._id === currentUser._id ? updatedUser?.name : currentUser?.name}!</h2><Col xs="auto">
           <Sorting />
         </Col></>}
       </Row>

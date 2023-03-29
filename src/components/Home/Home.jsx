@@ -14,6 +14,7 @@ const Home = () => {
           backgroundImage: `url(${process.env.PUBLIC_URL}/images/dog-gif-animation1.gif)`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
+          objectFit: "cover",
           height: "100vh",
         }}
       >
@@ -52,7 +53,7 @@ const Home = () => {
                 border: "1px solid white",
               }}
             >
-              <Link to="/register" style={{color: "#FFFFFF"}}>Foster</Link>
+              <Link to="/register" style={{color: "#FFFFFF"}}>Register</Link>
             </Button>
             <Button
               className="btn btn-primary"

@@ -46,7 +46,8 @@
       flex-direction: column;
     }
     .q-img-container {
-      margin-left: 0;
+      /* margin-left: 0; */
+      margin-top: 24px;
     }
     .q-accordion-container {
       margin-left: 0;

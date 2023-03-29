@@ -10,21 +10,21 @@ const Stories = () => {
           "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-1.jpeg",
         title: "Buddy",
         story:
-          "Buddy was adopted by a loving family in 2019. He is now a happy dog, and he loves to play with his new family.",
+          "Buddy was adopted by an amazing couple in 2022. He now calls them his new parents, and loves to chill with them in their new place.",
       },
       {
         image:
           "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-3.jpeg",
         title: "Axel",
         story:
-          "Axel was adopted by a loving woman in 2019. He is now a happy dog, and he loves to play with his new mama.",
+          "Axel was adopted by a loving woman in 2019. He is now a happy dog, and he loves to go on long walks with his new mama.",
       },
       {
         image:
           "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-2.PNG",
-        title: "Max",
+        title: "Darling",
         story:
-          "Darling was adopted by a loving family in 2020. He loves to play fetch and cuddle with his new family.",
+          "Darling was adopted by a caring family in 2020. She loves to play fetch and cuddle with his new family.",
       },
     ];
   
