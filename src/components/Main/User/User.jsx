@@ -61,12 +61,12 @@ const User = () => {
           >
             <div>
               <Card.Title>
-                {updatedUser._id === user._id ? updatedUser.name : user.name} {updatedUser._id === user._id ? updatedUser.surname : user.surname}
+                {updatedUser?._id === user?._id ? updatedUser?.name : user?.name} {updatedUser?._id === user?._id ? updatedUser?.surname : user?.surname}
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
-                {updatedUser._id === user._id ? updatedUser.email : user.email}
+                {updatedUser?._id === user?._id ? updatedUser?.email : user?.email}
               </Card.Subtitle>
-              <Card.Text className="cardtext" style={{paddingRight: "20px"}}>{updatedUser._id === user._id ? updatedUser.description : user.description}</Card.Text>
+              <Card.Text className="cardtext" style={{paddingRight: "20px"}}>{updatedUser?._id === user?._id ? updatedUser?.description : user?.description}</Card.Text>
               <Button
                 className="mr-2 button-stl" style={{display: "block", marginBottom: "10px"}}
                 onClick={() => navigate("/main")}
@@ -86,7 +86,7 @@ const User = () => {
               <ToastContainer />
             </div>
             <Card.Img
-              src={updatedUser._id === user._id ? updatedUser.picture : user.picture}
+              src={updatedUser?._id === user?._id ? updatedUser?.picture : user?.picture}
               style={{
                 width: "250px",
                 height: "250px",
