@@ -24,7 +24,7 @@ const Stories = () => {
           "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-2.PNG",
         title: "Darling",
         story:
-          "Darling was adopted by a caring family in 2020. She loves to play fetch and cuddle with his new family.",
+          "Darling was adopted by a caring family in 2020. She loves to play fetch and cuddle with her new family.",
       },
     ];
   
