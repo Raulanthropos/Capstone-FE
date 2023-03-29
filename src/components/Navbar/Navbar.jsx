@@ -76,7 +76,7 @@ const NavBar = () => {
               title={
                 user && (
                   <img
-                    src={updatedUser._id === user._id ? updatedUser.picture : user.picture}
+                    src={updatedUser?._id === user?._id ? updatedUser?.picture : user?.picture}
                     alt="user_pic"
                     style={{
                       width: "30px",
