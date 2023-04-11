@@ -1,5 +1,5 @@
 # Woof Paws Dog Adoption Webpage
-screenshot of Woof Paws landing page
+![screencapture-localhost-3000-2023-01-06-22_41_39-search-engine-favorites](https://github.com/Raulanthropos/React-portfolio/blob/main/public/images/woo-paws.PNG?raw=true)
 
 ## Description
 Woof Paws is a dog adoption webpage where users can register, login, and apply to adopt dogs from the list. Users can also view stories of dogs that were adopted, along with pictures of them and their new families. The application was built using the MERN stack, with the front end developed using React.
