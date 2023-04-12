@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Card, Spinner, Button } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
 import EditProfileModal from "../EditModal/EditModal";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import { useNavigate } from "react-router-dom";

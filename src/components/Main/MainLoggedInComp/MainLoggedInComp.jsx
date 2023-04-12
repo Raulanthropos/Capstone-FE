@@ -7,6 +7,7 @@ import "./MainLoggedInComp.css";
 
 const Main = () => {
   const [user, setUser] = useState({});
+  const [dog, setDog] = useState("");
   const [showModal, setShowModal] = useState(false);
   const { userId } = useParams(); // Get the user ID from the URL params
   const currentUser = useSelector(state => state.loadedProfile.currentUser);
@@ -32,7 +33,7 @@ const Main = () => {
   const [dogs, setDogs] = useState([]);
   useEffect(() => {
     const getDogs = async () => {
-      const response = await fetch("https://capstone-be-production-6735.up.railway.app/dogs");
+      const response = await fetch("http://localhost:3001/dogs");
       const dogs = await response.json();
       setDogs(dogs);
     };

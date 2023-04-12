@@ -4,7 +4,9 @@ import {
     SET_AUTHENTICATED,
     UPDATE_USER,
     DELETE_USER,
-    LOG_OUT_USER
+    LOG_OUT_USER,
+    ADOPTION_ADDED,
+    ADOPTION_ADD_ERROR
   } from "../actions/profileAction"
   
   const initialState = {
@@ -36,6 +38,21 @@ import {
             ...state,
             updatedUser: action.payload
           }
+          case ADOPTION_ADDED:
+          return {
+            ...state,
+            currentUser: action.payload
+          }
+          case ADOPTION_ADD_ERROR:
+          return {
+            ...state,
+            currentUser: action.payload
+          }
+          case DELETE_USER:
+            return {
+              ...state,
+              currentUser: action.payload
+            }
       default:
         return state
     }

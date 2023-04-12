@@ -4,19 +4,24 @@ import { Button, Form, Spinner, Modal } from "react-bootstrap";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AdoptionModal from "../AdoptionModal/AdoptionModal";
 import "./Sorting.css";
 // import { sendEmail } from "../Mail/Mail";
 
 const Sorting = (props) => {
   const [dogs, setDogs] = useState([]);
+  const [dog, setDog] = useState("");
+  const [selectedDog, setSelectedDog] = useState(null)
   const [sort, setSort] = useState("name");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [adoptionRequest, setAdoptionRequest] = useState(false);
   const user = useSelector(state => state.loadedProfile.currentUser);
 
   const [neuteredOnly, setNeuteredOnly] = useState(false);
 
-  const handleShowModal = () => {
+  const handleShowModal = (dog) => {
+    setSelectedDog(dog);
     setShowModal(true);
   };
 
@@ -26,6 +31,7 @@ const Sorting = (props) => {
 
   const handleSendEmail = () => {
     // sendEmail(user.email);
+    setAdoptionRequest(true);
     setShowModal(false);
   };
 
@@ -121,29 +127,16 @@ const Sorting = (props) => {
                     ? "✔ This dog is neutered!"
                     : "✖ This dog has not been neutered."}
                 </Card.Text>
-                {user?.role==="user" ? <><Button
+                {user?.role==="user" && adoptionRequest===false && selectedDog === dog._id ? <><Button
                   className="mr-2 button-stl" onClick={handleShowModal}
                 >
                   I want to adopt h{dog.gender === "male" ? "im" : "er"}!
-                  <Modal show={showModal} onHide={handleCloseModal}>
-                    <Modal.Header>
-                      <Modal.Title>Terms and conditions</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      <p>
-By clicking the "Send email" button, you are made aware that an email will be sent to Woof Paws, with your details, and that you will receive a response promptly.
-                      </p>
-                    </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" className="button-stl" onClick={handleCloseModal}>
-                        Cancel
-                      </Button>
-                      <Button className="button-stl" onClick={handleSendEmail}>
-                        Send email
-                      </Button>
-                    </Modal.Footer>
-                  </Modal>
-                </Button></> : ""}
+                </Button>
+                <AdoptionModal
+                  show={showModal}
+                  handleClose={handleCloseModal}
+                  handleSendEmail={handleSendEmail}
+                /></> : "✔ You have submitted an adoption request for this dog! Woof Paws will contact you shortly. Thank you."}
               </div>
               <Card.Img
                 src={dog.images[0]?.url ? dog.images[0].url : ""}
