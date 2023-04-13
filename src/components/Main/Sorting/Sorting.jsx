@@ -8,15 +8,15 @@ import AdoptionModal from "../AdoptionModal/AdoptionModal";
 import "./Sorting.css";
 // import { sendEmail } from "../Mail/Mail";
 
-const Sorting = (props) => {
+const Sorting = () => {
   const [dogs, setDogs] = useState([]);
   const [dog, setDog] = useState("");
-  const [selectedDog, setSelectedDog] = useState(null)
+  const [selectedDog, setSelectedDog] = useState("");
   const [sort, setSort] = useState("name");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [adoptionRequest, setAdoptionRequest] = useState(false);
-  const user = useSelector(state => state.loadedProfile.currentUser);
+  const user = useSelector((state) => state.loadedProfile.currentUser);
 
   const [neuteredOnly, setNeuteredOnly] = useState(false);
 
@@ -26,6 +26,7 @@ const Sorting = (props) => {
   };
 
   const handleCloseModal = () => {
+    setAdoptionRequest(false);
     setShowModal(false);
   };
 
@@ -39,15 +40,18 @@ const Sorting = (props) => {
 
   useEffect(() => {
     const getDogs = async () => {
-      const response = await fetch(`https://capstone-be-production-6735.up.railway.app/dogs?sort=${sort}`);
+      const response = await fetch(
+        `https://capstone-be-production-6735.up.railway.app/dogs?sort=${sort}`
+      );
       const dogs = await response.json();
-      const filteredDogs = neuteredOnly ? dogs.filter(dog => dog.isNeutered) : dogs;
+      const filteredDogs = neuteredOnly
+        ? dogs.filter((dog) => dog.isNeutered)
+        : dogs;
       setDogs(filteredDogs);
       setLoading(false);
     };
     getDogs();
   }, [sort, neuteredOnly]);
-  
 
   return (
     <>
@@ -60,13 +64,13 @@ const Sorting = (props) => {
             <option value="age">Age</option>
             <option value="weight">Weight</option>
           </Form.Control>
-          <Form.Check 
-    type="checkbox" 
-    label="Neutered only" 
-    checked={neuteredOnly} 
-    style={{marginTop: "20px"}}
-    onChange={() => setNeuteredOnly(!neuteredOnly)}
-  />
+          <Form.Check
+            type="checkbox"
+            label="Neutered only"
+            checked={neuteredOnly}
+            style={{ marginTop: "20px" }}
+            onChange={() => setNeuteredOnly(!neuteredOnly)}
+          />
         </Form.Group>
         {/* <Form.Group controlId="sortPreference">
                     <Form.Label>Order:</Form.Label>
@@ -75,7 +79,11 @@ const Sorting = (props) => {
                         <option value="desc">Descending</option>
                     </Form.Control>
                 </Form.Group> */}
-        <Button className="button-stl" style={{marginBottom: "16px"}} onClick={() => navigate("/users/me")}>
+        <Button
+          className="button-stl"
+          style={{ marginBottom: "16px" }}
+          onClick={() => navigate("/users/me")}
+        >
           Back
         </Button>
       </Form>
@@ -101,7 +109,10 @@ const Sorting = (props) => {
                 >
                   Breed: {dog.breed}
                 </Card.Subtitle>
-                <Card.Text className={`cardtext${sort === "age" ? " sorted" : ""}`} style={{marginTop: "16px"}}>
+                <Card.Text
+                  className={`cardtext${sort === "age" ? " sorted" : ""}`}
+                  style={{ marginTop: "16px" }}
+                >
                   Age: {dog.age} years old
                 </Card.Text>
                 <Card.Text
@@ -109,7 +120,10 @@ const Sorting = (props) => {
                 >
                   Weight: {dog.weight} kgs
                 </Card.Text>
-                <Card.Text className="cardtext" style={{ paddingRight: "20px" }}>
+                <Card.Text
+                  className="cardtext"
+                  style={{ paddingRight: "20px" }}
+                >
                   Description: {dog.description}
                 </Card.Text>
                 <Card.Text className="cardtext">
@@ -117,7 +131,8 @@ const Sorting = (props) => {
                   <span
                     className={`gender ${
                       dog.gender === "male" ? "male" : "female"
-                    }`} style={{ textShadow: "0px 0px 2px #000000" }}
+                    }`}
+                    style={{ textShadow: "0px 0px 2px #000000" }}
                   >
                     {dog.gender === "male" ? <>&#9794;</> : <>&#9792;</>}
                   </span>
@@ -127,16 +142,46 @@ const Sorting = (props) => {
                     ? "✔ This dog is neutered!"
                     : "✖ This dog has not been neutered."}
                 </Card.Text>
-                {user?.role==="user" && adoptionRequest===false && selectedDog === dog._id ? <><Button
-                  className="mr-2 button-stl" onClick={handleShowModal}
-                >
-                  I want to adopt h{dog.gender === "male" ? "im" : "er"}!
-                </Button>
-                <AdoptionModal
-                  show={showModal}
-                  handleClose={handleCloseModal}
-                  handleSendEmail={handleSendEmail}
-                /></> : "✔ You have submitted an adoption request for this dog! Woof Paws will contact you shortly. Thank you."}
+                {user?.role === "user" &&
+                  (selectedDog === dog ? (
+                    adoptionRequest ? (
+                      <Card.Text
+                        className="cardtext"
+                        style={{ color: "green" }}
+                      >
+                        &#10003; You have submitted an adoption request for this
+                        dog! Woof Paws will contact you shortly. Thank you.
+                      </Card.Text>
+                    ) : (
+                      <>
+                      <Button
+                        className="mr-2 button-stl"
+                        onClick={() => handleShowModal(dog)}
+                      >
+                        I want to adopt h{dog.gender === "male" ? "im" : "er"}!
+                      </Button>
+                      <AdoptionModal
+                        show={showModal}
+                        handleCloseModal={handleCloseModal}
+                        handleSendEmail={handleSendEmail}
+                      />
+                    </>
+                    )
+                  ) : (
+                    <>
+                      <Button
+                        className="mr-2 button-stl"
+                        onClick={() => handleShowModal(dog)}
+                      >
+                        I want to adopt h{dog.gender === "male" ? "im" : "er"}!
+                      </Button>
+                      <AdoptionModal
+                        show={showModal}
+                        handleCloseModal={handleCloseModal}
+                        handleSendEmail={handleSendEmail}
+                      />
+                    </>
+                  ))}
               </div>
               <Card.Img
                 src={dog.images[0]?.url ? dog.images[0].url : ""}

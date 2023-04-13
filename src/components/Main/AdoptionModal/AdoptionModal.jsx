@@ -1,9 +1,9 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const ModalComponent = ({ show, handleClose, handleSendEmail }) => {
+const ModalComponent = ({ show, handleCloseModal, handleSendEmail }) => {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleCloseModal}>
       <Modal.Header>
         <Modal.Title>Adoption Request</Modal.Title>
       </Modal.Header>
@@ -11,7 +11,7 @@ const ModalComponent = ({ show, handleClose, handleSendEmail }) => {
         <p>Are you sure you want to adopt this dog?</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleCloseModal}>
           Cancel
         </Button>
         <Button variant="success" onClick={handleSendEmail}>
