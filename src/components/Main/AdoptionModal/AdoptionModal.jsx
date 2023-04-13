@@ -3,7 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 
 const ModalComponent = ({ show, handleCloseModal, handleSendEmail }) => {
   return (
-    <Modal show={show} onHide={handleCloseModal}>
+    <Modal show={show} onHide={handleCloseModal} backdrop={false}>
       <Modal.Header>
         <Modal.Title>Adoption Request</Modal.Title>
       </Modal.Header>
