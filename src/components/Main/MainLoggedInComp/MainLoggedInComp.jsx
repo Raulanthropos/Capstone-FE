@@ -7,17 +7,11 @@ import "./MainLoggedInComp.css";
 
 const Main = () => {
   const [user, setUser] = useState({});
-  const [dog, setDog] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const { userId } = useParams(); // Get the user ID from the URL params
   const currentUser = useSelector(state => state.loadedProfile.currentUser);
   const updatedUser = useSelector(state => state.loadedProfile.updatedUser);
   const isAuthenticated = useSelector(state => state.loadedProfile.isAuthenticated);
-  console.log("isAuthenticated", isAuthenticated, "currentUser", currentUser);
-
-  const handleShowModal = () => {
-    setShowModal(true);
-  }
+  console.log("currentUser", currentUser);
   
   useEffect(() => {
     const getUser = async () => {
@@ -29,16 +23,6 @@ const Main = () => {
     };
     getUser();
   }, [userId]);
-
-  const [dogs, setDogs] = useState([]);
-  useEffect(() => {
-    const getDogs = async () => {
-      const response = await fetch("http://localhost:3001/dogs");
-      const dogs = await response.json();
-      setDogs(dogs);
-    };
-    getDogs();
-  }, []);
 
   return (
     <>

@@ -6,8 +6,15 @@ export const UPDATE_USER = "UPDATE_USER"
 export const DELETE_USER = "DELETE_USER"
 export const ADOPTION_ADDED= "ADOPTION_ADDED"
 export const ADOPTION_ADD_ERROR = "ADOPTION_ADD_ERROR"
+export const SET_ADOPTION_REQUEST = "SET_ADOPTION_REQUEST";
 
 const baseEndpoint = "https://capstone-be-production-6735.up.railway.app"
+
+export const setAdoptionRequest = (value) => ({
+  type: SET_ADOPTION_REQUEST,
+  payload: value,
+});
+
 
 export const setAccessToken = (accessToken) => ({
   type: SET_ACCESS_TOKEN,
@@ -204,90 +211,3 @@ export const addAdoption = (payload) => async (dispatch) => {
     dispatch(ADOPTION_ADD_ERROR(error.message));
   }
 };
-
-
-    /* 
-    
-     try {
-      const response = await fetch(baseEndpoint + `/users/me/username`, opts)
-      if (response.ok) {
-        const updated = await response.json()
-        console.log("updatedUsername", updated)
-        const userName = updated.username
-        dispatch({
-          type: UPDATE_USER_USERNAME,
-          payload: userName
-        })
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
-    
-    */
-
-
-// export const getAccessToken = (loggingInAuthor) => {
-//     return async (dispatch) => {
-//       const { email, password } = loggingInAuthor;
-//       const options = {
-//         method: "POST",
-//         body: JSON.stringify({ email, password }),
-//         headers: {
-//           "Content-Type": "application/json"
-//         }
-//       }
-//       try {
-//         console.log("---------inside the getAccessToken action----------")
-//         const response = await fetch(baseEndpoint + "/users/login", options)
-//         console.log("response - 1", response)
-//         if (response.ok) {
-//           console.log("response", response)
-//           const tokens = await response.json()
-//           const accessToken = await tokens.accessToken
-//           console.log("dispatching accessToken", accessToken)
-  
-//           if (accessToken) {
-//             dispatch({
-//               type: SET_ACCESS_TOKEN,
-//               payload: accessToken
-//             })
-//             localStorage.setItem("accessToken", accessToken)
-//             try {
-//               const opts = {
-//                 method: "GET",
-//                 headers: {
-//                   "Content-Type": "application/json",
-//                   Authorization: "Bearer " + accessToken
-//                 }
-//               }
-//               const userResponse = await fetch(baseEndpoint + "/users/me", opts)
-//               if (userResponse.ok) {
-//                 const user = await userResponse.json()
-//                 console.log("response of /users/me user", user)
-//                 dispatch({
-//                   type: SET_USER_INFO,
-//                   payload: user
-//                 })
-//                 dispatch({
-//                   type: SET_AUTHENTICATED,
-//                   payload: true
-//                 });
-//               } else {
-//                 console.log("error getting the user")
-//               }
-//             } catch (error) {
-//               console.log("error in trycatch", error)
-//             }
-//           } else {
-//             console.log("access token not created")
-//           }
-//         } else {
-//           console.log("-------error with getting a response ----------")
-//         }
-//       } catch (error) {
-//         console.log(error)
-//       }
-//     }
-//   }

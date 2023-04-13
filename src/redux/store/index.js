@@ -11,7 +11,7 @@ const bigReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: localStorage,
-  whitelist: ["loadedProfile", "accessToken"]
+  whitelist: ["loadedProfile", "accessToken", "adoptionRequest"]
 };
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);

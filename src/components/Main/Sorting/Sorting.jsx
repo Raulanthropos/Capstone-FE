@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AdoptionModal from "../AdoptionModal/AdoptionModal";
 import "./Sorting.css";
+import { useDispatch } from "react-redux";
+import { setAdoptionRequest } from "../../../redux/actions/profileAction";
 // import { sendEmail } from "../Mail/Mail";
 
 const Sorting = () => {
@@ -15,8 +17,9 @@ const Sorting = () => {
   const [sort, setSort] = useState("name");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [adoptionRequest, setAdoptionRequest] = useState(false);
+  const adoptionRequest = useSelector((state) =>state.loadedProfile.adoptionRequest);
   const user = useSelector((state) => state.loadedProfile.currentUser);
+  const dispatch = useDispatch();
 
   const [neuteredOnly, setNeuteredOnly] = useState(false);
 
@@ -26,15 +29,18 @@ const Sorting = () => {
   };
 
   const handleCloseModal = () => {
-    setAdoptionRequest(false);
+    dispatch(setAdoptionRequest(false));
     setShowModal(false);
   };
 
   const handleSendEmail = () => {
-    // sendEmail(user.email);
-    setAdoptionRequest(true);
+    if (!adoptionRequest) {
+      dispatch(setAdoptionRequest(true));
+    }
+    console.log("adoption request", adoptionRequest); // check the value of the adoptionRequest variable
     setShowModal(false);
   };
+  
 
   const navigate = useNavigate();
 

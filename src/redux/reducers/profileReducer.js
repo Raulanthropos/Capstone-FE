@@ -6,14 +6,18 @@ import {
     DELETE_USER,
     LOG_OUT_USER,
     ADOPTION_ADDED,
-    ADOPTION_ADD_ERROR
+    ADOPTION_ADD_ERROR,
+    SET_ADOPTION_REQUEST,
   } from "../actions/profileAction"
   
+// Define the initial state for the reducer
+
   const initialState = {
     isAuthenticated: false,
     accessToken: localStorage.getItem("accessToken"),
     currentUser: null,
     updatedUser: null,
+    adoptionRequest: false,
   }
   
   const profileReducer = (state = initialState, action) => {
@@ -48,6 +52,11 @@ import {
             ...state,
             currentUser: action.payload
           }
+          case SET_ADOPTION_REQUEST:
+      return {
+        ...state,
+        adoptionRequest: action.payload,
+      };
           case DELETE_USER:
             return {
               ...state,

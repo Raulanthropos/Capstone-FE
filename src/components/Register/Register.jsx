@@ -12,11 +12,11 @@ const Register = () => {
   const [password2, setPassword2] = useState("");
   const [age, setAge] = useState("");
   const [description, setDescription] = useState("");
-  const [picture, setPicture] = useState("");
+  // const [picture, setPicture] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
-  const [picturePreview, setPicturePreview] = useState(null);
+  // const [picturePreview, setPicturePreview] = useState(null);
 
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const Register = () => {
       newUser.append("password", password);
       newUser.append("age", age);
       newUser.append("description", description);
-      newUser.append("picture", picture);
+      // newUser.append("picture", picture);
       newUser.append("role", "user");
       const config = {
         headers: new Headers(),
@@ -63,8 +63,8 @@ const Register = () => {
       setPassword2("");
       setAge("");
       setDescription("");
-      setPicture("");
-      setPicturePreview(null);
+      // setPicture("");
+      // setPicturePreview(null);
       infoTimeoutFunc(3000);
     }
   };
@@ -91,7 +91,7 @@ const Register = () => {
       password2 &&
       age &&
       description &&
-      picture &&
+      // picture &&
       !loading &&
       !error &&
       !postSuccess
@@ -109,15 +109,15 @@ const Register = () => {
     }
   };
 
-  const handlePictureChange = (event) => {
-    const selectedPicture = event.target.files[0];
-    setPicture(selectedPicture);
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      setPicturePreview(event.target.result);
-    };
-    reader.readAsDataURL(selectedPicture);
-  };
+  // const handlePictureChange = (event) => {
+  //   const selectedPicture = event.target.files[0];
+  //   setPicture(selectedPicture);
+  //   const reader = new FileReader();
+  //   reader.onload = (event) => {
+  //     setPicturePreview(event.target.result);
+  //   };
+  //   reader.readAsDataURL(selectedPicture);
+  // };
 
   return (
     <Container>
@@ -206,7 +206,7 @@ const Register = () => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="formBasicPicture">
+            {/* <Form.Group controlId="formBasicPicture">
               <Form.Label>Picture</Form.Label>
               <Form.File
                 id="custom-file"
@@ -230,7 +230,7 @@ const Register = () => {
                 name="picture"
                 onChange={handlePictureChange}
               />
-            </Form.Group>
+            </Form.Group> */}
             <Button variant="primary" type="submit">
               Submit
             </Button>
