@@ -5,8 +5,6 @@ import {
     UPDATE_USER,
     DELETE_USER,
     LOG_OUT_USER,
-    ADOPTION_ADDED,
-    ADOPTION_ADD_ERROR,
     SET_ADOPTION_REQUEST,
   } from "../actions/profileAction"
   
@@ -41,16 +39,6 @@ import {
           return {
             ...state,
             updatedUser: action.payload
-          }
-          case ADOPTION_ADDED:
-          return {
-            ...state,
-            currentUser: action.payload
-          }
-          case ADOPTION_ADD_ERROR:
-          return {
-            ...state,
-            currentUser: action.payload
           }
           case SET_ADOPTION_REQUEST:
       return {

@@ -4,8 +4,6 @@ export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED"
 export const UPDATE_USER = "UPDATE_USER"
 export const DELETE_USER = "DELETE_USER"
-export const ADOPTION_ADDED= "ADOPTION_ADDED"
-export const ADOPTION_ADD_ERROR = "ADOPTION_ADD_ERROR"
 export const SET_ADOPTION_REQUEST = "SET_ADOPTION_REQUEST";
 
 const baseEndpoint = "https://capstone-be-production-6735.up.railway.app"
@@ -189,25 +187,3 @@ export const deleteUser = (accessToken, user) => {
     }
   }
 }
-
-export const addAdoption = (payload) => async (dispatch) => {
-  try {
-    const response = await fetch(baseEndpoint + '/adoption', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message);
-    }
-
-    const data = await response.json();
-    dispatch(ADOPTION_ADDED(data));
-  } catch (error) {
-    dispatch(ADOPTION_ADD_ERROR(error.message));
-  }
-};
