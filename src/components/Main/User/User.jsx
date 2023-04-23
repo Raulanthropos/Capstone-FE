@@ -10,6 +10,7 @@ import { logoutUser } from "../../../redux/actions/profileAction";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaArrowRight } from 'react-icons/fa';
+import "./User.css";
 
 
 const User = () => {
@@ -62,7 +63,7 @@ const User = () => {
               <Card.Title>
                 {updatedUser?._id === user?._id ? updatedUser?.name : user?.name} {updatedUser?._id === user?._id ? updatedUser?.surname : user?.surname}
               </Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
+              <Card.Subtitle className="mb-2 text-muted" style={{paddingRight: "20px"}}>
                 {updatedUser?._id === user?._id ? updatedUser?.email : user?.email}
               </Card.Subtitle>
               <Card.Text className="cardtext" style={{paddingRight: "20px"}}>{updatedUser?._id === user?._id ? updatedUser?.description : user?.description}</Card.Text>
@@ -79,10 +80,10 @@ const User = () => {
               >
                 Edit Profile
               </Button>
+              <Button variant="danger" onClick={handleLogout} className="logout-btn">Logout</Button>
+              <ToastContainer />
               <Button variant="danger" className="mr-2" onClick={() => setShowModal(true)}>Delete Profile</Button>
               <DeleteModal showModal={showModal} setShowModal={setShowModal} user={user} userId={user._id} />
-              <Button variant="danger" onClick={handleLogout}>Logout</Button>
-              <ToastContainer />
             </div>
             <Card.Img
               src={updatedUser?._id === user?._id ? updatedUser?.picture : user?.picture}

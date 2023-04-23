@@ -24,14 +24,19 @@
  }
 }
 @media screen and (max-width: 600px) {
+  .home-container {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    height: 50vh !important;
+  }
  .child-content {
   background-color: rgba(0,0,0,.5) !important;
- }
- #root > main > div.home-container > div > h1, #root > main > div.home-container > div > p:nth-child(2), #root > main > div.home-container > div > p:nth-child(3), #root > main > div.home-container > div > div > button:nth-child(1) > a , #root > main > div.home-container > div > div > button:nth-child(2) > a {
-  /* color: black !important; */
-  font-size: 18px !important;
- }
- #root > main > div.home-container > div {
+  font-size: 14px !important;
   margin-top: -275px !important;
+  height: 70% !important;
+  margin-block: auto !important;
+ }
+ .navbar  {
+  margin-bottom: 20px;
  }
 }

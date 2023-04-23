@@ -1,0 +1,9 @@
+@media screen and (max-width: 1024px) {
+    .button-stl {
+        width: 70% !important;
+        font-size: 0.75rem !important;
+    }
+    .logout-btn {
+        display: block !important;
+    }
+}

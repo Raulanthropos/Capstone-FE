@@ -1,11 +1,11 @@
 import React from "react";
-import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {useState} from "react";
-import { logoutUser, updateUser } from "../../redux/actions/profileAction";
+import { logoutUser } from "../../redux/actions/profileAction";
 
 const NavBar = () => {
   const user = useSelector((state) => state.loadedProfile.currentUser);
@@ -43,7 +43,7 @@ const NavBar = () => {
     />
   </Link>
 </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Link>
