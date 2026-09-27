@@ -1,0 +1,12 @@
+diff --git a/node_modules/bootstrap/dist/css/bootstrap.css b/node_modules/bootstrap/dist/css/bootstrap.css
+index fd90081..7f90381 100644
+--- a/node_modules/bootstrap/dist/css/bootstrap.css
++++ b/node_modules/bootstrap/dist/css/bootstrap.css
+@@ -3795,7 +3795,6 @@ input[type="button"].btn-block {
+   min-height: 1.5rem;
+   padding-left: 1.5rem;
+   -webkit-print-color-adjust: exact;
+-  color-adjust: exact;
+   print-color-adjust: exact;
+ }
+ 

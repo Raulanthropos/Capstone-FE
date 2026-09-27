@@ -94,6 +94,22 @@ token through `GET /users/me` before showing authenticated screens. Expired
 or unverified sessions are cleared. Logout clears the session in this browser;
 it does not revoke the one-hour JWT on the server.
 
+## Vercel build
+
+Use Node.js 24.x in Vercel, `npm run build` as the build command, and `build`
+as the output directory. Deploy the commit containing the current fixes.
+
+Bootstrap 4.6.2 still ships a deprecated `color-adjust` declaration in its
+compiled CSS. `patches/bootstrap+4.6.2.patch` removes that declaration while
+preserving `print-color-adjust` and its WebKit prefix. The `postinstall` hook
+applies this patch after `npm install` or `npm ci`; keep the patch committed.
+`App.js` imports the patched, unminified stylesheet; CRA minifies it for
+production. Review or remove the patch when replacing Bootstrap.
+
+Keep CI warning checks enabled. Reproduce the Vercel build in Git Bash with
+`CI=true npm run build`, or in PowerShell with `$env:CI = "true"` followed by
+`npm.cmd run build`.
+
 ## Checks
 
 ```sh
