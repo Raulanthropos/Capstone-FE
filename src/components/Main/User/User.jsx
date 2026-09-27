@@ -28,6 +28,8 @@ const User = () => {
             onClick={() => navigate("/main")}>
             Go to the main page <FaArrowRight />
           </Button>
+          {user.role === "admin" && <Button variant="success" className="mb-3"
+            onClick={() => navigate("/admin/adoptions")}>Review adoption requests</Button>}
           <Button variant="primary" className="mr-2" disabled title="Profile editing is temporarily unavailable.">
             Edit Profile
           </Button>

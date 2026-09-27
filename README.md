@@ -48,7 +48,7 @@ backend migration for `adoption_requests` before using this flow.
 On the main page, choose a dog and confirm the named dog in the adoption
 modal. The submit button is disabled while the request is in progress.
 Only a confirmed server response changes that dog's card to **Pending review**.
-The dog remains available while the request awaits a future review process.
+The dog remains available while the request awaits an administrator's decision.
 
 Request status is read from MySQL when opening/reloading the main page and
 is tracked by dog ID, including after sorting or filtering. All pages of the
@@ -65,8 +65,28 @@ an explanation. Navigating away aborts unfinished client requests; returning
 to the main page reads the server again because an aborted submission may
 already have been saved.
 
-The current flow records requests only. Email notifications, request review
-controls and a separate request-history screen are not implemented yet.
+## Administrator review
+
+Log in with a provisioned admin account using the normal login form. Public
+registration creates regular users only. From the profile or main page,
+choose **Review adoption requests**, or open `/admin/adoptions`.
+
+The page shows pending requests by default, with applicant profile details,
+dog details, status filters, and pages of 20 requests. **Approve request**
+and **Decline request** open a confirmation dialog describing the effect.
+Approval marks the dog adopted, removes it from the available-dog list, and
+declines competing pending requests for the same dog. Declining affects only
+the selected application. Review metadata is stored by the backend.
+
+Saving disables repeated clicks. Failures remain visible and allow retry.
+A conflicting decision refreshes the list; reviewed requests cannot be
+overwritten. Both the page and the API require admin access. Expired tokens
+return to login; a revoked admin role produces a permission error.
+
+Apply the backend migration that adds `reviewed_by` and `reviewed_at` before
+using review. Admin credentials are local data and are not stored in source.
+Email notifications and a separate request-history screen for regular users
+are not implemented yet.
 
 Sessions are stored under a new Redux Persist key scoped to the API URL.
 Old Railway session data is not reused. On reload, the app verifies its saved
@@ -86,7 +106,9 @@ lookup failures, saved sessions, and unavailable services using mocked HTTP
 responses. Adoption UI tests also cover confirmation/cancellation, pending
 submission, retries, duplicate/unavailable-dog conflicts, expired sessions,
 request pagination, remounts, sorting/filtering, and late responses after
-navigation. Backend integration tests exercise the actual MySQL endpoints in
+navigation. Admin UI tests cover access, profile navigation, applicant details,
+confirmation, approve/decline, retries, conflicts, pagination and session expiry.
+Backend integration tests exercise the actual MySQL endpoints in
 Capstone-BE. To test the full local flow manually, leave both servers running
 and register through the browser; that account will be saved in MySQL.
 For adoption, log in, open `/main`, choose one demo dog and submit a request.

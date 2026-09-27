@@ -9,6 +9,7 @@ import Home from "./components/Home/Home";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
 import Main from "./components/Main/MainLoggedInComp/MainLoggedInComp";
+import AdminAdoptions from "./components/Main/AdminAdoptions/AdminAdoptions";
 import User from "./components/Main/User/User";
 import Stories from "./components/Stories/Stories";
 import "./App.css";
@@ -39,6 +40,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/users/me" element={<User />} />
           <Route path="/main/" element={<Main />} />
+          <Route path="/admin/adoptions" element={<AdminAdoptions />} />
           <Route path="/main/*" element={<h1>404 Not Found</h1>} />
           <Route path="/stories" element={<Stories />} />
         </Routes>

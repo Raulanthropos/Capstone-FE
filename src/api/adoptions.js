@@ -34,3 +34,26 @@ export async function createAdoptionRequest(dogId, accessToken, signal) {
   }
   return request;
 }
+
+export async function getAdoptionReviewPage(accessToken, { status, offset }, signal) {
+  const result = await apiRequest("/adoptions?status=" + encodeURIComponent(status) + "&limit=20&offset=" + offset, {
+    headers: { Authorization: "Bearer " + accessToken }, signal,
+  });
+  if (!result || !Array.isArray(result.items) || !Number.isInteger(result.total) || result.total < 0 ||
+      !result.items.every((item) => item?._id && item.user?._id && item.dog?._id)) {
+    throw new Error("Adoption requests could not be loaded. Please try again.");
+  }
+  return result;
+}
+
+export async function reviewAdoptionRequest(requestId, status, accessToken, signal) {
+  const result = await apiRequest("/adoptions/" + encodeURIComponent(requestId), {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + accessToken },
+    body: JSON.stringify({ status }), signal,
+  });
+  if (result?._id !== requestId || result.status !== status) {
+    throw new Error("The server did not confirm your decision. Refresh the list before trying again.");
+  }
+  return result;
+}

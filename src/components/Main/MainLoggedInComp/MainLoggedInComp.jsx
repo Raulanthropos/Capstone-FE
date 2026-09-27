@@ -1,5 +1,6 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Sorting from "../Sorting/Sorting";
 import "./MainLoggedInComp.css";
 
@@ -14,6 +15,7 @@ const Main = () => {
         <Col>
           {!currentUser && <h1 style={{ marginTop: "100px", textAlign: "center" }}>Please login, to get access to this page!</h1>}
           {currentUser?.role === "admin" && <>
+            <Button as={Link} to="/admin/adoptions" variant="success" className="mr-2">Review adoption requests</Button>
             <Button variant="primary" disabled>Add dog</Button>
             <Button variant="secondary" disabled>Edit dog</Button>
           </>}
