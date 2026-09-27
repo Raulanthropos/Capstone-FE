@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, Spinner } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser } from '../../../redux/actions/profileAction';
 
@@ -12,20 +12,16 @@ const EditProfileModal = ({ show, handleClose }) => {
   const [email, setEmail] = useState(updatedUser ? updatedUser.email : user?.email);
   const [description, setDescription] = useState(updatedUser ? updatedUser.description : user?.description);
   const [picture, setPicture] = useState(updatedUser ? updatedUser.picture : user?.picture);
-  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
-    setIsLoading(true);
     dispatch(updateUser({ _id: user._id, name, surname, email, description, picture }))
       .then(() => {
-        setIsLoading(false);
         handleClose();
       })
       .catch(error => {
-        setIsLoading(false);
         console.log(error);
       });
   };
