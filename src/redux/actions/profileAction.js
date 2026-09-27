@@ -1,189 +1,75 @@
-export const SET_USER_INFO = "SET_USER_INFO"
-export const LOG_OUT_USER = "LOG_OUT_USER"
-export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
-export const SET_AUTHENTICATED = "SET_AUTHENTICATED"
-export const UPDATE_USER = "UPDATE_USER"
-export const DELETE_USER = "DELETE_USER"
+import { apiRequest } from "../../api/client";
+
+export const SET_USER_INFO = "SET_USER_INFO";
+export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
+export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
+export const UPDATE_USER = "UPDATE_USER";
+export const DELETE_USER = "DELETE_USER";
+export const LOG_OUT_USER = "LOG_OUT_USER";
 export const SET_ADOPTION_REQUEST = "SET_ADOPTION_REQUEST";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 
-const baseEndpoint = "https://capstone-be-production-6735.up.railway.app"
+export const setAdoptionRequest = (value) => ({ type: SET_ADOPTION_REQUEST, payload: value });
+export const setAccessToken = (value) => ({ type: SET_ACCESS_TOKEN, payload: value });
 
-export const setAdoptionRequest = (value) => ({
-  type: SET_ADOPTION_REQUEST,
-  payload: value,
-});
+// JWTs currently have no server-side session to revoke. Clear this browser's
+// session without calling the legacy MongoDB logout endpoint.
+export const logoutUser = () => ({ type: LOG_OUT_USER });
 
-
-export const setAccessToken = (accessToken) => ({
-  type: SET_ACCESS_TOKEN,
-  payload: accessToken
-})
-
-export const getAccessToken = (loggingInUser) => {
-  console.log(baseEndpoint)
-  return async (dispatch) => {
-    const options = {
-      method: "POST",
-      body: JSON.stringify(loggingInUser),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-    console.log("options", options)
-    try {
-      console.log("---------inside the getAccessToken action----------")
-      const response = await fetch(baseEndpoint + "/users/login", options)
-      if (response.ok) {
-        const tokens = await response.json()
-        const accessToken = await tokens.accessToken
-
-        if (accessToken) {
-          console.log("---------access token created----------")
-          dispatch({
-            type: SET_ACCESS_TOKEN,
-            payload: accessToken
-          })
-          localStorage.setItem("accessToken", accessToken)
-          dispatch({
-            type: SET_AUTHENTICATED,
-            payload: true
-          })
-          try {
-            const opts = {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + accessToken
-              }
-            }
-            const userResponse = await fetch(baseEndpoint + "/users/me", opts)
-            if (userResponse.ok) {
-              const user = await userResponse.json()
-
-              dispatch({
-                type: SET_USER_INFO,
-                payload: user
-              })
-            } else {
-              console.log("error getting the user")
-            }
-          } catch (error) {
-            console.log("error in trycatch", error)
-          }
-        } else {
-          console.log("access token not created")
-        }
-      } else {
-        const errorResponse = await response.json()
-        console.log("error logging in user", errorResponse.message)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+async function readProfile(accessToken) {
+  const user = await apiRequest("/users/me", {
+    headers: { Authorization: "Bearer " + accessToken },
+  });
+  if (!user?._id) throw new Error("Your profile could not be loaded. Please log in again.");
+  return user;
 }
 
-export const logoutUser = (accessToken) => {
+export const getAccessToken = (credentials) => async (dispatch) => {
+  dispatch(logoutUser());
+  const result = await apiRequest("/users/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
+  if (!result?.accessToken) throw new Error("Login could not be completed. Please try again.");
+  const user = await readProfile(result.accessToken);
+  // Publish one complete session only after both requests succeed.
+  dispatch({ type: LOGIN_SUCCESS, payload: { user, accessToken: result.accessToken } });
+};
 
-  return async (dispatch) => {
-    try {
-      const options = {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
-        }
-      }
-      const response = await fetch(baseEndpoint + "/users/session", options)
-      console.log("response within logout", response)
-      if (response.ok) {
-        console.log("response is ok", response)
-        dispatch({
-          type: SET_USER_INFO,
-          payload: null
-        })
-        dispatch({
-          type: SET_AUTHENTICATED,
-          payload: false
-        })
-        dispatch({
-          type: SET_ACCESS_TOKEN,
-          payload: null
-        })
-        localStorage.removeItem("accessToken")
-        console.log("logged out successfully")
-      } else {
-        console.log("error logging out")
-      }
-    } catch (error) {
-      console.log(error)
-    }
+export const restoreSession = () => async (dispatch, getState) => {
+  const accessToken = getState().loadedProfile.accessToken;
+  if (!accessToken) {
+    dispatch(logoutUser());
+    return;
   }
-}
-
-export  const updateUser = (user) => {
-  return async (dispatch) => {
-    const opts = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        },
-        body: JSON.stringify({
-          name: user.name,
-          surname: user.surname,
-          email: user.email,
-          description: user.description,
-          picture: user.picture,
-        })
-      }
   try {
-    const response = await fetch(baseEndpoint + `/users/${user._id}`, opts);
-
-    if (response.ok) {
-      const updatedUser = await response.json();
-      console.log('updatedUser', updatedUser);
-      dispatch({
-        type: UPDATE_USER,
-        payload: updatedUser
-      });
-    } else {
-      console.log('Error updating user');
-    }
-  } catch (error) {
-    console.log(error);
+    const user = await readProfile(accessToken);
+    dispatch({ type: LOGIN_SUCCESS, payload: { user, accessToken } });
+  } catch {
+    dispatch(logoutUser());
   }
 };
-}
 
-export const deleteUser = (accessToken, user) => {
-  return async (dispatch) => {
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`
-      }
-    }
-    try {
-      console.log("---------inside delete action----------")
-      const response = await fetch(baseEndpoint + `/users/${user._id}`, options)
-      if (response.ok) {
-        const deletedUser = await response.json()
-        console.log("The user was deleted", deletedUser)
-        dispatch({
-          type: SET_AUTHENTICATED,
-          payload: false
-        })
-        dispatch({
-          type: DELETE_USER,
-          payload: null
-        })
-      } else {
-        console.log("error deleting user")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
+// These endpoints are still awaiting backend migration.
+export const updateUser = (user) => async (dispatch, getState) => {
+  const updatedUser = await apiRequest("/users/" + user._id, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getState().loadedProfile.accessToken,
+    },
+    body: JSON.stringify({
+      name: user.name, surname: user.surname, email: user.email,
+      description: user.description, picture: user.picture,
+    }),
+  });
+  dispatch({ type: UPDATE_USER, payload: updatedUser });
+};
+
+export const deleteUser = (accessToken, userId) => async (dispatch) => {
+  await apiRequest("/users/" + userId, {
+    method: "DELETE", headers: { Authorization: "Bearer " + accessToken },
+  });
+  dispatch(logoutUser());
+};

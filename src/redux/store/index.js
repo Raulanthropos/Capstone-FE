@@ -1,29 +1,20 @@
-import { persistStore, persistReducer } from 'redux-persist';
-import localStorage from 'redux-persist/lib/storage';
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import profileReducer from '../reducers/profileReducer';
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import profileReducer from "../reducers/profileReducer";
+import { API_BASE_URL } from "../../api/client";
 
-const bigReducer = combineReducers({
-  loadedProfile: profileReducer,
-})
-
-
+const reducer = combineReducers({ loadedProfile: profileReducer });
 const persistConfig = {
-  key: 'root',
-  storage: localStorage,
-  whitelist: ["loadedProfile", "accessToken", "adoptionRequest"]
+  // Separate local MySQL sessions from old Railway data and other API origins.
+  key: "woof-paws-mysql-v1:" + API_BASE_URL,
+  storage,
+  whitelist: ["loadedProfile"],
 };
 
-const persistedReducer = persistReducer(persistConfig, bigReducer);
-
 export const store = configureStore({
-  reducer: persistedReducer,
-
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false
-    })
-})
-
+  reducer: persistReducer(persistConfig, reducer),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
+});
 
 export const persistor = persistStore(store);

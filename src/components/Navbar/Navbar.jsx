@@ -46,27 +46,11 @@ const NavBar = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav"/>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          <Nav.Link>
-            <Link to="/" style={{ color: "#333333" }}>
-              Home
-            </Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link to={`/main`} style={{ color: "#333333" }}>
-              Main
-            </Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link to={`/stories`} style={{ color: "#333333" }}>
-              Stories
-            </Link>
-          </Nav.Link>
+          <Nav.Link as={Link} to="/" style={{ color: "#333333" }}>Home</Nav.Link>
+          <Nav.Link as={Link} to="/main" style={{ color: "#333333" }}>Main</Nav.Link>
+          <Nav.Link as={Link} to="/stories" style={{ color: "#333333" }}>Stories</Nav.Link>
           {!user ? (
-            <Nav.Link>
-              <Link to="/register" style={{ color: "#333333" }}>
-                Register
-              </Link>
-            </Nav.Link>
+            <Nav.Link as={Link} to="/register" style={{ color: "#333333" }}>Register</Nav.Link>
           ) : (
             ""
           )}
@@ -76,7 +60,7 @@ const NavBar = () => {
               title={
                 user && (
                   <img
-                    src={updatedUser?._id === user?._id ? updatedUser?.picture : user?.picture}
+                    src={(updatedUser?._id === user?._id ? updatedUser?.picture : user?.picture) || "/images/ai-generated-user.jpeg"}
                     alt="user_pic"
                     style={{
                       width: "30px",

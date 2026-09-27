@@ -1,59 +1,39 @@
 import {
-    SET_USER_INFO,
-    SET_ACCESS_TOKEN,
-    SET_AUTHENTICATED,
-    UPDATE_USER,
-    DELETE_USER,
-    LOG_OUT_USER,
-    SET_ADOPTION_REQUEST,
-  } from "../actions/profileAction"
-  
-// Define the initial state for the reducer
+  SET_USER_INFO, SET_ACCESS_TOKEN, SET_AUTHENTICATED, UPDATE_USER,
+  DELETE_USER, LOG_OUT_USER, SET_ADOPTION_REQUEST, LOGIN_SUCCESS,
+} from "../actions/profileAction";
 
-  const initialState = {
-    isAuthenticated: false,
-    accessToken: localStorage.getItem("accessToken"),
-    currentUser: null,
-    updatedUser: null,
-    adoptionRequest: false,
-  }
-  
-  const profileReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case SET_ACCESS_TOKEN: // add a new case to handle setting the accessToken
-        return {
-          ...state,
-          accessToken: action.payload
-        }
-      case SET_USER_INFO:
-        return {
-          ...state,
-          currentUser: action.payload
-        }
-        case SET_AUTHENTICATED:
-          return {
-            ...state,
-            isAuthenticated: action.payload
-          }
-        case UPDATE_USER:
-          return {
-            ...state,
-            updatedUser: action.payload
-          }
-          case SET_ADOPTION_REQUEST:
+const initialState = {
+  isAuthenticated: false,
+  accessToken: null,
+  currentUser: null,
+  updatedUser: null,
+  adoptionRequest: false,
+};
+
+export default function profileReducer(state = initialState, action) {
+  switch (action.type) {
+    case LOGIN_SUCCESS:
       return {
-        ...state,
-        adoptionRequest: action.payload,
+        ...initialState,
+        isAuthenticated: true,
+        accessToken: action.payload.accessToken,
+        currentUser: action.payload.user,
       };
-          case DELETE_USER:
-            return {
-              ...state,
-              currentUser: action.payload
-            }
-      default:
-        return state
-    }
+    case LOG_OUT_USER:
+    case DELETE_USER:
+      return { ...initialState };
+    case SET_USER_INFO:
+      return { ...state, currentUser: action.payload };
+    case SET_ACCESS_TOKEN:
+      return { ...state, accessToken: action.payload };
+    case SET_AUTHENTICATED:
+      return { ...state, isAuthenticated: action.payload };
+    case UPDATE_USER:
+      return { ...state, currentUser: action.payload, updatedUser: action.payload };
+    case SET_ADOPTION_REQUEST:
+      return { ...state, adoptionRequest: action.payload };
+    default:
+      return state;
   }
-  
-  export default profileReducer
-  
+}

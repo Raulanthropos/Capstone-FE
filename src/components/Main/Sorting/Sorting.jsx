@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Button, Form, Spinner, Modal } from "react-bootstrap";
+import { Alert, Button, Form, Spinner } from "react-bootstrap";
+import { apiRequest } from "../../../api/client";
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -12,7 +13,7 @@ import { setAdoptionRequest } from "../../../redux/actions/profileAction";
 
 const Sorting = () => {
   const [dogs, setDogs] = useState([]);
-  const [dog, setDog] = useState("");
+  const [error, setError] = useState("");
   const [selectedDog, setSelectedDog] = useState("");
   const [sort, setSort] = useState("name");
   const [loading, setLoading] = useState(true);
@@ -45,18 +46,26 @@ const Sorting = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
+    let active = true;
     const getDogs = async () => {
-      const response = await fetch(
-        `https://capstone-be-production-6735.up.railway.app/dogs?sort=${sort}`
-      );
-      const dogs = await response.json();
-      const filteredDogs = neuteredOnly
-        ? dogs.filter((dog) => dog.isNeutered)
-        : dogs;
-      setDogs(filteredDogs);
-      setLoading(false);
+      setLoading(true);
+      setError("");
+      try {
+        const result = await apiRequest("/dogs?sort=" + encodeURIComponent(sort), { signal: controller.signal });
+        if (!Array.isArray(result)) throw new Error("Dogs could not be loaded. Please try again.");
+        if (active) setDogs(neuteredOnly ? result.filter((dog) => dog.isNeutered) : result);
+      } catch (error) {
+        if (active) {
+          setDogs([]);
+          setError(error.status === 503 ? "Dogs are temporarily unavailable. Please try again later." : error.message);
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
     };
     getDogs();
+    return () => { active = false; controller.abort(); };
   }, [sort, neuteredOnly]);
 
   return (
@@ -93,6 +102,7 @@ const Sorting = () => {
           Back
         </Button>
       </Form>
+      {error && <Alert variant="warning">{error}</Alert>}
       <div className="sortingContainer">
         {loading && <Spinner animation="border" variant="primary" />}
         {dogs.map((dog) => (
