@@ -6,10 +6,8 @@ export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
 export const LOG_OUT_USER = "LOG_OUT_USER";
-export const SET_ADOPTION_REQUEST = "SET_ADOPTION_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 
-export const setAdoptionRequest = (value) => ({ type: SET_ADOPTION_REQUEST, payload: value });
 export const setAccessToken = (value) => ({ type: SET_ACCESS_TOKEN, payload: value });
 
 // JWTs currently have no server-side session to revoke. Clear this browser's

@@ -1,25 +1,24 @@
-import React from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Alert, Modal, Button, Spinner } from "react-bootstrap";
 
-const ModalComponent = ({ show, handleCloseModal, handleSendEmail }) => {
-  return (
-    <Modal show={show} onHide={handleCloseModal} backdrop={false}>
-      <Modal.Header>
-        <Modal.Title>Adoption Request</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>Are you sure you want to adopt this dog?</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={handleCloseModal}>
-          Cancel
-        </Button>
-        <Button variant="success" onClick={handleSendEmail}>
-          Yes, I want to adopt!
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-};
+const AdoptionModal = ({ dog, onClose, onSubmit, submitting, canSubmit, error }) => (
+  <Modal show onHide={onClose} backdrop={submitting ? "static" : true}
+    keyboard={!submitting} aria-labelledby="adoption-modal-title">
+    <Modal.Header>
+      <Modal.Title id="adoption-modal-title">Adoption request for {dog.name}</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p>Would you like to submit an adoption request for {dog.name}?</p>
+      <p>Your request will be pending review. Submitting it does not confirm an adoption.</p>
+      {error && <Alert variant="danger">{error}</Alert>}
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={onClose} disabled={submitting}>Cancel</Button>
+      <Button variant="success" onClick={onSubmit} disabled={submitting || !canSubmit}>
+        {submitting && <Spinner as="span" animation="border" size="sm" aria-hidden="true" className="mr-2" />}
+        {submitting ? "Submitting..." : "Submit adoption request"}
+      </Button>
+    </Modal.Footer>
+  </Modal>
+);
 
-export default ModalComponent;
+export default AdoptionModal;

@@ -1,6 +1,6 @@
 import {
   SET_USER_INFO, SET_ACCESS_TOKEN, SET_AUTHENTICATED, UPDATE_USER,
-  DELETE_USER, LOG_OUT_USER, SET_ADOPTION_REQUEST, LOGIN_SUCCESS,
+  DELETE_USER, LOG_OUT_USER, LOGIN_SUCCESS,
 } from "../actions/profileAction";
 
 const initialState = {
@@ -8,7 +8,6 @@ const initialState = {
   accessToken: null,
   currentUser: null,
   updatedUser: null,
-  adoptionRequest: false,
 };
 
 export default function profileReducer(state = initialState, action) {
@@ -31,8 +30,6 @@ export default function profileReducer(state = initialState, action) {
       return { ...state, isAuthenticated: action.payload };
     case UPDATE_USER:
       return { ...state, currentUser: action.payload, updatedUser: action.payload };
-    case SET_ADOPTION_REQUEST:
-      return { ...state, adoptionRequest: action.payload };
     default:
       return state;
   }

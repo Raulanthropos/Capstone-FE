@@ -1,49 +1,56 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import { Alert, Button, Form, Spinner } from "react-bootstrap";
+import { Alert, Button, Card, Form, Spinner } from "react-bootstrap";
 import { apiRequest } from "../../../api/client";
-import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AdoptionModal from "../AdoptionModal/AdoptionModal";
+import useAdoptionRequests from "../AdoptionModal/useAdoptionRequests";
 import "./Sorting.css";
-import { useDispatch } from "react-redux";
-import { setAdoptionRequest } from "../../../redux/actions/profileAction";
-// import { sendEmail } from "../Mail/Mail";
+
+const requestLabels = {
+  pending: "Pending review",
+  approved: "Request approved",
+  rejected: "Request declined",
+};
 
 const Sorting = () => {
   const [dogs, setDogs] = useState([]);
   const [error, setError] = useState("");
-  const [selectedDog, setSelectedDog] = useState("");
+  const [selectedDog, setSelectedDog] = useState(null);
+  const [submissionError, setSubmissionError] = useState("");
   const [sort, setSort] = useState("name");
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const adoptionRequest = useSelector((state) =>state.loadedProfile.adoptionRequest);
-  const user = useSelector((state) => state.loadedProfile.currentUser);
-  const dispatch = useDispatch();
-
   const [neuteredOnly, setNeuteredOnly] = useState(false);
+  const [dogReload, setDogReload] = useState(0);
+  const user = useSelector((state) => state.loadedProfile.currentUser);
+  const adoptions = useAdoptionRequests();
+  const navigate = useNavigate();
 
   const handleShowModal = (dog) => {
     setSelectedDog(dog);
-    setShowModal(true);
+    setSubmissionError("");
   };
 
   const handleCloseModal = () => {
-    dispatch(setAdoptionRequest(false));
-    setShowModal(false);
-  };
-
-  const handleSendEmail = () => {
-    if (!adoptionRequest) {
-      dispatch(setAdoptionRequest(true));
+    if (!adoptions.submitting) {
+      setSelectedDog(null);
+      setSubmissionError("");
     }
-    console.log("adoption request", adoptionRequest); // check the value of the adoptionRequest variable
-    setShowModal(false);
   };
-  
 
-  const navigate = useNavigate();
+  const handleSubmit = async () => {
+    if (!selectedDog) return;
+    setSubmissionError("");
+    try {
+      const request = await adoptions.submit(selectedDog._id);
+      if (request) setSelectedDog(null);
+    } catch (error) {
+      setSubmissionError(error.message);
+      if (error.status === 404 || error.status === 409) {
+        setDogReload((previous) => previous + 1);
+      }
+    }
+  };
 
   useEffect(() => {
     const controller = new AbortController();
@@ -66,153 +73,83 @@ const Sorting = () => {
     };
     getDogs();
     return () => { active = false; controller.abort(); };
-  }, [sort, neuteredOnly]);
+  }, [sort, neuteredOnly, dogReload]);
 
   return (
     <>
       <Form>
         <Form.Group controlId="sortSelect">
           <Form.Label>Sort by:</Form.Label>
-          <Form.Control as="select" onChange={(e) => setSort(e.target.value)}>
+          <Form.Control as="select" value={sort} onChange={(event) => setSort(event.target.value)}>
             <option value="name">Name</option>
             <option value="breed">Breed</option>
             <option value="age">Age</option>
             <option value="weight">Weight</option>
           </Form.Control>
-          <Form.Check
-            type="checkbox"
-            label="Neutered only"
-            checked={neuteredOnly}
-            style={{ marginTop: "20px" }}
-            onChange={() => setNeuteredOnly(!neuteredOnly)}
-          />
+          <Form.Check id="neuteredOnly" type="checkbox" label="Neutered only" checked={neuteredOnly}
+            style={{ marginTop: "20px" }} onChange={() => setNeuteredOnly(!neuteredOnly)} />
         </Form.Group>
-        {/* <Form.Group controlId="sortPreference">
-                    <Form.Label>Order:</Form.Label>
-                    <Form.Control as="select" onChange={(e) => setSort(e.target.value)}>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
-                    </Form.Control>
-                </Form.Group> */}
-        <Button
-          className="button-stl"
-          style={{ marginBottom: "16px" }}
-          onClick={() => navigate("/users/me")}
-        >
-          Back
-        </Button>
+        <Button className="button-stl" style={{ marginBottom: "16px" }}
+          onClick={() => navigate("/users/me")}>Back</Button>
       </Form>
       {error && <Alert variant="warning">{error}</Alert>}
+      {adoptions.loading && <p role="status">Loading your adoption requests...</p>}
+      {adoptions.error && <Alert variant="warning">
+        <p>We could not check your adoption requests. {adoptions.error}</p>
+        <Button variant="outline-dark" onClick={adoptions.refresh}>Retry loading requests</Button>
+      </Alert>}
       <div className="sortingContainer">
-        {loading && <Spinner animation="border" variant="primary" />}
+        {loading && <div role="status"><Spinner animation="border" variant="primary" /> Loading dogs...</div>}
+        {!loading && !error && dogs.length === 0 && <p>No dogs are currently available.</p>}
         {dogs.map((dog) => (
-          <Card key={dog._id} className="sortingOptions">
-            <Card.Body
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                textAlign: "justify",
-              }}
-            >
+          <Card key={dog._id} as="article" aria-label={dog.name} className="sortingOptions">
+            <Card.Body style={{ display: "flex", justifyContent: "space-between", textAlign: "justify" }}>
               <div>
-                <Card.Title
-                  className={`cardtext${sort === "name" ? " sorted" : ""}`}
-                >
+                <Card.Title className={"cardtext" + (sort === "name" ? " sorted" : "")}>
                   Name: {dog.name}
                 </Card.Title>
-                <Card.Subtitle
-                  className={`cardtext${sort === "breed" ? " sorted" : ""}`}
-                >
+                <Card.Subtitle className={"cardtext" + (sort === "breed" ? " sorted" : "")}>
                   Breed: {dog.breed}
                 </Card.Subtitle>
-                <Card.Text
-                  className={`cardtext${sort === "age" ? " sorted" : ""}`}
-                  style={{ marginTop: "16px" }}
-                >
+                <Card.Text className={"cardtext" + (sort === "age" ? " sorted" : "")} style={{ marginTop: "16px" }}>
                   Age: {dog.age} years old
                 </Card.Text>
-                <Card.Text
-                  className={`cardtext${sort === "weight" ? " sorted" : ""}`}
-                >
+                <Card.Text className={"cardtext" + (sort === "weight" ? " sorted" : "")}>
                   Weight: {dog.weight} kgs
                 </Card.Text>
-                <Card.Text
-                  className="cardtext"
-                  style={{ paddingRight: "20px" }}
-                >
+                <Card.Text className="cardtext" style={{ paddingRight: "20px" }}>
                   Description: {dog.description}
                 </Card.Text>
                 <Card.Text className="cardtext">
-                  Gender:{" "}
-                  <span
-                    className={`gender ${
-                      dog.gender === "male" ? "male" : "female"
-                    }`}
-                    style={{ textShadow: "0px 0px 2px #000000" }}
-                  >
+                  Gender: <span className={"gender " + dog.gender} style={{ textShadow: "0px 0px 2px #000000" }}>
                     {dog.gender === "male" ? <>&#9794;</> : <>&#9792;</>}
                   </span>
                 </Card.Text>
                 <Card.Text className="cardtext" style={{ fontWeight: "100" }}>
-                  {dog.isNeutered
-                    ? "✔ This dog is neutered!"
-                    : "✖ This dog has not been neutered."}
+                  {dog.isNeutered ? "This dog is neutered." : "This dog has not been neutered."}
                 </Card.Text>
-                {user?.role === "user" &&
-                  (selectedDog === dog ? (
-                    adoptionRequest ? (
-                      <Card.Text
-                        className="cardtext"
-                        style={{ color: "green" }}
-                      >
-                        &#10003; You have submitted an adoption request for this
-                        dog! Woof Paws will contact you shortly. Thank you.
-                      </Card.Text>
-                    ) : (
-                      <>
-                      <Button
-                        className="mr-2 button-stl"
-                        onClick={() => handleShowModal(dog)}
-                      >
-                        I want to adopt h{dog.gender === "male" ? "im" : "er"}!
-                      </Button>
-                      <AdoptionModal
-                        show={showModal}
-                        handleCloseModal={handleCloseModal}
-                        handleSendEmail={handleSendEmail}
-                      />
-                    </>
-                    )
-                  ) : (
-                    <>
-                      <Button
-                        className="mr-2 button-stl"
-                        onClick={() => handleShowModal(dog)}
-                      >
-                        I want to adopt h{dog.gender === "male" ? "im" : "er"}!
-                      </Button>
-                      <AdoptionModal
-                        show={showModal}
-                        handleCloseModal={handleCloseModal}
-                        handleSendEmail={handleSendEmail}
-                      />
-                    </>
-                  ))}
+                {user?.role === "user" && (adoptions.requestsByDog[dog._id] ? (
+                  <Card.Text className="cardtext" role="status">
+                    {requestLabels[adoptions.requestsByDog[dog._id].status] || "Request submitted"}
+                  </Card.Text>
+                ) : (
+                  <Button className="mr-2 button-stl" onClick={() => handleShowModal(dog)}
+                    disabled={adoptions.loading || Boolean(adoptions.error) || adoptions.submitting || loading}>
+                    I want to adopt h{dog.gender === "male" ? "im" : "er"}!
+                  </Button>
+                ))}
               </div>
-              <Card.Img
-                src={dog.images[0]?.url ? dog.images[0].url : ""}
-                style={{
-                  width: "250px",
-                  height: "250px",
-                  borderRadius: "1rem",
-                  objectFit: "cover",
-                }}
-                className="dogimages"
-              />
+              <Card.Img src={dog.images[0]?.url || undefined} alt={dog.name}
+                style={{ width: "250px", height: "250px", borderRadius: "1rem", objectFit: "cover" }}
+                className="dogimages" />
             </Card.Body>
           </Card>
         ))}
       </div>
+      {selectedDog && <AdoptionModal dog={selectedDog} onClose={handleCloseModal} onSubmit={handleSubmit}
+        submitting={adoptions.submitting} error={submissionError}
+        canSubmit={!loading && !adoptions.loading && !adoptions.error &&
+          !adoptions.requestsByDog[selectedDog._id] && dogs.some((dog) => dog._id === selectedDog._id)} />}
     </>
   );
 };

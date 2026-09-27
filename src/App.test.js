@@ -84,7 +84,7 @@ test("register, login, profile and local logout work through the configured API"
   fireEvent.click(screen.getByRole("button", { name: "Logout" }));
   await screen.findByRole("heading", { name: "Login" });
   expect(store.getState().loadedProfile).toMatchObject({
-    isAuthenticated: false, accessToken: null, currentUser: null, adoptionRequest: false,
+    isAuthenticated: false, accessToken: null, currentUser: null,
   });
   expect(global.fetch).toHaveBeenCalledTimes(3);
 });
@@ -171,10 +171,13 @@ test("an expired stored token is cleared and the protected profile returns to lo
 });
 
 test("dog service unavailability displays a message instead of breaking the page", async () => {
-  global.fetch.mockResolvedValueOnce(response(200, user))
-    .mockResolvedValueOnce(response(503, { message: "This feature is temporarily unavailable." }));
+  global.fetch.mockImplementation(async (url) => {
+    if (url === API_BASE_URL + "/users/me") return response(200, user);
+    if (url.startsWith(API_BASE_URL + "/adoptions/me?")) return response(200, []);
+    return response(503, { message: "This feature is temporarily unavailable." });
+  });
   renderPage("/main", { accessToken: token, isAuthenticated: true, currentUser: user });
   expect(await screen.findByRole("alert")).toHaveTextContent("Dogs are temporarily unavailable.");
-  expect(global.fetch.mock.calls[1][0]).toBe(API_BASE_URL + "/dogs?sort=name");
+  expect(global.fetch).toHaveBeenCalledWith(API_BASE_URL + "/dogs?sort=name", expect.objectContaining({ signal: expect.any(AbortSignal) }));
   expect(screen.getByText("Welcome, Ada!")).toBeInTheDocument();
 });

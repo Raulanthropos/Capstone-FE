@@ -6,6 +6,7 @@ import "./MainLoggedInComp.css";
 const Main = () => {
   const currentUser = useSelector((state) => state.loadedProfile.currentUser);
   const isAuthenticated = useSelector((state) => state.loadedProfile.isAuthenticated);
+  const accessToken = useSelector((state) => state.loadedProfile.accessToken);
 
   return (
     <Container className="backgroundCont">
@@ -19,7 +20,7 @@ const Main = () => {
         </Col>
         {isAuthenticated && <>
           <h2 style={{ marginTop: "10px" }}>Welcome, {currentUser?.name}!</h2>
-          <Col xs="auto"><Sorting /></Col>
+          <Col xs="auto"><Sorting key={accessToken} /></Col>
         </>}
       </Row>
     </Container>

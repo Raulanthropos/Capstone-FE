@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getAccessToken } from "../../redux/actions/profileAction";
 
@@ -12,6 +12,7 @@ const Login = () => {
   const isAuthenticated = useSelector((state) => state.loadedProfile.isAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (isAuthenticated) navigate("/users/me", { replace: true });
@@ -36,6 +37,7 @@ const Login = () => {
       <Row className="justify-content-md-center">
         <Col xs lg="6" style={{ marginTop: "100px" }}>
           <h1>Login</h1>
+          {location.state?.message && <Alert variant="warning">{location.state.message}</Alert>}
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="loginEmail">
