@@ -1,32 +1,18 @@
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Sorting from "../Sorting/Sorting";
-import "./MainLoggedInComp.css";
 
-const Main = () => {
-  const currentUser = useSelector((state) => state.loadedProfile.currentUser);
-  const isAuthenticated = useSelector((state) => state.loadedProfile.isAuthenticated);
-  const accessToken = useSelector((state) => state.loadedProfile.accessToken);
-
-  return (
-    <Container className="backgroundCont">
-      <Row className="d-flex align-items-center justify-content-center" style={{ flexDirection: "column" }}>
-        <Col>
-          {!currentUser && <h1 style={{ marginTop: "100px", textAlign: "center" }}>Please login, to get access to this page!</h1>}
-          {currentUser?.role === "admin" && <>
-            <Button as={Link} to="/admin/adoptions" variant="success" className="mr-2">Review adoption requests</Button>
-            <Button variant="primary" disabled>Add dog</Button>
-            <Button variant="secondary" disabled>Edit dog</Button>
-          </>}
-        </Col>
-        {isAuthenticated && <>
-          <h2 style={{ marginTop: "10px" }}>Welcome, {currentUser?.name}!</h2>
-          <Col xs="auto"><Sorting key={accessToken} /></Col>
-        </>}
-      </Row>
-    </Container>
-  );
-};
-
-export default Main;
+export default function Main() {
+  const { currentUser, isAuthenticated, accessToken } = useSelector((state) => state.loadedProfile);
+  return <Container className="page-section dogs-page">
+    <span className="eyebrow">GOOD COMPANY IS CLOSER THAN YOU THINK</span>
+    <div className="page-heading"><h1>Meet your next companion.</h1>
+      {currentUser?.role === "admin" && <Button as={Link} to="/admin/adoptions" variant="outline-dark">Review adoption requests</Button>}</div>
+    {!currentUser ? <div className="empty-state"><h2>A new beginning starts with hello.</h2><p>Please login, to get access to this page!</p>
+      <Button as={Link} to="/login">Login</Button> <Button as={Link} to="/register" variant="outline-dark">Create an account</Button></div> : <>
+      <p className="text-muted">Welcome, {currentUser.name}!</p>
+      {isAuthenticated && <Sorting key={accessToken} />}
+    </>}
+  </Container>;
+}

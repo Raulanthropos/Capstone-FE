@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createAdoptionRequest, getMyAdoptionRequests } from "../../../api/adoptions";
 import { logoutUser } from "../../../redux/actions/profileAction";
+import { notifyError } from "../../../ui/feedback";
+import { useInbox } from "../../../inbox/InboxProvider";
 
 export default function useAdoptionRequests() {
+  const { revision } = useInbox();
   const accessToken = useSelector((state) => state.loadedProfile.accessToken);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,6 +59,8 @@ export default function useAdoptionRequests() {
     };
   }, [refresh]);
 
+  useEffect(() => { if (revision > 0) refresh(); }, [revision, refresh]);
+
   const submit = async (dogId) => {
     if (submissionInProgress.current || loading || error || requestsByDog[dogId]) return null;
     submissionInProgress.current = true;
@@ -70,6 +75,7 @@ export default function useAdoptionRequests() {
     } catch (error) {
       if (!mounted.current || controller.signal.aborted) return null;
       if (error.status === 401) {
+        notifyError("Your session has expired. Please log in again.");
         expireSession();
         return null;
       }

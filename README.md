@@ -118,3 +118,58 @@ show **Pending review**, and MySQL should contain one `pending` row in
 
 For a deployed build, set `REACT_APP_API_URL` to the intended deployed API
 before building, and ensure that API permits the frontend origin.
+
+## Profile, mobile layout and action feedback
+
+Profiles and the navbar display each user's photo when available, otherwise their
+initials in a stable color. Broken photos fall back to initials too. Photo upload
+and profile editing are still unavailable.
+
+Profile actions align in a wrapping row and stack on narrow screens. Dog cards
+stack their photo and details on mobile. Navigation and the account menu work
+with click, touch and keyboard; selecting a destination closes the mobile menu.
+
+Success (green) and error (red) toasts confirm registration, login, logout,
+adoption submission and admin review. Success appears only after the API confirms
+the action (login also waits for the profile). Errors also stay in the form or
+confirmation dialog for retry. Toasts remain across route changes, can be closed,
+and pause on hover or when the browser loses focus. Persistent notifications and
+Socket.IO messaging are described below.
+
+
+## Design, notifications and messaging
+
+The current UI is inspired by the layout, spacing, typography and rounded
+photography of [IsoMeet](https://www.isomeet.com/), adapted to Woof Paws.
+The homepage, authentication, profile, dogs, stories, review and inbox pages
+share the same theme. Existing project photos are served locally.
+The story examples are illustrative, not live adoption metrics.
+
+**Updates** in the navbar opens persistent notifications; its badge is the
+unread count. Mark one or all notifications read. New requests notify admins,
+review decisions notify applicants (including competing declined requests),
+and incoming messages notify the other participants.
+
+**Messages** opens conversations grouped by adoption request, including
+requests created before messaging was added. An applicant and current admins
+can discuss their request even after a decision. Open a conversation from
+the dogs/review page or from the inbox; load earlier messages when needed.
+
+Messages are saved through authenticated HTTP and refreshed immediately by
+Socket.IO. Both use REACT_APP_API_URL. The UI refreshes on reconnect, focus
+and every 30 seconds while visible, so missed events are recovered from MySQL.
+The connection label reports Live or Reconnecting. Failed sends keep the
+draft and reuse its message ID on retry to avoid duplicates. Unsent drafts
+are local to the open conversation and are cleared when leaving it.
+
+Run backend migrations before using this version. For a manual local check,
+open a regular browser session as the applicant and a private window as admin.
+Submit a request, check the admin badge, exchange messages in both directions,
+then review the request and check the applicant's Updates page. Refresh to
+verify persistence. Use separate browser storage for the two accounts.
+
+The frontend tests additionally cover toasts, avatars, click/touch navigation,
+unread state, message retries, escaped text, incoming events, reconnect,
+logout cleanup and expired sessions. Browser layout checks covered 320px,
+390px, 768px and 1440px with representative data. Profile editing, deletion and photo
+upload still await backend migration. Render deployment remains a later step.

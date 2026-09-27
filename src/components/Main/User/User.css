@@ -1,13 +1,42 @@
-@media screen and (max-width: 1024px) {
-    .button-stl {
-        width: 70% !important;
-        font-size: 0.75rem !important;
-    }
-    .logout-btn {
-        display: block !important;
-    }
-    .userpicture {
-        width: 200px !important;
-        height: 200px !important;
-    }
+.profile-page {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.profile-card {
+  border: 1px solid rgba(43, 45, 66, 0.12);
+  border-radius: 1rem;
+}
+.profile-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  text-align: left;
+}
+.profile-avatar { --avatar-size: 8rem; }
+.profile-details { flex: 1; min-width: 0; }
+.profile-details h2 { font-size: 1.75rem; }
+.profile-email, .profile-description { overflow-wrap: anywhere; }
+.profile-description { white-space: pre-wrap; }
+.profile-primary-action { margin: 1.25rem 0; }
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+.profile-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin: 0;
+}
+@media (max-width: 575.98px) {
+  .profile-page { padding-top: 1rem; padding-bottom: 1rem; }
+  .profile-layout { flex-direction: column; gap: 1.25rem; }
+  .profile-avatar { --avatar-size: 6rem; }
+  .profile-details { width: 100%; }
+  .profile-actions { flex-direction: column; }
+  .profile-primary-action .btn { width: 100%; white-space: normal; }
 }

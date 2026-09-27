@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AdoptionModal from "../AdoptionModal/AdoptionModal";
 import useAdoptionRequests from "../AdoptionModal/useAdoptionRequests";
+import { notifyError, notifySuccess } from "../../../ui/feedback";
+import { useInbox } from "../../../inbox/InboxProvider";
 import "./Sorting.css";
 
 const requestLabels = {
@@ -14,6 +16,7 @@ const requestLabels = {
 };
 
 const Sorting = () => {
+  const { revision } = useInbox();
   const [dogs, setDogs] = useState([]);
   const [error, setError] = useState("");
   const [selectedDog, setSelectedDog] = useState(null);
@@ -43,9 +46,13 @@ const Sorting = () => {
     setSubmissionError("");
     try {
       const request = await adoptions.submit(selectedDog._id);
-      if (request) setSelectedDog(null);
+      if (request) {
+        setSelectedDog(null);
+        notifySuccess("Your adoption request for " + selectedDog.name + " was submitted for review.");
+      }
     } catch (error) {
       setSubmissionError(error.message);
+      notifyError(error);
       if (error.status === 404 || error.status === 409) {
         setDogReload((previous) => previous + 1);
       }
@@ -73,11 +80,11 @@ const Sorting = () => {
     };
     getDogs();
     return () => { active = false; controller.abort(); };
-  }, [sort, neuteredOnly, dogReload]);
+  }, [sort, neuteredOnly, dogReload, revision]);
 
   return (
     <>
-      <Form>
+      <Form className="dog-filters">
         <Form.Group controlId="sortSelect">
           <Form.Label>Sort by:</Form.Label>
           <Form.Control as="select" value={sort} onChange={(event) => setSort(event.target.value)}>
@@ -103,8 +110,8 @@ const Sorting = () => {
         {!loading && !error && dogs.length === 0 && <p>No dogs are currently available.</p>}
         {dogs.map((dog) => (
           <Card key={dog._id} as="article" aria-label={dog.name} className="sortingOptions">
-            <Card.Body style={{ display: "flex", justifyContent: "space-between", textAlign: "justify" }}>
-              <div>
+            <Card.Body className="dog-card-layout">
+              <div className="dog-card-details">
                 <Card.Title className={"cardtext" + (sort === "name" ? " sorted" : "")}>
                   Name: {dog.name}
                 </Card.Title>
@@ -121,7 +128,7 @@ const Sorting = () => {
                   Description: {dog.description}
                 </Card.Text>
                 <Card.Text className="cardtext">
-                  Gender: <span className={"gender " + dog.gender} style={{ textShadow: "0px 0px 2px #000000" }}>
+                  Gender: <span className={"gender " + dog.gender} >
                     {dog.gender === "male" ? <>&#9794;</> : <>&#9792;</>}
                   </span>
                 </Card.Text>
@@ -138,9 +145,9 @@ const Sorting = () => {
                     I want to adopt h{dog.gender === "male" ? "im" : "er"}!
                   </Button>
                 ))}
+                {adoptions.requestsByDog[dog._id] && <Button variant="outline-dark" onClick={() => navigate("/messages/" + adoptions.requestsByDog[dog._id]._id)}>Open conversation</Button>}
               </div>
               <Card.Img src={dog.images[0]?.url || undefined} alt={dog.name}
-                style={{ width: "250px", height: "250px", borderRadius: "1rem", objectFit: "cover" }}
                 className="dogimages" />
             </Card.Body>
           </Card>

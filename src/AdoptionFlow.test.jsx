@@ -5,6 +5,12 @@ import App from "./App";
 import profileReducer from "./redux/reducers/profileReducer";
 import { API_BASE_URL } from "./api/client";
 
+jest.mock("./inbox/InboxProvider", () => ({
+  __esModule: true,
+  default: ({ children }) => children,
+  useInbox: () => ({ unread: 0, revision: 0, connected: false, summaryError: "", refresh: () => {} }),
+}));
+
 jest.mock("./components/Home/Home", () => () => <h1>Woof Paws home</h1>);
 
 const user = {
@@ -119,7 +125,7 @@ test("submission waits for success, prevents double clicks and restores only tha
   firstPage.unmount();
   renderMain();
   await screen.findByText("Pending review");
-  expect(within(screen.getByRole("article", { name: "Luna" })).queryByRole("button")).not.toBeInTheDocument();
+  expect(within(screen.getByRole("article", { name: "Luna" })).queryByRole("button", { name: /I want to adopt/ })).not.toBeInTheDocument();
   expect(within(screen.getByRole("article", { name: "Milo" })).getByRole("button", { name: /I want to adopt/ })).toBeEnabled();
   expect(postCalls()).toHaveLength(1);
 });
@@ -238,7 +244,7 @@ test("request history beyond the first page still disables an existing dog's ado
     API_BASE_URL + "/adoptions/me?limit=100&offset=100",
   ]);
   expect(reads.every(([, options]) => options.headers.Authorization === "Bearer " + token)).toBe(true);
-  expect(within(screen.getByRole("article", { name: "Luna" })).queryByRole("button")).not.toBeInTheDocument();
+  expect(within(screen.getByRole("article", { name: "Luna" })).queryByRole("button", { name: /I want to adopt/ })).not.toBeInTheDocument();
 });
 
 test("reviewed requests show their actual status and do not allow a second application", async () => {

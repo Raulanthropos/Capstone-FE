@@ -1,0 +1,18 @@
+.Toastify__toast-container {
+  --toastify-color-success: #22683e;
+  --toastify-color-error: #a42a35;
+  --toastify-font-family: inherit;
+  text-align: left;
+}
+.Toastify__toast { border-radius: 0.75rem; overflow-wrap: anywhere; }
+.Toastify__close-button { opacity: 1; padding: 0.5rem; min-width: 44px; min-height: 44px; }
+@media (max-width: 480px) {
+  .Toastify__toast-container {
+    width: calc(100% - 1.5rem);
+    left: 0.75rem;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .Toastify__toast, .Toastify__toast-body, .Toastify__progress-bar { animation-duration: 1ms; }
+}

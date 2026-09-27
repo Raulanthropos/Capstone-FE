@@ -1,64 +1,19 @@
-import React, { useState } from "react";
-import { Carousel, Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FaArrowLeft } from 'react-icons/fa';
+import "./Stories.css";
 
-const Stories = () => {
-    const adoptedDogs = [
-      {
-        image:
-          "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-1.jpeg",
-        title: "Buddy",
-        story:
-          "Buddy was adopted by an amazing couple in 2022. He now calls them his new parents, and loves to chill with them in their new place.",
-      },
-      {
-        image:
-          "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-3.jpeg",
-        title: "Axel",
-        story:
-          "Axel was adopted by a loving woman in 2019. He is now a happy dog, and he loves to go on long walks with his new mama.",
-      },
-      {
-        image:
-          "https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/adopted-dog-2.PNG",
-        title: "Darling",
-        story:
-          "Darling was adopted by a caring family in 2020. She loves to play fetch and cuddle with her new family.",
-      },
-    ];
-  
-    const [currentStory, setCurrentStory] = useState(0);
-  
-    return (
-      <div className="stories">
-        <div className="back-button button-stl">
-          <Link to="/" style={{textDecoration: "none"}}>
-            <FaArrowLeft /> {" "}
-            <span className="pdtop">Back</span>
-          </Link>
-        </div>
-        <Container>
-          <Carousel
-            activeIndex={currentStory}
-            onSelect={setCurrentStory}
-            interval={null}
-          >
-            {adoptedDogs.map((dog) => (
-              <Carousel.Item key={dog.title}>
-                <div className="image-container" style={{height: "86vh"}}>
-                  <img className="d-block w-100" src={dog.image} alt={dog.title} style={{objectFit: "cover", height: "100%"}} />
-                </div>
-                <Carousel.Caption>
-                  <h3>{dog.title}</h3>
-                  <p>{dog.story}</p>
-                </Carousel.Caption>
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </Container>
-      </div>
-    );
-  };
-  
-  export default Stories;
+const stories = [
+  { name: "Buddy", image: "adopted-dog-1.jpeg", title: "A place to put his paws up.", text: "Buddy's story is about finding his people, settling into a new home and discovering that the quiet moments can be the best ones." },
+  { name: "Axel", image: "adopted-dog-3.jpeg", title: "A friend for the long way home.", text: "For Axel, a new beginning means long walks, familiar routines and someone to share the adventure with." },
+  { name: "Darling", image: "adopted-dog-2.PNG", title: "One more member of the family.", text: "Darling's story is full of games of fetch, a favourite spot on the sofa and a family ready to make room for her." },
+];
+export default function Stories() {
+  return <Container className="page-section stories-page"><span className="eyebrow">LIFE WITH A LITTLE MORE LOVE</span>
+    <h1>Every home has a <em>story.</em></h1><p className="text-muted">Illustrative adoption stories from the original Woof Paws project.</p>
+    <div className="story-grid">{stories.map((story) => <article className="story-card" key={story.name}>
+      <img src={"/images/" + story.image} alt={story.name} loading="lazy" />
+      <div><span className="eyebrow">{story.name}</span><h2>{story.title}</h2><p>{story.text}</p></div>
+    </article>)}</div>
+    <div className="stories-cta"><h2>Ready for a story of your own?</h2><Button as={Link} to="/main">Meet the dogs ↗</Button></div>
+  </Container>;
+}

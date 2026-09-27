@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { getAdoptionReviewPage, reviewAdoptionRequest } from "../../../api/adoptions";
 import { logoutUser } from "../../../redux/actions/profileAction";
+import { notifyError, notifySuccess } from "../../../ui/feedback";
+import { useInbox } from "../../../inbox/InboxProvider";
 
 const labels = { pending: "Pending review", approved: "Approved", rejected: "Declined" };
 const pageSize = 20;
 const fullName = (user) => user.name + " " + user.surname;
 
 function ReviewPanel({ accessToken, onSessionExpired }) {
+  const { revision } = useInbox();
   const [page, setPage] = useState({ status: "pending", offset: 0 });
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState(0);
@@ -19,7 +22,6 @@ function ReviewPanel({ accessToken, onSessionExpired }) {
   const [selection, setSelection] = useState(null);
   const [actionError, setActionError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [notice, setNotice] = useState("");
   const mounted = useRef(false);
   const actionController = useRef(null);
   const inFlight = useRef(false);
@@ -59,12 +61,11 @@ function ReviewPanel({ accessToken, onSessionExpired }) {
     };
     load();
     return () => controller.abort();
-  }, [accessToken, page, reload, onSessionExpired]);
+  }, [accessToken, page, reload, onSessionExpired, revision]);
 
   const choose = (request, status) => {
     setSelection({ request, status });
     setActionError("");
-    setNotice("");
   };
   const close = () => {
     if (!inFlight.current) {
@@ -91,17 +92,19 @@ function ReviewPanel({ accessToken, onSessionExpired }) {
       const message = result.status === "approved"
         ? "Approved the adoption of " + selection.request.dog.name + "."
         : "Declined the request for " + selection.request.dog.name + ".";
-      setNotice(message + (result.closedRequests > 0
+      notifySuccess(message + (result.closedRequests > 0
         ? " Other pending requests for this dog were also declined." : ""));
       setSelection(null);
       setReload((value) => value + 1);
     } catch (error) {
       if (!mounted.current || controller.signal.aborted) return;
       if (error.status === 401) {
+        notifyError("Your session has expired. Please log in again.");
         onSessionExpired();
         return;
       }
       setActionError(error.message);
+      notifyError(error);
       if ([403, 404, 409].includes(error.status)) setReload((value) => value + 1);
     } finally {
       inFlight.current = false;
@@ -110,14 +113,15 @@ function ReviewPanel({ accessToken, onSessionExpired }) {
   };
 
   return (
-    <Container className="py-4">
+    <Container className="page-section review-page">
+      <span className="eyebrow">HELP A NEW CHAPTER BEGIN</span>
       <h1>Adoption requests</h1>
       <p>Review the applicant's profile and choose whether to approve or decline their request.</p>
       <Button as={Link} to="/users/me" variant="outline-secondary" className="mb-3">Back to profile</Button>
       <Form.Group controlId="review-status">
         <Form.Label>Request status</Form.Label>
         <Form.Control as="select" value={page.status} disabled={submitting}
-          onChange={(event) => { setPage({ status: event.target.value, offset: 0 }); setNotice(""); }}>
+          onChange={(event) => setPage({ status: event.target.value, offset: 0 })}>
           <option value="pending">Pending review</option>
           <option value="approved">Approved</option>
           <option value="rejected">Declined</option>
@@ -128,7 +132,6 @@ function ReviewPanel({ accessToken, onSessionExpired }) {
         onClick={() => setReload((value) => value + 1)}>
         {loadError ? "Retry loading requests" : "Refresh requests"}
       </Button>
-      {notice && <Alert variant="success" role="status">{notice}</Alert>}
       {loadError && <Alert variant="danger">{loadError}</Alert>}
       {loading && <p role="status"><Spinner as="span" animation="border" size="sm" aria-hidden="true" /> Loading adoption requests...</p>}
       {!loading && !loadError && items.length === 0 && <p>No requests match this status.</p>}
@@ -155,6 +158,7 @@ function ReviewPanel({ accessToken, onSessionExpired }) {
             </Row>
             <p className="text-muted">Submitted: {new Date(request.createdAt).toLocaleString()}</p>
             {request.reviewedAt && <p className="text-muted">Reviewed: {new Date(request.reviewedAt).toLocaleString()}</p>}
+            <Button as={Link} to={"/messages/" + request._id} variant="outline-dark" className="mr-2">Open conversation</Button>
             {request.status === "pending" && <>
               {request.dog.isAdopted && <p>This dog has already been adopted. This pending request can be declined.</p>}
               <Button variant="success" className="mr-2" disabled={submitting || loading || request.dog.isAdopted}

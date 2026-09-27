@@ -1,0 +1,14 @@
+.site-navbar { background: #fff; border-bottom: 1px solid var(--line); padding: .9rem max(1.25rem, calc((100vw - 1200px)/2)); z-index: 99; }
+.site-navbar .navbar-brand { display: flex; align-items: center; gap: .65rem; font-size: 1.4rem; font-weight: 600; letter-spacing: -.07em; margin-right: 2rem; }
+.site-navbar .navbar-brand svg { font-size: 1.1rem; }
+.brand-dot { color: #617044; }
+.site-navbar .navbar-nav { align-items: center; gap: .65rem; }
+.site-navbar .navbar-nav .nav-link { color: var(--muted); font-size: .8rem; display: flex; align-items: center; gap: .35rem; }
+.site-navbar .navbar-nav .nav-link:hover { color: var(--ink); }
+.site-navbar .nav-link, .site-navbar .dropdown-item, .site-navbar .navbar-toggler { min-height: 44px; }
+.site-navbar .dropdown-menu { border: 1px solid var(--line); border-radius: 14px; padding: .5rem; box-shadow: 0 10px 25px #0000000a; }
+.site-navbar .dropdown-item { border-radius: 8px; font-size: .875rem; display: flex; align-items: center; }
+.site-navbar #account-menu { display: flex; align-items: center; gap: .4rem; }
+.site-navbar .user-avatar { --avatar-size: 2rem; }
+.notification-count { display: inline-flex; justify-content: center; align-items: center; min-width: 20px; height: 20px; padding: 0 .2rem; background: var(--ink); color: #fff; border-radius: 20px; font-size: .65rem; }
+@media (max-width: 991.98px) { .site-navbar .navbar-nav { align-items: stretch; text-align: left; gap: 0; margin-top: .75rem; } .site-navbar .dropdown-menu { margin-bottom: .5rem; } }

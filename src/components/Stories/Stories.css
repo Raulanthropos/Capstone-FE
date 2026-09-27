@@ -1,5 +1,10 @@
-.stories {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.stories-page > h1 em { font-family: Georgia, serif; }
+.story-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.5rem; margin-top: 3rem; }
+.story-card { border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+.story-card img { width: 100%; height: 280px; object-fit: cover; }
+.story-card > div { padding: 1.5rem; }
+.story-card h2 { font-size: 1.6rem; }
+.story-card p { color: var(--muted); font-size: .9rem; }
+.stories-cta { padding: 4rem 1rem 0; text-align: center; }
+.stories-cta h2 { margin-bottom: 1.5rem; }
+@media (max-width: 767.98px) { .story-grid { grid-template-columns: 1fr; } }

@@ -5,6 +5,12 @@ import App from "./App";
 import profileReducer from "./redux/reducers/profileReducer";
 import { API_BASE_URL } from "./api/client";
 
+jest.mock("./inbox/InboxProvider", () => ({
+  __esModule: true,
+  default: ({ children }) => children,
+  useInbox: () => ({ unread: 0, revision: 0, connected: false, summaryError: "", refresh: () => {} }),
+}));
+
 jest.mock("./components/Home/Home", () => () => <h1>Woof Paws home</h1>);
 
 const admin = { _id: "admin-id", name: "Local", surname: "Admin", email: "admin@example.test",

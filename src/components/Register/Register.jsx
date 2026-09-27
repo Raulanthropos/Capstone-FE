@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Alert, Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Alert, Form, Button, Container } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import { apiRequest } from "../../api/client";
+import { notifyError, notifySuccess } from "../../ui/feedback";
 import "./Register.css";
 
 const emptyForm = { name: "", surname: "", email: "", password: "", password2: "", age: "", description: "" };
@@ -19,6 +20,7 @@ const Register = () => {
     setError("");
     if (form.password !== form.password2) {
       setError("Passwords do not match.");
+      notifyError("Passwords do not match.");
       return;
     }
     setLoading(true);
@@ -28,18 +30,20 @@ const Register = () => {
         body.append(field, form[field]);
       }
       await apiRequest("/users/register", { method: "POST", body });
+      notifySuccess("Account created. You can now log in.");
       navigate("/login");
     } catch (error) {
       setError(error.message);
+      notifyError(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-        <Col xs lg="6">
+    <Container className="auth-page">
+      <aside className="auth-intro"><span className="eyebrow">MAKE ROOM FOR A LITTLE MORE LOVE</span><h2>Good company.<br />Great <em>beginnings.</em></h2><p>Tell us a little about yourself. We will help you take the next step.</p><img src="/images/adopted-dog-1.jpeg" alt="A dog ready for a new beginning" /></aside>
+        <div className="auth-form">
           <h1>Register</h1>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
@@ -83,8 +87,8 @@ const Register = () => {
               {loading ? "Creating account..." : "Register"}
             </Button>
           </Form>
-        </Col>
-      </Row>
+          <p className="auth-alternate">Already part of the pack? <Link to="/login">Login</Link></p>
+        </div>
     </Container>
   );
 };

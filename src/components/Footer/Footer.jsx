@@ -1,14 +1,9 @@
-import React from "react";
-import "./Footer.css";
-
-const Footer = () => {
-  return (
-    <div className="footer" style={{ background: "linear-gradient(to top, #F6B352 0%, #FFC3A0 50%, #C48F65 100%)" }}>
-      <a href="somelink">Internal news</a>
-      <a href="somelink">Connect with us!</a>
-      <p className="mbauto">Woof Paws</p>
-    </div>
-  );
-};
-
-export default Footer;
+import { Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
+export default function Footer() {
+  return <footer className="site-footer"><Container className="footer-inner">
+    <p><strong>Woof Paws</strong><br />Good company. New beginnings.</p>
+    <nav className="footer-links" aria-label="Footer"><Link to="/main">Meet the dogs</Link><Link to="/stories">Stories</Link><Link to="/users/me">Your profile</Link></nav>
+    <span>Made for a little more love.</span>
+  </Container></footer>;
+}

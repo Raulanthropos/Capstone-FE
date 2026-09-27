@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Alert, Form, Button, Container, Row, Col } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Alert, Form, Button, Container } from "react-bootstrap";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getAccessToken } from "../../redux/actions/profileAction";
+import { notifyError, notifySuccess } from "../../ui/feedback";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,17 +26,19 @@ const Login = () => {
     setLoading(true);
     try {
       await dispatch(getAccessToken({ email, password }));
+      notifySuccess("You are now logged in.");
     } catch (error) {
       setError(error.message);
+      notifyError(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-        <Col xs lg="6" style={{ marginTop: "100px" }}>
+    <Container className="auth-page">
+      <aside className="auth-intro"><span className="eyebrow">WELCOME BACK</span><h2>A familiar face.<br />A new <em>beginning.</em></h2><p>Your next chapter is waiting. Pick up where you left off.</p><img src="/images/adopted-dog-3.jpeg" alt="A dog relaxing at home" /></aside>
+        <div className="auth-form">
           <h1>Login</h1>
           {location.state?.message && <Alert variant="warning">{location.state.message}</Alert>}
           {error && <Alert variant="danger">{error}</Alert>}
@@ -54,8 +57,8 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </Button>
           </Form>
-        </Col>
-      </Row>
+          <p className="auth-alternate">New here? <Link to="/register">Create an account</Link></p>
+        </div>
     </Container>
   );
 };

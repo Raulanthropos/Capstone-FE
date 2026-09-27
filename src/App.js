@@ -12,6 +12,11 @@ import Main from "./components/Main/MainLoggedInComp/MainLoggedInComp";
 import AdminAdoptions from "./components/Main/AdminAdoptions/AdminAdoptions";
 import User from "./components/Main/User/User";
 import Stories from "./components/Stories/Stories";
+import Feedback from "./ui/Feedback.jsx";
+import InboxProvider from "./inbox/InboxProvider";
+import Notifications from "./inbox/Notifications";
+import Messages from "./inbox/Messages";
+import Footer from "./components/Footer/Footer";
 import "./App.css";
 
 function App() {
@@ -31,9 +36,12 @@ function App() {
   }
 
   return (
-    <main className="wrapper">
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <BrowserRouter>
+        <InboxProvider>
         <NavBar />
+        <main id="main-content" className="app-main">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
@@ -43,9 +51,17 @@ function App() {
           <Route path="/admin/adoptions" element={<AdminAdoptions />} />
           <Route path="/main/*" element={<h1>404 Not Found</h1>} />
           <Route path="/stories" element={<Stories />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/messages/:requestId" element={<Messages />} />
+          <Route path="*" element={<div className="container page-section"><h1>Page not found.</h1><a href="/">Back to home</a></div>} />
         </Routes>
+        </main>
+        <Footer />
+        </InboxProvider>
       </BrowserRouter>
-    </main>
+      <Feedback />
+    </div>
   );
 }
 

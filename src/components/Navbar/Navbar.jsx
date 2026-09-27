@@ -1,101 +1,57 @@
-import React from "react";
+import { useState } from "react";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import "./Navbar.css";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {useState} from "react";
 import { logoutUser } from "../../redux/actions/profileAction";
+import Avatar from "../Avatar/Avatar";
+import { notifyLogout } from "../../ui/feedback";
+import { FaPaw, FaRegBell, FaRegCommentDots } from "react-icons/fa";
+import { useInbox } from "../../inbox/InboxProvider";
+import "./Navbar.css";
 
 const NavBar = () => {
   const user = useSelector((state) => state.loadedProfile.currentUser);
-  const updatedUser = useSelector(state => state.loadedProfile.updatedUser);
-  const accessToken = useSelector((state) => state.loadedProfile.accessToken);
-
+  const updatedUser = useSelector((state) => state.loadedProfile.updatedUser);
+  const { unread, summaryError } = useInbox();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [expanded, setExpanded] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-
-  const handleMouseEnter = () => {
-    setShowDropdown(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowDropdown(false);
-  };
+  const closeMenus = () => { setExpanded(false); setShowDropdown(false); };
+  const avatarUser = updatedUser?._id === user?._id ? { ...user, ...updatedUser } : user;
 
   return (
-    <Navbar
-      style={{
-        background:
-          "linear-gradient(to right, #C48F65 0%, #FFC3A0 50%, #F6B352 100%)", zIndex: 99
-      }}
-      expand="lg"
-    >
-<Navbar.Brand>
-  <Link to="/">
-    <img
-      src="https://raw.githubusercontent.com/Raulanthropos/Capstone-FE/main/public/images/logo.PNG"
-      alt="logo"
-      className="logo"
-      style={{ width: "100px", height: "30px", borderRadius: "5px" }}
-    />
-  </Link>
-</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+    <Navbar className="site-navbar" expand="lg" expanded={expanded} onToggle={setExpanded}>
+      <Navbar.Brand as={Link} to="/" onClick={closeMenus}>
+        <FaPaw aria-hidden="true" /> <span>woof paws<span className="brand-dot">.</span></span>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" aria-expanded={expanded} />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
-          <Nav.Link as={Link} to="/" style={{ color: "#333333" }}>Home</Nav.Link>
-          <Nav.Link as={Link} to="/main" style={{ color: "#333333" }}>Main</Nav.Link>
-          <Nav.Link as={Link} to="/stories" style={{ color: "#333333" }}>Stories</Nav.Link>
-          {!user ? (
-            <Nav.Link as={Link} to="/register" style={{ color: "#333333" }}>Register</Nav.Link>
-          ) : (
-            ""
-          )}
-          {!user ? (
-            <Link to="/login" style={{ color: "#333333", height: "17px", padding: "9px" }}>Login</Link>) : (
-            <NavDropdown
-              title={
-                user && (
-                  <img
-                    src={(updatedUser?._id === user?._id ? updatedUser?.picture : user?.picture) || "/images/ai-generated-user.jpeg"}
-                    alt="user_pic"
-                    style={{
-                      width: "30px",
-                      height: "30px",
-                      borderRadius: "50%",
-                      marginRight: "10px",
-                    }}
-                  />
-                )
-              }
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              alignRight
-              style={{ right: 0, left: "auto" }}
-              show={showDropdown}
-            >
-              {user && (
-                <>
-                  <NavDropdown.Item
-                    onClick={() => {
-                      navigate("/users/me");
-                    }}
-                  >
-                    Settings
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    onClick={() => {
-                      dispatch(logoutUser(accessToken));
-                      navigate("/");
-                    }}
-                  >
-                    Logout
-                  </NavDropdown.Item>
-                </>
-              )}
+          <Nav.Link as={Link} to="/" onClick={closeMenus}>Home</Nav.Link>
+          <Nav.Link as={Link} to="/main" onClick={closeMenus}>Meet the dogs</Nav.Link>
+          <Nav.Link as={Link} to="/stories" onClick={closeMenus}>Stories</Nav.Link>
+          {user && <>
+            <Nav.Link as={Link} to="/messages" onClick={closeMenus}><FaRegCommentDots aria-hidden="true" /> Messages</Nav.Link>
+            <Nav.Link as={Link} to="/notifications" onClick={closeMenus} aria-label={"Notifications" + (unread ? ", " + unread + " unread" : "")}
+              title={summaryError || "Your notifications"}><FaRegBell aria-hidden="true" /> Updates
+              {unread > 0 && <span className="notification-count">{unread > 99 ? "99+" : unread}</span>}
+              {summaryError && <span aria-label="Notifications unavailable">!</span>}
+            </Nav.Link>
+          </>}
+          {!user ? <>
+            <Nav.Link as={Link} to="/register" onClick={closeMenus}>Register</Nav.Link>
+            <Nav.Link as={Link} to="/login" onClick={closeMenus}>Login</Nav.Link>
+          </> : (
+            <NavDropdown id="account-menu" title={<Avatar user={avatarUser} label="Account menu" />}
+              alignRight show={showDropdown} onToggle={setShowDropdown}>
+              <NavDropdown.Item as={Link} to="/users/me" onClick={closeMenus}>Settings</NavDropdown.Item>
+              <NavDropdown.Item onClick={() => {
+                closeMenus();
+                dispatch(logoutUser());
+                notifyLogout();
+                navigate("/");
+              }}>Logout</NavDropdown.Item>
             </NavDropdown>
           )}
         </Nav>

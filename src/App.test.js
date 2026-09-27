@@ -5,6 +5,12 @@ import App from "./App";
 import profileReducer from "./redux/reducers/profileReducer";
 import { API_BASE_URL } from "./api/client";
 
+jest.mock("./inbox/InboxProvider", () => ({
+  __esModule: true,
+  default: ({ children }) => children,
+  useInbox: () => ({ unread: 0, revision: 0, connected: false, summaryError: "", refresh: () => {} }),
+}));
+
 jest.mock("./components/Home/Home", () => () => <h1>Woof Paws home</h1>);
 
 const user = {
@@ -57,6 +63,7 @@ test("register, login, profile and local logout work through the configured API"
   fillRegistration();
   fireEvent.click(screen.getByRole("button", { name: "Register" }));
   await screen.findByRole("heading", { name: "Login" });
+  expect(await screen.findByText("Account created. You can now log in.")).toBeInTheDocument();
 
   const [registerUrl, registerOptions] = global.fetch.mock.calls[0];
   expect(registerUrl).toBe(API_BASE_URL + "/users/register");
@@ -78,7 +85,8 @@ test("register, login, profile and local logout work through the configured API"
     API_BASE_URL + "/users/me", { headers: { Authorization: "Bearer " + token } },
   ]);
   expect(store.getState().loadedProfile.isAuthenticated).toBe(true);
-  expect(screen.getByRole("img", { name: "Profile" })).toHaveAttribute("src", "/images/ai-generated-user.jpeg");
+  expect(await screen.findByText("You are now logged in.")).toBeInTheDocument();
+  expect(screen.getByRole("img", { name: "Profile" })).toHaveTextContent("AL");
   expect(screen.getByRole("button", { name: "Edit Profile" })).toBeDisabled();
 
   fireEvent.click(screen.getByRole("button", { name: "Logout" }));
@@ -87,6 +95,7 @@ test("register, login, profile and local logout work through the configured API"
     isAuthenticated: false, accessToken: null, currentUser: null,
   });
   expect(global.fetch).toHaveBeenCalledTimes(3);
+  expect(await screen.findByText("You have logged out.")).toBeInTheDocument();
 });
 
 test("registration keeps entered fields and displays the duplicate-email error", async () => {
@@ -120,6 +129,8 @@ test("wrong credentials leave the user on login with a visible error", async () 
   expect(store.getState().loadedProfile.isAuthenticated).toBe(false);
   expect(store.getState().loadedProfile.accessToken).toBeNull();
   expect(window.location.pathname).toBe("/login");
+  await waitFor(() => expect(screen.getAllByText("Invalid email or password.")).toHaveLength(2));
+  expect(screen.queryByText("You are now logged in.")).not.toBeInTheDocument();
 });
 
 test("login waits for the profile and does not store a partially authenticated session", async () => {
